@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" moodCode="EVN" xmlns="urn:hl7-org:v3">
+    <realmCode code="JP"/>
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <id root="1.2.392.100495.20.3.11" extension="0"/>
+    <code code="01" codeSystem="1.2.392.100495.20.2.11"/>
+    <title>処方箋</title>
+    <effectiveTime value="20181130235959"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <versionNumber value="100"/>
+    <recordTarget>
+        <patientRole>
+            <id root="1.2.392.100495.20.3.51.11319999999" extension="99990010"/>
+            <addr>
+                <state>東京都</state>
+                <county>JPN</county>
+                <city>北区</city>
+                <postalCode>1149999</postalCode>
+                <streetAddressLine/>
+                <streetAddressLine>板橋駅の近く</streetAddressLine>
+            </addr>
+            <telecom use="HP" value="tel:09012345678"/>
+            <telecom use="HP" value="fax:0311112222"/>
+            <telecom use="HP" value="1234"/>
+            <patient>
+                <name use="IDE">
+                    <family>児玉</family>
+                    <given>義憲</given>
+                </name>
+                <name use="SYL">
+                    <family>コダマ</family>
+                    <given>ヨシノリ</given>
+                </name>
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19791101"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <author>
+        <time xsi:type="IVL_TS">
+            <low value="20161028"/>
+        </time>
+        <assignedAuthor>
+            <id root="1.2.392.100495.20.3.41.11319999999" extension="D100"/>
+            <id root="1.2.392.100495.20.3.31" extension="12345678"/>
+            <id root="1.2.392.100495.20.3.32.13" extension="1234-1"/>
+            <assignedPerson>
+                <name use="IDE">
+                    <family>医師</family>
+                    <given>一郎</given>
+                </name>
+                <name use="SYL">
+                    <family>イシ</family>
+                    <given>イチロウ</given>
+                </name>
+            </assignedPerson>
+            <representedOrganization>
+                <id root="1.2.392.100495.20.3.21" extension="13"/>
+                <id root="1.2.392.100495.20.3.22" extension="1"/>
+                <id root="1.2.392.100495.20.3.23" extension="9999999"/>
+                <name use="IDE">メドレークリニック</name>
+                <telecom value="03-123-4567"/>
+                <addr>
+                    <state>東京都</state>
+                    <county>JPN</county>
+                    <city>港区</city>
+                    <postalCode>1066222</postalCode>
+                    <streetAddressLine/>
+                    <streetAddressLine>六本木３−２−１ 住友不動産六本木グランドタワー２２Ｆ</streetAddressLine>
+                </addr>
+                <asOrganizationPartOf>
+                    <code code="01" codeSystem="1.2.392.100495.20.2.51" displayName="内科"/>
+                </asOrganizationPartOf>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization nullFlavor="NA"/>
+        </assignedCustodian>
+    </custodian>
+    <component>
+        <structuredBody>
+            <component>
+                <section>
+                    <code code="01" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方指示</title>
+                    <text>
+                        <list>
+                            <item>RP1</item>
+                            <item>(後)バイアスピリン錠 １００ｍｇ</item>
+                            <item>2 錠</item>
+                            <item>1日2回 朝・夕食後</item>
+                            <item>14 日分</item>
+                            <item>RP1</item>
+                            <item>テルネリン錠 １ｍｇ</item>
+                            <item>2 錠</item>
+                            <item>1日2回 朝・夕食後</item>
+                            <item>14 日分</item>
+                            <item>RP1</item>
+                            <item>ムコスタ錠 １００ｍｇ</item>
+                            <item>2 錠</item>
+                            <item>1日2回 朝・夕食後</item>
+                            <item>14 日分</item>
+                            <item>RP2</item>
+                            <item>チラーヂンＳ錠 ５０μｇ</item>
+                            <item>2 錠</item>
+                            <item>1日1回 朝食後</item>
+                            <item>14 日分</item>
+                            <item>RP2</item>
+                            <item>アルファロールカプセル ０.２５μｇ</item>
+                            <item>1 カプセル</item>
+                            <item>1日1回 朝食後</item>
+                            <item>14 日分</item>
+                            <item>RP2</item>
+                            <item>タケプロンカプセル １５ｍｇ</item>
+                            <item>1 カプセル</item>
+                            <item>1日1回 朝食後</item>
+                            <item>14 日分</item>
+                            <item>RP3</item>
+                            <item>沈降炭酸カルシウム末</item>
+                            <item>3 g(製剤量)</item>
+                            <item>1日3回 毎食後</item>
+                            <item>14 日分</item>
+                            <item>RP3</item>
+                            <item>エンテロノン-Ｒ末</item>
+                            <item>3 g(製剤量)</item>
+                            <item>1日3回 毎食後</item>
+                            <item>14 日分</item>
+                        </list>
+                    </text>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="12N13" codeSystem="1.2.392.100495.20.2.31" displayName="1日2回 朝・夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="222249" displayName="(後)バイアスピリン錠 １００ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <text>薬剤情報提供文書発行，粉砕指示</text>
+                                    <quantity value="28.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="2.0" unit="錠">
+                                    <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                </numerator>
+                                <denominator value="1" unit="d"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="12N13" codeSystem="1.2.392.100495.20.2.31" displayName="1日2回 朝・夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="215709" displayName="テルネリン錠 １ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="28.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="2.0" unit="錠"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="12N13" codeSystem="1.2.392.100495.20.2.31" displayName="1日2回 朝・夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="218976" displayName="ムコスタ錠 １００ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="28.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="2.0" unit="錠"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="2"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="11N1" codeSystem="1.2.392.100495.20.2.31" displayName="1日1回 朝食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="2.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="215282" displayName="チラーヂンＳ錠 ５０μｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="28.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="2.0" unit="錠"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="2"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="11N1" codeSystem="1.2.392.100495.20.2.31" displayName="1日1回 朝食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="カプセル"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="210630" displayName="アルファロールカプセル ０.２５μｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="14.0" unit="カプセル"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="1.0" unit="カプセル"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="2"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="11N1" codeSystem="1.2.392.100495.20.2.31" displayName="1日1回 朝食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="カプセル"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="215012" displayName="タケプロンカプセル １５ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="14.0" unit="カプセル"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="1.0" unit="カプセル"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="3"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="13NM" codeSystem="1.2.392.100495.20.2.31" displayName="1日3回 毎食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="g(製剤量)"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="215295" displayName="沈降炭酸カルシウム末"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="42.0" unit="g(製剤量)"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="3.0" unit="g(製剤量)"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="3"/>
+                            <code codeSystem="1.2.392.100495.20.2.21"/>
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="13NM" codeSystem="1.2.392.100495.20.2.31" displayName="1日3回 毎食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="g(製剤量)"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="211741" displayName="エンテロノン-Ｒ末"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <quantity value="42.0" unit="g(製剤量)"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="3.0" unit="g(製剤量)"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="11" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>保険・公費情報</title>
+                    <text>
+                        <list>
+                            <item>06050116</item>
+                            <item>９２０４５</item>
+                            <item>１０</item>
+                            <item>本人</item>
+                            <item>15138092</item>
+                        </list>
+                    </text>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <code codeSystem="1.2.392.100495.20.2.64"/>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <code code="1" codeSystem="1.2.392.100495.20.2.61"/>
+                                    <performer>
+                                        <assignedEntity>
+                                            <id root="1.2.392.100495.20.3.61" extension="06050116"/>
+                                        </assignedEntity>
+                                    </performer>
+                                    <participant typeCode="COV">
+                                        <participantRole>
+                                            <id root="1.2.392.100495.20.3.62" extension="９２０４５"/>
+                                            <id root="1.2.392.100495.20.3.63" extension="１０"/>
+                                            <code code="1" codeSystem="1.2.392.100495.20.2.62" displayName="被保険者"/>
+                                        </participantRole>
+                                    </participant>
+                                </act>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <code code="8" codeSystem="1.2.392.100495.20.2.61"/>
+                                    <performer>
+                                        <assignedEntity>
+                                            <id root="1.2.392.100495.20.3.71" extension="15138092"/>
+                                        </assignedEntity>
+                                    </performer>
+                                    <participant typeCode="COV">
+                                        <participantRole/>
+                                    </participant>
+                                </act>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="101" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方箋備考情報</title>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="201" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方箋補足情報</title>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>
