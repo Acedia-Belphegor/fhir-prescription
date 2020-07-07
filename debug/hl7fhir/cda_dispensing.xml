@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" moodCode="EVN" xmlns="urn:hl7-org:v3">
+    <realmCode code="JP"/>
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <id root="1.2.392.100495.20.3.12" extension="dummy"/>
+    <code code="02" codeSystem="1.2.392.100495.20.2.11"/>
+    <title>調剤結果</title>
+    <effectiveTime value="20181130235959"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <versionNumber value="1"/>
+    <recordTarget>
+        <patientRole>
+            <id root="1.2.392.100495.20.3.51.11319999999" extension="99990010"/>
+            <addr>
+                <state>東京都</state>
+                <county>JPN</county>
+                <city>港区</city>
+                <postalCode>1050004</postalCode>
+                <streetAddressLine>新橋2丁目5番5号　新橋2丁目MTビル</streetAddressLine>
+            </addr>
+            <telecom use="HP" value="tel:0335068010"/>
+            <telecom use="HP" value="fax:0335068070"/>
+            <patient>
+                <name use="IDE">
+                    <family>患者</family>
+                    <given>太郎</given>
+                </name>
+                <name use="SYL">
+                    <family>カンジャ</family>
+                    <given>タロウ</given>
+                </name>
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19791101"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <author>
+        <time value="20161028" />
+        <assignedAuthor>
+            <id root="1.2.392.100495.20.3.41.11349999999" extension="Y100"/>
+            <id root="1.2.392.100495.20.3.33" extension="12345678"/>
+            <assignedPerson>
+                <name use="IDE">
+                    <family>薬剤師</family>
+                    <given>次郎</given>
+                </name>
+                <name use="SYL">
+                    <family>ヤクザイシ</family>
+                    <given>ジロウ</given>
+                </name>
+            </assignedPerson>
+            <representedOrganization>
+                <id root="1.2.392.100495.20.3.21" extension="13"/>
+                <id root="1.2.392.100495.20.3.22" extension="4"/>
+                <id root="1.2.392.100495.20.3.23" extension="9999999"/>
+                <name use="IDE">メドレー薬局</name>
+                <telecom value="tel:031234567"/>
+                <addr>
+                    <state>東京都</state>
+                    <county>JPN</county>
+                    <city>港区</city>
+                    <postalCode>1066222</postalCode>
+                    <streetAddressLine>六本木３−２−１ 住友不動産六本木グランドタワー２２Ｆ</streetAddressLine>
+                </addr>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization nullFlavor="NA"/>
+        </assignedCustodian>
+    </custodian>
+    <inFulfillmentOf>
+        <order>
+            <id root="1.2.392.100495.20.3.11" extension="0"/>
+        </order>
+    </inFulfillmentOf>
+    <component>
+        <structuredBody>
+            <component>
+                <section>
+                    <code code="02" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>調剤実施内容</title>
+                    <text>
+                        <list>
+                            <item>RP1</item>
+                            <item>ムコダイン錠２５０ｍｇ</item>
+                            <item>3 錠</item>
+                            <item>１日３回朝昼夕食後</item>
+                            <item>14 日分</item>
+                        </list>
+                    </text>
+                    <entry>
+                        <supply classCode="SPLY" moodCode="EVN">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="1013044400000000" codeSystem="1.2.392.100495.20.2.31" displayName="内服・経口・１日３回朝昼夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <quantity value="42.0" unit="錠"/>
+                            <product>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="103835401" codeSystem="1.2.392.100495.20.2.74" displayName="ムコダイン錠２５０ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </product>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <substanceAdministration classCode="SPLY" moodCode="EVN">
+                                    <doseQuantity value="1.0" unit="錠"/>
+                                    <doseCheckQuantity>
+                                        <numerator value="3.0" unit="錠">
+                                            <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                        </numerator>
+                                        <denominator value="1" unit="d"/>
+                                    </doseCheckQuantity>
+                                    <consumable>
+                                        <manufacturedProduct>
+                                            <manufacturedLabeledDrug nullFlavor="NA" />
+                                        </manufacturedProduct>
+                                    </consumable>
+                                </substanceAdministration>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <supply classCode="SPLY" moodCode="EVN">
+                                    <text>医薬品補足情報のフリーテキスト</text>
+                                </supply>
+                            </entryRelationship>
+                        </supply>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="102" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>備考情報</title>
+                    <text>
+                        <list>
+                            <item>疑義照会の内容等のフリーテキスト</item>
+                            <item>テストテストテスト</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+
+                    </entry>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>

@@ -11,7 +11,7 @@ class GeneratePractitioner < GenerateAbstract
         assigned_author.xpath('id').each do |id|
             identifier = generate_identifier(id)
 
-            if identifier.system.match(/^(?=.*1.2.392.100495.20.3.31)|(?=.*1.2.392.100495.20.3.32).*$/).present?
+            if identifier.system.match(/^1.2.392.100495.20.3.(?=.*31)|(?=.*32)|(?=.*33).*$/).present?
                 qualification = FHIR::Practitioner::Qualification.new
                 qualification.identifier = identifier
                 practitioner.qualification << qualification

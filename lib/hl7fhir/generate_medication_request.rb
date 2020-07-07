@@ -23,6 +23,16 @@ class GenerateMedicationRequest < GenerateAbstract
             dosage.timing = FHIR::Timing.new
             medication_request.dosageInstruction << dosage
 
+            # 処方箋ID
+            medication_request.identifier = generate_identifier(get_clinical_document.xpath('id'))
+
+            # 処方箋発行者情報
+            author = get_clinical_document.xpath('author')
+            if author.present?
+                # 処方箋交付年月日
+                medication_request.authoredOn = author.xpath('time/low/@value').text
+            end
+
             # 薬剤ごとの処方指示情報
             sbadm = entry.xpath('substanceAdministration')
 

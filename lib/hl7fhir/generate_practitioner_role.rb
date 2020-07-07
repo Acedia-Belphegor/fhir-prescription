@@ -5,7 +5,12 @@ class GeneratePractitionerRole < GenerateAbstract
         practitioner_role = FHIR::PractitionerRole.new
         practitioner_role.id = SecureRandom.uuid
 
-        practitioner_role.code << create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role')
+        practitioner_role.code << case get_clinical_document.xpath('code/@code').text
+                                  when '01' # 処方箋
+                                      create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role')
+                                  when '02' # 調剤結果
+                                      create_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role')
+                                  end
         practitioner_role.practitioner = create_reference(get_resources_from_type('Practitioner').first.resource)
         practitioner_role.organization = create_reference(get_resources_from_type('Organization').first.resource)
         practitioner_role.specialty
