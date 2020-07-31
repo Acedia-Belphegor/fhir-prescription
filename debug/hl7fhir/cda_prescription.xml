@@ -268,6 +268,11 @@
                                             <code code="1" codeSystem="1.2.392.100495.20.2.62" displayName="被保険者"/>
                                         </participantRole>
                                     </participant>
+                                    <entryRelationship typeCode="REFR">
+                                        <observation classCode="OBS" moodCode="DEF">
+                                            <code code="2" codeSystem="1.2.392.100495.20.2.63" displayName="高齢者７割"/>
+                                        </observation>
+                                    </entryRelationship>
                                 </act>
                             </entryRelationship>
                             <entryRelationship typeCode="COMP">

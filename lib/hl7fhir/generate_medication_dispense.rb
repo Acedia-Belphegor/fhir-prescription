@@ -17,13 +17,13 @@ class GenerateMedicationDispense < GenerateAbstract
         component.xpath('section/entry').each do |entry|
             medication_dispense = FHIR::MedicationDispense.new
             medication_dispense.id = SecureRandom.uuid
-            medication_dispense.status = :draft
+            medication_dispense.status = :unknown
             dosage = FHIR::Dosage.new
             dosage.timing = FHIR::Timing.new
             medication_dispense.dosageInstruction << dosage
 
             # 調剤結果ID
-            medication_dispense.identifier = generate_identifier(get_clinical_document.xpath('id'))
+            medication_dispense.identifier << generate_identifier(get_clinical_document.xpath('id'))
 
             # 薬剤師・薬局情報
             author = get_clinical_document.xpath('author')
@@ -98,7 +98,7 @@ class GenerateMedicationDispense < GenerateAbstract
             reference = FHIR::Reference.new
             reference.type = 'MedicationRequest'
             reference.id = 'dummy' # ダミー値
-            medication_dispense.authorizingPrescription = reference
+            medication_dispense.authorizingPrescription << reference
 
             # 医薬品の変更有無
             substitution = FHIR::MedicationDispense::Substitution.new
@@ -113,7 +113,7 @@ class GenerateMedicationDispense < GenerateAbstract
             performer = FHIR::MedicationDispense::Performer.new
             performer.function = create_codeable_concept('finalchecker','Final Checker','http://terminology.hl7.org/CodeSystem/medicationdispense-performer-function')
             performer.actor = create_reference(get_resources_from_type('PractitionerRole').first.resource)
-            medication_dispense.performer = performer
+            medication_dispense.performer << performer
 
             section.entry << create_reference(medication_dispense)
 

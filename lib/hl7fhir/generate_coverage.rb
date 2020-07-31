@@ -12,7 +12,7 @@ class GenerateCoverage < GenerateAbstract
         section = FHIR::Composition::Section.new
         section.title = component.xpath('section/title').text
         section.code = generate_codeable_concept(component.xpath('section/code'))
-        section.text = component.xpath('section/text/list/item').text
+        section.text = component.xpath('section/text/list/item').map{ |item| item.text }.join('\n')
 
         component.xpath('section/entry/act/entryRelationship').each do |entry_relationship|
             coverage = FHIR::Coverage.new
@@ -42,13 +42,21 @@ class GenerateCoverage < GenerateAbstract
                     coverage.identifier << generate_identifier(id)
                 end
                 # 被保険者証記号/番号
-                act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.each{ |id| coverage.identifier << generate_identifier(id) }
+                coverage.identifier = act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.map{ |id| generate_identifier(id) }
                 # 患者区分
                 coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
+
+                cost = FHIR::Coverage::CostToBeneficiary.new
+                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
+
                 # 患者一部負担区分
                 if act.xpath("entryRelationship").present?
-
+                    exception = FHIR::Coverage::CostToBeneficiary::Exception.new
+                    exception.type = generate_codeable_concept(act.xpath('entryRelationship/observation/code'))
+                    cost.exception << exception
                 end
+                coverage.costToBeneficiary << cost
             end
 
             section.entry << create_reference(coverage)

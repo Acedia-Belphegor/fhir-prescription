@@ -8,10 +8,10 @@ class GenerateOrganization < GenerateAbstract
         represented_rganization = get_clinical_document.xpath('author/assignedAuthor/representedOrganization')
         return unless represented_rganization.present?
 
-        represented_rganization.xpath('id').each{ |id| organization.identifier << generate_identifier(id) }
+        organization.identifier = represented_rganization.xpath('id').map{ |id| generate_identifier(id) }
         organization.name = represented_rganization.xpath('name').text
-        represented_rganization.xpath('addr').each{ |addr| organization.address << generate_address(addr) }
-        represented_rganization.xpath('telecom').each{ |telecom| organization.telecom << generate_contact_point(telecom) }
+        organization.address = represented_rganization.xpath('addr').map{ |addr| generate_address(addr) }
+        organization.telecom = represented_rganization.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
 
         entry = FHIR::Bundle::Entry.new
         entry.resource = organization

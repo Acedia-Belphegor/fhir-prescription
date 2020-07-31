@@ -24,7 +24,7 @@ class GenerateMedicationRequest < GenerateAbstract
             medication_request.dosageInstruction << dosage
 
             # 処方箋ID
-            medication_request.identifier = generate_identifier(get_clinical_document.xpath('id'))
+            medication_request.identifier << generate_identifier(get_clinical_document.xpath('id'))
 
             # 処方箋発行者情報
             author = get_clinical_document.xpath('author')
@@ -131,6 +131,13 @@ class GenerateMedicationRequest < GenerateAbstract
 
                 medication_request.note = sbadm.xpath('entryRelationship/supply/text').text
             end
+
+            # Patientリソースの参照
+            medication_request.subject = create_reference(get_resources_from_type('Patient').first.resource)
+            # PractitionerRoleリソースの参照
+            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first.resource)
+            # Coverageリソースの参照
+            medication_request.insurance = get_resources_from_type('Coverage').map{ |coverage| create_reference(coverage.resource) }
 
             section.entry << create_reference(medication_request)
 

@@ -7,8 +7,8 @@ class FhirPrescriptionGenerator < FhirAbstractGenerator
         @bundle.entry.concat(GenerateOrganization.new(get_params).perform) # Organization
         @bundle.entry.concat(GeneratePractitioner.new(get_params).perform) # Practitioner
         @bundle.entry.concat(GeneratePractitionerRole.new(get_params).perform) # PractitionerRole
-        @bundle.entry.concat(GenerateMedicationRequest.new(get_params).perform) # MedicationRequest
         @bundle.entry.concat(GenerateCoverage.new(get_params).perform) # Coverage
+        @bundle.entry.concat(GenerateMedicationRequest.new(get_params).perform) # MedicationRequest
         GenerateCompositionSections.new(get_params).perform # Composition.section
         self
     end

@@ -8,8 +8,8 @@ class GeneratePatient < GenerateAbstract
         patient_role = get_clinical_document.xpath('recordTarget/patientRole')
         return unless patient_role.present?
 
-        patient_role.xpath('id').each{ |id| patient.identifier << generate_identifier(id) }
-        patient_role.xpath('patient/name').each{ |name| patient.name << generate_human_name(name) }
+        patient.identifier = patient_role.xpath('id').map{ |id| generate_identifier(id) }
+        patient.name = patient_role.xpath('patient/name').map{ |name| generate_human_name(name) }
         patient.birthDate = Date.parse(patient_role.xpath('patient/birthTime/@value').text)
         patient.gender = 
             case patient_role.xpath('patient/administrativeGenderCode/@code').text
@@ -17,8 +17,8 @@ class GeneratePatient < GenerateAbstract
             when 'F' then :female
             when 'UN' then :unknown
             end
-        patient_role.xpath('addr').each{ |addr| patient.address << generate_address(addr) }
-        patient_role.xpath('telecom').each{ |telecom| patient.telecom << generate_contact_point(telecom) }
+        patient.address = patient_role.xpath('addr').map{ |addr| generate_address(addr) }
+        patient.telecom = patient_role.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
 
         composition = get_composition.resource
         composition.subject = create_reference(patient)

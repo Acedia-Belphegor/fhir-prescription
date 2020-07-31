@@ -122,4 +122,11 @@ class GenerateAbstract
         reference.id = resource.id
         reference
     end
+
+    def create_quantity(value, unit = nil)
+        quantity = FHIR::Quantity.new
+        quantity.value = value
+        quantity.unit = unit
+        quantity
+    end
 end
