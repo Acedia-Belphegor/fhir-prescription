@@ -32,7 +32,11 @@ class V2FhirAbstractGenerator
     end
 
     def get_params()
-        { message: @message, bundle: @bundle }
+        { 
+            message: @message, 
+            bundle: @bundle, 
+            params: @params 
+        }
     end
 
     private

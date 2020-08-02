@@ -1,6 +1,6 @@
 require './lib/from_v2/v2_fhir_prescription_generator'
 
-class Api::Hl7v2::V2FhirPrescriptionGeneratorsController < ApplicationController
+class Api::Hl7::V2FhirPrescriptionGeneratorsController < ApplicationController
     # POST：リクエストBODYに設定されたHL7v2メッセージをFHIR(json/xml)形式に変換して返す
     def create
         generator = V2FhirPrescriptionGenerator.new(permitted_params).perform

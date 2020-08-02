@@ -6,6 +6,7 @@ class V2GenerateAbstract
     def initialize(params)        
         @message = params[:message]
         @bundle = params[:bundle]
+        @params = params[:params]
     end
 
     def perform()
@@ -14,6 +15,10 @@ class V2GenerateAbstract
 
     def get_message()
         @message
+    end
+
+    def get_params()
+        @params
     end
 
     def get_segments(id)
