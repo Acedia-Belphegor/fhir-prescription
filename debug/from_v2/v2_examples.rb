@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # RDE^O11:処方依頼
 def get_example_rde_prescription()
     return <<~MSG
