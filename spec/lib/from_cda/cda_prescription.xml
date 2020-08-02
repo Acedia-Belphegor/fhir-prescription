@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" moodCode="EVN" xmlns="urn:hl7-org:v3">
+    <realmCode code="JP"/>
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <id root="1.2.392.100495.20.3.11" extension="0"/>
+    <code code="01" codeSystem="1.2.392.100495.20.2.11"/>
+    <title>処方箋</title>
+    <effectiveTime value="20181130235959"/>
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <versionNumber value="1"/>
+    <recordTarget>
+        <patientRole>
+            <id root="1.2.392.100495.20.3.51.11319999999" extension="99990010"/>
+            <addr>
+                <state>東京都</state>
+                <county>JPN</county>
+                <city>港区</city>
+                <postalCode>1050004</postalCode>
+                <streetAddressLine>新橋2丁目5番5号　新橋2丁目MTビル</streetAddressLine>
+            </addr>
+            <telecom use="HP" value="tel:0335068010"/>
+            <telecom use="HP" value="fax:0335068070"/>
+            <patient>
+                <name use="IDE">
+                    <family>患者</family>
+                    <given>太郎</given>
+                </name>
+                <name use="SYL">
+                    <family>カンジャ</family>
+                    <given>タロウ</given>
+                </name>
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19791101"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <author>
+        <time xsi:type="IVL_TS">
+            <low value="20161028"/>
+        </time>
+        <assignedAuthor>
+            <id root="1.2.392.100495.20.3.41.11319999999" extension="D100"/>
+            <id root="1.2.392.100495.20.3.31" extension="12345678"/>
+            <id root="1.2.392.100495.20.3.32.13" extension="1234-1"/>
+            <assignedPerson>
+                <name use="IDE">
+                    <family>医師</family>
+                    <given>一郎</given>
+                </name>
+                <name use="SYL">
+                    <family>イシ</family>
+                    <given>イチロウ</given>
+                </name>
+            </assignedPerson>
+            <representedOrganization>
+                <id root="1.2.392.100495.20.3.21" extension="13"/>
+                <id root="1.2.392.100495.20.3.22" extension="1"/>
+                <id root="1.2.392.100495.20.3.23" extension="9999999"/>
+                <name use="IDE">メドレークリニック</name>
+                <telecom value="tel:031234567"/>
+                <addr>
+                    <state>東京都</state>
+                    <county>JPN</county>
+                    <city>港区</city>
+                    <postalCode>1066222</postalCode>
+                    <streetAddressLine>六本木３−２−１ 住友不動産六本木グランドタワー２２Ｆ</streetAddressLine>
+                </addr>
+                <asOrganizationPartOf>
+                    <code code="01" codeSystem="1.2.392.100495.20.2.51" displayName="内科"/>
+                </asOrganizationPartOf>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization nullFlavor="NA"/>
+        </assignedCustodian>
+    </custodian>
+    <component>
+        <structuredBody>
+            <component>
+                <section>
+                    <code code="01" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方指示</title>
+                    <text>
+                        <list>
+                            <item>RP1</item>
+                            <item>ムコダイン錠２５０ｍｇ</item>
+                            <item>3 錠</item>
+                            <item>１日３回朝昼夕食後</item>
+                            <item>3 日分</item>
+                            <item>RP1</item>
+                            <item>パンスポリンＴ錠１００　１００ｍｇ</item>
+                            <item>6 錠</item>
+                            <item>１日３回朝昼夕食後</item>
+                            <item>3 日分</item>
+                            <item>RP2</item>
+                            <item>アレピアチン１０％</item>
+                            <item>100 ｍｇ</item>
+                            <item>１日２回朝夕食後</item>
+                            <item>14 日分</item>
+                            <item>RP2</item>
+                            <item>フェノバルビタール散１０％「ホエイ」</item>
+                            <item>100 ｍｇ</item>
+                            <item>１日２回朝夕食後</item>
+                            <item>14 日分</item>
+                        </list>
+                    </text>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="1013044400000000" codeSystem="1.2.392.100495.20.2.31" displayName="内服・経口・１日３回朝昼夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="3.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="1.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="103835401" codeSystem="1.2.392.100495.20.2.74" displayName="ムコダイン錠２５０ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <text></text>
+                                    <quantity value="9.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="3.0" unit="錠">
+                                    <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                </numerator>
+                                <denominator value="1" unit="d"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="1"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="1013044400000000" codeSystem="1.2.392.100495.20.2.31" displayName="内服・経口・１日３回朝昼夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="3.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="2.0" unit="錠"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="110626901" codeSystem="1.2.392.100495.20.2.74" displayName="パンスポリンＴ錠１００ １００ｍｇ"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <text></text>
+                                    <quantity value="18.0" unit="錠"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="6.0" unit="錠">
+                                    <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                </numerator>
+                                <denominator value="1" unit="d"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="2"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="1012040400000000" codeSystem="1.2.392.100495.20.2.31" displayName="内服・経口・１日２回朝夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="50.0" unit="ｍｇ"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="100607002" codeSystem="1.2.392.100495.20.2.74" displayName="アレビアチン散１０％"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <text></text>
+                                    <quantity value="1.4" unit="ｇ"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="100.0" unit="ｍｇ">
+                                    <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                </numerator>
+                                <denominator value="1" unit="d"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="SBADM" moodCode="RQO">
+                            <id root="1.2.392.100495.20.3.81" extension="2"/>
+                            <code code="1" codeSystem="1.2.392.100495.20.2.21" displayName="内服" />
+                            <effectiveTime operator="A" xsi:type="EIVL_TS">
+                                <event code="1012040400000000" codeSystem="1.2.392.100495.20.2.31" displayName="内服・経口・１日２回朝夕食後"/>
+                            </effectiveTime>
+                            <effectiveTime xsi:type="IVL_TS">
+                                <width value="14.0" unit="d"/>
+                            </effectiveTime>
+                            <doseQuantity value="50.0" unit="ｍｇ"/>
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                        <code code="100565315" codeSystem="1.2.392.100495.20.2.74" displayName="フェノバルビタール散１０％「ホエイ」"/>
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <entryRelationship typeCode="REFR" inversionInd="false">
+                                <supply classCode="SPLY" moodCode="RQO">
+                                    <text></text>
+                                    <quantity value="1.4" unit="ｇ"/>
+                                </supply>
+                            </entryRelationship>
+                            <doseCheckQuantity>
+                                <numerator value="100.0" unit="ｍｇ">
+                                    <translation code="1" codeSystem="1.2.392.100495.20.2.22" displayName="製剤量"/>
+                                </numerator>
+                                <denominator value="1" unit="d"/>
+                            </doseCheckQuantity>
+                        </substanceAdministration>
+                    </entry>                    
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="11" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>保険・公費情報</title>
+                    <text>
+                        <list>
+                            <item>06050116</item>
+                            <item>９２０４５</item>
+                            <item>１０</item>
+                            <item>本人</item>
+                            <item>15138092</item>
+                            <item>9603283</item>
+                        </list>
+                    </text>
+                    <entry>
+                        <act classCode="ACT" moodCode="EVN">
+                            <code codeSystem="1.2.392.100495.20.2.64"/>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <code code="1" codeSystem="1.2.392.100495.20.2.61" displayName="医保"/>
+                                    <performer>
+                                        <assignedEntity>
+                                            <id root="1.2.392.100495.20.3.61" extension="06050116"/>
+                                        </assignedEntity>
+                                    </performer>
+                                    <participant typeCode="COV">
+                                        <participantRole>
+                                            <id root="1.2.392.100495.20.3.62" extension="９２０４５"/>
+                                            <id root="1.2.392.100495.20.3.63" extension="１０"/>
+                                            <code code="1" codeSystem="1.2.392.100495.20.2.62" displayName="被保険者"/>
+                                        </participantRole>
+                                    </participant>
+                                    <entryRelationship typeCode="REFR">
+                                        <observation classCode="OBS" moodCode="DEF">
+                                            <code code="2" codeSystem="1.2.392.100495.20.2.63" displayName="高齢者７割"/>
+                                        </observation>
+                                    </entryRelationship>
+                                </act>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP">
+                                <act classCode="ACT" moodCode="EVN">
+                                    <code code="8" codeSystem="1.2.392.100495.20.2.61" displayName="公費"/>
+                                    <performer>
+                                        <assignedEntity>
+                                            <id root="1.2.392.100495.20.3.71" extension="15138092"/>
+                                        </assignedEntity>
+                                    </performer>
+                                    <participant typeCode="COV">
+                                        <participantRole>
+                                            <id root="1.2.392.100495.20.3.72" extension="9603283"/>
+                                        </participantRole>
+                                    </participant>
+                                </act>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="101" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方箋備考情報</title>
+                    <text>
+                        <list>
+                            <item>調剤上の留意事項</item>
+                            <item>麻薬処方時の患者住所・施用者免許番号</item>
+                            <item>限度量を超えた投与を行う理由</item>
+                            <item>６歳・高一・高７</item>
+                            <item>後発医薬品を処方した際に、変更不可とした理由</item>
+                            <item>湿布薬の多量投与を判断した趣旨</item>
+                            <item>地域包括診療加算等を算定している旨</item>
+                            <item>残薬確認時の指示</item>
+                        </list>
+                    </text>
+                </section>
+            </component>
+            <component>
+                <section>
+                    <code code="201" codeSystem="1.2.392.100495.20.2.12"/>
+                    <title>処方箋補足情報</title>
+                    <text>
+                        <list>
+                            <item>補足情報を項目ごとに箇条書き</item>
+                        </list>
+                    </text>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>
