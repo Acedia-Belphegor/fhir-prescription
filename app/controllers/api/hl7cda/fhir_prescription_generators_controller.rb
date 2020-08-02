@@ -1,7 +1,7 @@
 require 'nokogiri'
-require './lib/hl7fhir/fhir_prescription_generator'
+require './lib/from_cda/fhir_prescription_generator'
 
-class Api::Hl7::FhirPrescriptionGeneratorsController < ApplicationController
+class Api::Hl7cda::FhirPrescriptionGeneratorsController < ApplicationController
     # POST：リクエストBODYに設定されたHL7CDAをFHIR(json/xml)形式に変換して返す
     def create        
         document = Nokogiri::XML.parse(request.body.read)
