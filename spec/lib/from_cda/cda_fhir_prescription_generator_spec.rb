@@ -5,7 +5,7 @@ RSpec.describe CdaFhirPrescriptionGenerator do
     let(:generator) { CdaFhirPrescriptionGenerator.new get_document }
 
     def get_document()
-        filename = File.join(File.dirname(__FILE__), "cda_prescription.xml")
+        filename = File.join(File.dirname(__FILE__), "example_prescription.xml")
         document = Nokogiri::XML.parse(File.read(filename))
         document.remove_namespaces!
     end

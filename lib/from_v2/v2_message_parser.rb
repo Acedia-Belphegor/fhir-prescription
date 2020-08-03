@@ -1,7 +1,7 @@
 require 'json'
 require 'pathname'
 
-class V2Parser
+class V2MessageParser
 
     SEGMENT_DELIM = "\r".freeze # セグメントターミネータ
     FIELD_DELIM = '|'.freeze # フィールドセパレータ

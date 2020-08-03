@@ -108,8 +108,9 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 ratio.numerator = generate_quantity(sbadm.xpath('doseCheckQuantity/numerator'))
                 ratio.denominator = generate_quantity(sbadm.xpath('doseCheckQuantity/denominator'))
 
+                # 力価区分
                 extension = FHIR::Extension.new
-                extension.url = "TBD"
+                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-DoseQuantityByStrength"
                 extension.valueCodeableConcept = generate_codeable_concept(sbadm.xpath('doseCheckQuantity/numerator/translation'))
                 ratio.numerator.extension << extension
  
@@ -125,6 +126,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 dispense_request.quantity = generate_quantity(sbadm.xpath('entryRelationship/supply/quantity'))
                 medication_request.dispenseRequest = dispense_request
 
+                # 後発品変更不可コード
                 substitution = FHIR::MedicationRequest::Substitution.new
                 substitution.allowedCodeableConcept = generate_codeable_concept(sbadm.xpath('entryRelationship/supply/code'))
                 medication_request.substitution = substitution
