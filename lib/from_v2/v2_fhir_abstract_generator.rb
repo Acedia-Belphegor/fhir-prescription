@@ -1,7 +1,7 @@
 require 'json'
 require "base64"
 require 'fhir_client'
-require_relative 'v2_parser'
+require_relative 'v2_message_parser'
 
 Dir[File.expand_path(File.dirname(__FILE__)) << '/v2_generate_*.rb'].each do |file|
     require file
