@@ -10,7 +10,12 @@ end
 class V2FhirAbstractGenerator    
     def initialize(params)
         @params = params
-        @message = V2MessageParser.new(Base64.decode64(params[:message]).force_encoding("utf-8")).to_simplify
+        str = if Encoding.find(params[:encoding]) == Encoding::ISO_2022_JP
+            Base64.decode64(params[:message]).force_encoding(Encoding::ISO_2022_JP).encode("utf-8")
+        else
+            Base64.decode64(params[:message]).force_encoding("utf-8")
+        end
+        @message = V2MessageParser.new(str).to_simplify
         validation
         @client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
         @client.use_r4

@@ -12,6 +12,7 @@ class Api::Hl7::V2FhirPrescriptionGeneratorsController < ApplicationController
 
     def permitted_params
         params.require(:v2_fhir_prescription_generator).permit(
+            :encoding,
             :prefecture_code,
             :medical_fee_point_code,
             :medical_institution_code,

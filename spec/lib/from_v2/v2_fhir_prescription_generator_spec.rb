@@ -6,6 +6,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
 
     def params()
         {
+            encoding: "utf-8",
             prefecture_code: "13",
             medical_fee_point_code: "1",
             medical_institution_code: "9999999",
