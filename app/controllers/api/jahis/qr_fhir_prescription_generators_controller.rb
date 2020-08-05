@@ -12,6 +12,7 @@ class Api::Jahis::QrFhirPrescriptionGeneratorsController < ApplicationController
 
     def permitted_params
         params.require(:qr_fhir_prescription_generator).permit(
+            :encoding,
             :qr_code,
         )
       end

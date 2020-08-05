@@ -10,7 +10,12 @@ end
 class QrFhirAbstractGenerator    
     def initialize(params)
         @params = params
-        @qr_code = QrCodeParser.new(Base64.decode64(params[:qr_code]).force_encoding("utf-8")).parse
+        str = if Encoding.find(params[:encoding]) == Encoding::Shift_JIS
+            Base64.decode64(params[:qr_code]).force_encoding("cp932").encode("utf-8")
+        else
+            Base64.decode64(params[:qr_code]).force_encoding("utf-8")
+        end
+        @qr_code = QrCodeParser.new(str).parse
         validation
         @client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
         @client.use_r4
