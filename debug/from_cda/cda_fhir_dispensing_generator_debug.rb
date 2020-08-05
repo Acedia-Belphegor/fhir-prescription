@@ -1,9 +1,10 @@
 require './lib/from_cda/cda_fhir_dispensing_generator'
-require 'nokogiri'
 
 filename = File.join(File.dirname(__FILE__), "example_dispensing.xml")
-
-document = Nokogiri::XML.parse(File.read(filename))
-document.remove_namespaces!
-
-generator = FhirDispensingGenerator.new(document).perform
+params = {
+    encoding: "UTF-8",
+    document: Base64.encode64(File.read(filename)),
+}
+generator = CdaFhirDispensingGenerator.new(params).perform
+result = generator.get_resources.to_json
+puts result

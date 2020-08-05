@@ -16,7 +16,7 @@ class Api::Hl7::V2FhirPrescriptionGeneratorsController < ApplicationController
             :prefecture_code,
             :medical_fee_point_code,
             :medical_institution_code,
-            :message,
+            :message
         )
-      end
+    end
 end

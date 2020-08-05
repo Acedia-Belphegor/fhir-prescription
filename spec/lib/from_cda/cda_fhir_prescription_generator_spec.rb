@@ -2,12 +2,14 @@ require './lib/from_cda/cda_fhir_prescription_generator'
 require 'nokogiri'
 
 RSpec.describe CdaFhirPrescriptionGenerator do
-    let(:generator) { CdaFhirPrescriptionGenerator.new get_document }
+    let(:generator) { CdaFhirPrescriptionGenerator.new params }
 
-    def get_document()
+    def params()
         filename = File.join(File.dirname(__FILE__), "example_prescription.xml")
-        document = Nokogiri::XML.parse(File.read(filename))
-        document.remove_namespaces!
+        {
+            encoding: "UTF-8",
+            document: Base64.encode64(File.read(filename))
+        }        
     end
 
     it '#perform' do
