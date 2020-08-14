@@ -1,6 +1,5 @@
 # fhir-prescription
 
-## description
 既存標準フォーマットを `電子処方箋 FHIR Document` に変換するAPI
 
 ## HL7CDA-R2 to FHIR

@@ -21,7 +21,7 @@ class V2FhirAbstractGenerator
         @client.use_r4
         FHIR::Model.client = @client            
         @bundle = FHIR::Bundle.new
-        @bundle.type = 'document'
+        @bundle.type = :document
     end
 
     def perform()
