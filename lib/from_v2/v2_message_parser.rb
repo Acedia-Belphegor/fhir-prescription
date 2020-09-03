@@ -37,7 +37,7 @@ class V2MessageParser
         # 改行コード(セグメントターミネータ)が「\n」の場合は「\r」に置換する
         raw_message.gsub!("\n", SEGMENT_DELIM)
         # セグメント分割
-        segments = raw_message.split(SEGMENT_DELIM)
+        segments = raw_message.split(SEGMENT_DELIM).compact.reject(&:empty?)
         results = []
     
         segments.each do |segment|

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FHIR Prescription -beta-</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h3>FHIR Prescription Test Page</h3>
+
+<form action="/fhir_testers" method="post" target="blank">
+  <div>
+    <label>
+      original type:
+      <input type="radio" name="type" value="cda" checked>HL7CDA
+      <input type="radio" name="type" value="v2">HL7v2
+      <input type="radio" name="type" value="qr">JAHIS
+    </label>
+  </div>
+
+  <div>
+    <label>
+      response format:
+      <input type="radio" name="format" value="json" checked>json
+      <input type="radio" name="format" value="xml">xml
+    </label>
+  </div>
+
+  <div>
+    <div>raw data:</div>
+    <textarea name="data" rows="25" cols="120"></textarea>
+  </div>
+
+  <div>
+    <input type="submit"/>
+  </div>
+</form>
+
+</body>
+</html>

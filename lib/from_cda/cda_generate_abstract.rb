@@ -106,6 +106,13 @@ class CdaGenerateAbstract
         create_codeable_concept(code.xpath('@code').text, code.xpath('@displayName').text, "urn:oid:#{code.xpath('@codeSystem').text}")
     end
 
+    def create_identifier(value, system)
+        identifier = FHIR::Identifier.new
+        identifier.system = system
+        identifier.value = value
+        identifier
+    end
+
     def create_codeable_concept(code, display, system = 'LC')
         codeable_concept = FHIR::CodeableConcept.new
         coding = FHIR::Coding.new

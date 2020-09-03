@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-    # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+    root to: "fhir_testers#index"
 
+    resources :fhir_testers do
+        member do
+        end
+    end
+    
     namespace :api do
         namespace :hl7 do
             resources :cda_fhir_prescription_generators, only: %i[create]

@@ -114,20 +114,27 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
             # TQ1-6.サービス期間(投薬日数)
             if tq1_segment[:service_duration].present?
-                timing_repeat = FHIR::Timing::Repeat.new
+                timing_repeat ||= FHIR::Timing::Repeat.new
                 timing_repeat.duration = tq1_segment[:service_duration].first[:quantity].to_i
                 timing_repeat.durationUnit = 'd'
                 dosage.timing.repeat = timing_repeat
             end
 
             # TQ1-7.開始日時
-            dosage.timing.event << tq1_segment[:start_datetime].first[:time]
+            if tq1_segment[:start_datetime].present?
+                timing_repeat ||= FHIR::Timing::Repeat.new
+                period = FHIR::Period.new
+                period.start = tq1_segment[:start_datetime].first[:time]
+                timing_repeat.boundsPeriod = period
+                dosage.timing.repeat = timing_repeat
+            end
+
             # TQ1-11.テキスト指令
             dosage.patientInstruction = tq1_segment[:text_instruction]
 
             # TQ1-14.事象総数(頓用指示の回数)
             if tq1_segment[:total_occurrences].present?
-                timing_repeat = FHIR::Timing::Repeat.new
+                timing_repeat ||= FHIR::Timing::Repeat.new
                 timing_repeat.count = tq1_segment[:total_occurrences].to_i
                 dosage.timing.repeat = timing_repeat
             end

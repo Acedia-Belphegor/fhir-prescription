@@ -18,6 +18,19 @@ class CdaGenerateComposition < CdaGenerateAbstract
         composition.title = clinical_document.xpath('effectiveTime/title').text
         composition.confidentiality = clinical_document.xpath('confidentialityCode/@code').text
 
+        # 処方箋発行者情報
+        author = get_clinical_document.xpath('author')
+        if author.present?
+            period = FHIR::Period.new
+            # 処方箋交付年月日
+            period.start = author.xpath('time/low/@value').text
+            # 処方箋有効期限
+            period.end = author.xpath('time/high/@value').text
+            event = FHIR::Composition::Event.new
+            event.period = period
+            composition.event = event
+        end
+        
         entry = FHIR::Bundle::Entry.new
         entry.resource = composition
         [entry]
