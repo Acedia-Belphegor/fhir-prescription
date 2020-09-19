@@ -137,20 +137,30 @@ class QrGenerateAbstract
         codeable_concept
     end
 
-    def create_codeable_concept(code, display, system = 'LC')
-        codeable_concept = FHIR::CodeableConcept.new
+    def create_identifier(value, system)
+        identifier = FHIR::Identifier.new
+        identifier.system = system
+        identifier.value = value
+        identifier
+    end
+
+    def create_coding(code, display, system = 'LC')
         coding = FHIR::Coding.new
         coding.code = code
         coding.display = display
         coding.system = system
-        codeable_concept.coding << coding
+        coding
+    end
+
+    def create_codeable_concept(code, display, system = 'LC')
+        codeable_concept = FHIR::CodeableConcept.new
+        codeable_concept.coding << create_coding(code, display, system)
         codeable_concept
     end
 
     def create_reference(resource)
         reference = FHIR::Reference.new
-        reference.type = resource.resourceType
-        reference.id = resource.id
+        reference.reference = "#{resource.resourceType}/#{resource.id}"
         reference
     end
 

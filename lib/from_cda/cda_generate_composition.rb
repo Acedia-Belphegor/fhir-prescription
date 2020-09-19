@@ -8,7 +8,7 @@ class CdaGenerateComposition < CdaGenerateAbstract
         clinical_document = get_clinical_document
         return unless clinical_document.present?
 
-        composition.status = :preliminary
+        composition.status = :final
         composition.type = create_codeable_concept(
             clinical_document.xpath('code/@code').text,
             clinical_document.xpath('effectiveTime/title').text,
@@ -30,6 +30,11 @@ class CdaGenerateComposition < CdaGenerateAbstract
             event.period = period
             composition.event = event
         end
+
+        section = FHIR::Composition::Section.new
+        section.title = '処方指示ヘッダ'
+        section.code = create_codeable_concept('01', '処方指示ヘッダ', 'TBD')
+        composition.section << section
         
         entry = FHIR::Bundle::Entry.new
         entry.resource = composition

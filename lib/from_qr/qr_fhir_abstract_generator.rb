@@ -7,7 +7,7 @@ Dir[File.expand_path(File.dirname(__FILE__)) << '/qr_generate_*.rb'].each do |fi
     require file
 end
 
-class QrFhirAbstractGenerator    
+class QrFhirAbstractGenerator
     def initialize(params)
         @params = params
         str = if Encoding.find(params[:encoding]) == Encoding::Shift_JIS

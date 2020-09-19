@@ -14,6 +14,6 @@ RSpec.describe CdaFhirPrescriptionGenerator do
 
     it '#perform' do
         generator.perform
-        expect(generator.get_resources.entry.count).to eq 12
+        expect(generator.get_resources.entry.count).to eq 15
     end
 end

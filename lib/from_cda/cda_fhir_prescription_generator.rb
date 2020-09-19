@@ -8,8 +8,9 @@ class CdaFhirPrescriptionGenerator < CdaFhirAbstractGenerator
         @bundle.entry.concat(CdaGeneratePractitioner.new(get_params).perform) # Practitioner
         @bundle.entry.concat(CdaGeneratePractitionerRole.new(get_params).perform) # PractitionerRole
         @bundle.entry.concat(CdaGenerateCoverage.new(get_params).perform) # Coverage
+        @bundle.entry.concat(CdaGenerateCommunication.new(get_params).perform) # Communication
         @bundle.entry.concat(CdaGenerateMedicationRequest.new(get_params).perform) # MedicationRequest
-        CdaGenerateCompositionSections.new(get_params).perform # Composition.section
+        # CdaGenerateCompositionSections.new(get_params).perform # Composition.section
         self
     end
 

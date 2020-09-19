@@ -137,6 +137,13 @@ class V2GenerateAbstract
         codeable_concept
     end
 
+    def create_identifier(value, system)
+        identifier = FHIR::Identifier.new
+        identifier.system = system
+        identifier.value = value
+        identifier
+    end
+
     def create_codeable_concept(code, display, system = 'LC')
         codeable_concept = FHIR::CodeableConcept.new
         coding = FHIR::Coding.new
@@ -149,15 +156,15 @@ class V2GenerateAbstract
 
     def create_reference(resource)
         reference = FHIR::Reference.new
-        reference.type = resource.resourceType
-        reference.id = resource.id
+        reference.reference = "#{resource.resourceType}/#{resource.id}"
         reference
     end
 
-    def create_quantity(value, unit = nil)
+    def create_quantity(value, unit = nil, code = nil)
         quantity = FHIR::Quantity.new
         quantity.value = value
         quantity.unit = unit
+        quantity.code = code
         quantity
     end
 end

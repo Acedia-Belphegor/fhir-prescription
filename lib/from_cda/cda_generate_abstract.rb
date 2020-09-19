@@ -125,8 +125,7 @@ class CdaGenerateAbstract
 
     def create_reference(resource)
         reference = FHIR::Reference.new
-        reference.type = resource.resourceType
-        reference.id = resource.id
+        reference.reference = "#{resource.resourceType}/#{resource.id}"
         reference
     end
 

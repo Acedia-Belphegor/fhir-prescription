@@ -11,8 +11,10 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
         sequence = {}
 
         section = FHIR::Composition::Section.new
-        section.title = component.xpath('section/title').text
-        section.code = generate_codeable_concept(component.xpath('section/code'))
+        # section.title = component.xpath('section/title').text
+        # section.code = generate_codeable_concept(component.xpath('section/code'))
+        section.title = '処方指示ボディ'
+        section.code = create_codeable_concept('02', '処方指示ボディ', 'TBD')
         section.text = component.xpath('section/text/list/item').map{ |item| item.text }.join('\n')
 
         component.xpath('section/entry').each do |entry|
@@ -87,7 +89,6 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
             # 投与日数／投与回数
             effective_time = sbadm.xpath('effectiveTime').find{ |et| et.xpath('@operator').blank? }
             if effective_time.present?
-                timing_repeat = FHIR::Timing::Repeat.new
                 if effective_time.xpath('width/@unit').text == 'd'
                     # 日数
                     duration = FHIR::Duration.new
@@ -101,6 +102,14 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                     extension.valueInteger = effective_time.xpath('width/@value').text.to_i
                     dispense_request.extension << extension
                 end
+            end
+
+            # 1日当たりの投与回数
+            if sbadm.xpath('repeatNumber/@value').present?
+                timing_repeat = FHIR::Timing::Repeat.new
+                timing_repeat.frequency = sbadm.xpath('repeatNumber/@value').text.to_i
+                timing_repeat.period = 1
+                timing_repeat.periodUnit = 'd'
                 dosage.timing.repeat = timing_repeat
             end
 
@@ -151,8 +160,6 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
             medication_request.subject = create_reference(get_resources_from_type('Patient').first.resource)
             # PractitionerRoleリソースの参照
             medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first.resource)
-            # Coverageリソースの参照
-            medication_request.insurance = get_resources_from_type('Coverage').map{ |coverage| create_reference(coverage.resource) }
 
             section.entry << create_reference(medication_request)
 

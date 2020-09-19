@@ -14,6 +14,6 @@ RSpec.describe QrFhirPrescriptionGenerator do
 
     it '#perform' do
         generator.perform
-        expect(generator.get_resources.entry.count).to eq 15
+        expect(generator.get_resources.entry.count).to eq 17
     end
 end

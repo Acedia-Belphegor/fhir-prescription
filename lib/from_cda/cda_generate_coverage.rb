@@ -9,10 +9,10 @@ class CdaGenerateCoverage < CdaGenerateAbstract
         return unless component.present?
         results = []
 
-        section = FHIR::Composition::Section.new
-        section.title = component.xpath('section/title').text
-        section.code = generate_codeable_concept(component.xpath('section/code'))
-        section.text = component.xpath('section/text/list/item').map{ |item| item.text }.join('\n')
+        # section = FHIR::Composition::Section.new
+        # section.title = component.xpath('section/title').text
+        # section.code = generate_codeable_concept(component.xpath('section/code'))
+        # section.text = component.xpath('section/text/list/item').map{ |item| item.text }.join('\n')
 
         component.xpath('section/entry/act/entryRelationship').each do |entry_relationship|
             coverage = FHIR::Coverage.new
@@ -113,15 +113,12 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 coverage.costToBeneficiary << cost
             end
 
-            section.entry << create_reference(coverage)
-
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage
             results << entry
         end
 
-        composition = get_composition.resource
-        composition.section << section
+        get_composition.resource.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
         results
     end
 end

@@ -116,6 +116,7 @@
                             <effectiveTime xsi:type="IVL_TS">
                                 <width value="3.0" unit="d"/>
                             </effectiveTime>
+                            <repeatNumber value="3"/>
                             <doseQuantity value="1.0" unit="錠"/>
                             <consumable>
                                 <manufacturedProduct>
@@ -148,6 +149,7 @@
                             <effectiveTime xsi:type="IVL_TS">
                                 <width value="3.0" unit="d"/>
                             </effectiveTime>
+                            <repeatNumber value="3"/>
                             <doseQuantity value="2.0" unit="錠"/>
                             <consumable>
                                 <manufacturedProduct>
@@ -180,6 +182,7 @@
                             <effectiveTime xsi:type="IVL_TS">
                                 <width value="14.0" unit="d"/>
                             </effectiveTime>
+                            <repeatNumber value="2"/>
                             <doseQuantity value="50.0" unit="ｍｇ"/>
                             <consumable>
                                 <manufacturedProduct>
@@ -212,6 +215,7 @@
                             <effectiveTime xsi:type="IVL_TS">
                                 <width value="14.0" unit="d"/>
                             </effectiveTime>
+                            <repeatNumber value="2"/>
                             <doseQuantity value="50.0" unit="ｍｇ"/>
                             <consumable>
                                 <manufacturedProduct>

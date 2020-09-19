@@ -40,6 +40,6 @@ RSpec.describe V2FhirPrescriptionGenerator do
 
     it '#perform' do
         generator.perform
-        expect(generator.get_resources.entry.count).to eq 10
+        expect(generator.get_resources.entry.count).to eq 11
     end
 end

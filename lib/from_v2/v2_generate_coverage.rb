@@ -6,10 +6,6 @@ class V2GenerateCoverage < V2GenerateAbstract
         return unless in1_segments.present?
         results = []
 
-        section = FHIR::Composition::Section.new
-        section.title = '保険・公費情報'
-        section.code = create_codeable_concept('11', '保険・公費情報', 'urn:oid:1.2.392.100495.20.2.12')
-
         in1_segments.each do |in1_segment|
             coverage = FHIR::Coverage.new
             coverage.id = SecureRandom.uuid
@@ -59,14 +55,13 @@ class V2GenerateCoverage < V2GenerateAbstract
                 period.end = Date.parse(in1_segment[:plan_expiration_date]) if in1_segment[:plan_expiration_date].present?
                 coverage.period = period
             end
-            section.entry << create_reference(coverage)
 
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage
             results << entry
         end
-        composition = get_composition.resource
-        composition.section << section
+
+        get_composition.resource.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
         results
     end
 
