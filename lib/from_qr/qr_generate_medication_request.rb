@@ -42,8 +42,16 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             # 薬品
             codeable_concept = FHIR::CodeableConcept.new
             coding = FHIR::Coding.new
-            coding.code = medication_record[:medication_code] # 薬品コード
-            coding.display = medication_record[:medication_name] # 薬品名称
+            # 薬品コード
+            coding.code = medication_record[:medication_code]
+            # 薬品名称
+            coding.display = if medication_record[:medication_code_kind] == '2' && medication_record[:medication_name].blank?
+                # レセプト電算コードの場合は薬品名称が省略可能であるため、省略されている場合は医薬品マスターから名称を取得する
+                master = get_receipt_medication_master.find{|master|master[:medication_code] == medication_record[:medication_code]}
+                master[:medication_name] if master.present?
+            else                
+                medication_record[:medication_name]
+            end
             coding.system = case medication_record[:medication_code_kind]
                             when '2' then 'urn:oid:1.2.392.100495.20.2.71' # レセプト電算コード
                             when '3' then 'urn:oid:1.2.392.100495.20.2.72' # 薬価基準収載医薬品コード
