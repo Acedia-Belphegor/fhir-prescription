@@ -52,6 +52,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             else                
                 medication_record[:medication_name]
             end
+            # 薬品コード種別
             coding.system = case medication_record[:medication_code_kind]
                             when '2' then 'urn:oid:1.2.392.100495.20.2.71' # レセプト電算コード
                             when '3' then 'urn:oid:1.2.392.100495.20.2.72' # 薬価基準収載医薬品コード
@@ -164,6 +165,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                     # 後発医薬品関連
                     codeable_concept = FHIR::CodeableConcept.new
                     if record[:medication_supplement_class] == '6'
+                        #「6:剤形変更不可及び含量規格変更不可」の場合は「4:剤形変更不可」と「5:含量規格変更不可」の2つに展開する
                         codeable_concept.coding << create_coding('4','剤形変更不可',"urn:oid:1.2.392.100495.20.2.41")
                         codeable_concept.coding << create_coding('5','含量規格変更不可',"urn:oid:1.2.392.100495.20.2.41")
                         codeable_concept.text = '剤形変更不可及び含量規格変更不可'
@@ -200,23 +202,28 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 end
             }
 
-            # # 不均等投与
-            # imbalances = dosage.additionalInstruction.map{|element|element.coding.select{|element|element.code.match(/^V[1-9][0-9.N]+$/) && element.system == 'JAMISDP01'}}.compact.reject(&:empty?)
-            # if imbalances.count.positive?
-            #     imbalance_doses = []
-            #     imbalances.each do |imbalance|
-            #         quantity = FHIR::Quantity.new
-            #         quantity.value = imbalance.first.code.slice(2..-1).delete('N').to_i
-            #         quantity.code = dosage.doseAndRate.first.doseQuantity.code
-            #         quantity.unit = dosage.doseAndRate.first.doseQuantity.unit
-            #         dose = FHIR::Dosage::DoseAndRate.new
-            #         dose.type = imbalance
-            #         dose.doseQuantity = quantity
-            #         imbalance_doses << dose
-            #     end
-            #     dosage.doseAndRate = imbalance_doses
-            #     dosage.additionalInstruction.delete_if{ |c| imbalances.include?(c.coding) }
-            # end
+            # 不均等レコード
+            imbalance_record = get_records(221).find{|record|
+                record[:rp_number] == medication_record[:rp_number] &&
+                record[:rp_branch_number] == medication_record[:rp_branch_number]
+            }
+            if imbalance_record.present?
+                for idx in 1..5 do
+                    next unless imbalance_record["dose_quantity#{idx}".to_sym].present?
+                    extension = FHIR::Extension.new
+                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                    imbalance_dosage = FHIR::Dosage.new
+                    imbalance_dosage.sequence = idx
+                    if imbalance_record["dose_quantity_code#{idx}".to_sym].present?
+                        imbalance_dosage.additionalInstruction = create_codeable_concept(imbalance_record["dose_quantity_code#{idx}".to_sym], "")
+                    end
+                    imbalance_dose = FHIR::Dosage::DoseAndRate.new
+                    imbalance_dose.doseQuantity = create_quantity(imbalance_record["dose_quantity#{idx}".to_sym].to_f, medication_record[:unit_name])
+                    imbalance_dosage.doseAndRate << imbalance_dose
+                    extension.valueDosage = imbalance_dosage
+                    dosage.extension << extension
+                end
+            end
 
             # Patientリソースの参照
             medication_request.subject = create_reference(get_resources_from_type('Patient').first.resource)

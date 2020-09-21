@@ -164,7 +164,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                     imbalance_dosage.sequence = idx + 1
                     imbalance_dosage.additionalInstruction = imbalance
                     imbalance_dose = FHIR::Dosage::DoseAndRate.new
-                    imbalance_dose.doseQuantity = create_quantity(imbalance.first.code.slice(2..-1).delete('N').to_i, rxe_segment[:give_units].first[:identifier], rxe_segment[:give_units].first[:text])
+                    imbalance_dose.doseQuantity = create_quantity(imbalance.first.code.slice(2..-1).delete('N').to_f, rxe_segment[:give_units].first[:identifier], rxe_segment[:give_units].first[:text])
                     imbalance_dosage.doseAndRate << imbalance_dose
                     extension.valueDosage = imbalance_dosage
                     dosage.extension << extension
