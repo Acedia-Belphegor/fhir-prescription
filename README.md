@@ -2,6 +2,8 @@
 
 既存標準フォーマットを `電子処方箋 FHIR Document` に変換するAPI
 
+[TestPage](https://fhir-prescription.herokuapp.com/fhir_testers)
+
 ## HL7CDA-R2 to FHIR
 
 ### request
@@ -502,9 +504,3 @@ https://fhir-prescription.herokuapp.com/api/jahis/qr_fhir_prescription_generator
 
 ### 参考資料
 - [JAHIS院外処方箋２次元シンボル記録条件規約Ver.1.6](https://www.jahis.jp/standard/detail/id=714)
-
-## Test Page
-
-```
-https://fhir-prescription.herokuapp.com/fhir_testers
-```
