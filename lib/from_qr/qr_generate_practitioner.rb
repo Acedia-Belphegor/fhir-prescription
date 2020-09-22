@@ -48,7 +48,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
             practitioner.name << human_name
         end
 
-        # 麻薬処方レコード
+        # 麻薬施用レコード
         narcotic_record = get_records(61)&.first
         if narcotic_record.present?
             qualification = FHIR::Practitioner::Qualification.new

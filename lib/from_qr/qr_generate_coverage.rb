@@ -56,6 +56,21 @@ class QrGenerateCoverage < QrGenerateAbstract
                 cost = FHIR::Coverage::CostToBeneficiary.new
                 cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
                 cost.valueQuantity = create_quantity(payment_record[:patient_payment_rate].to_i, '%')
+
+                # 患者一部負担区分レコード
+                partial_payment_record = get_records(14)&.first
+                if partial_payment_record.present?
+                    exception = FHIR::Coverage::CostToBeneficiary::Exception.new
+                    exception.type = case partial_payment_record[:partial_payment_class]
+                                     when '1','4' # 1,4:高齢者一般
+                                         create_codeable_concept('1', '高齢者一般', 'LC')
+                                     when '2' # 2:高齢者７割
+                                         create_codeable_concept('2', '高齢者７割', 'LC')
+                                     when '3' # 3:６歳未満
+                                         create_codeable_concept('3', '６歳未満', 'LC')
+                                     end
+                    cost.exception << exception
+                end
                 coverage.costToBeneficiary << cost
             end
 
