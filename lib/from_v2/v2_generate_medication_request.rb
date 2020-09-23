@@ -146,14 +146,15 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
             # RXRセグメント
             rxr_segment = segments.find{|segment|segment[:segment_id] == 'RXR'}
-
-            # RXR-1.経路
-            dosage.route = generate_codeable_concept(rxr_segment[:route].first) if rxr_segment[:route].present?
-            # RXR-2.部位
-            dosage.site = generate_codeable_concept(rxr_segment[:administration_site].first) if rxr_segment[:administration_site].present?
-            # RXR-4.投薬方法
-            dosage.local_method = generate_codeable_concept(rxr_segment[:administration_method].first) if rxr_segment[:administration_method].present?
-
+            if rxr_segment.present?
+                # RXR-1.経路
+                dosage.route = generate_codeable_concept(rxr_segment[:route].first) if rxr_segment[:route].present?
+                # RXR-2.部位
+                dosage.site = generate_codeable_concept(rxr_segment[:administration_site].first) if rxr_segment[:administration_site].present?
+                # RXR-4.投薬方法
+                dosage.local_method = generate_codeable_concept(rxr_segment[:administration_method].first) if rxr_segment[:administration_method].present?
+            end
+            
             # 不均等投与
             imbalances = dosage.additionalInstruction.map{|element|element.coding.select{|element|element.code.match(/^V[1-9][0-9.N]+$/) && element.system == 'JAMISDP01'}}.compact.reject(&:empty?)
             if imbalances.count.positive?

@@ -28,7 +28,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             next unless dosage_record.present?
            
             # 処方箋番号レコード
-            prescription_number_record = get_records(82)
+            prescription_number_record = get_records(82)&.first
             if prescription_number_record.present?
                 medication_request.identifier << generate_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
             end

@@ -8,6 +8,7 @@ class CdaGenerateComposition < CdaGenerateAbstract
         clinical_document = get_clinical_document
         return unless clinical_document.present?
 
+        composition.identifier = clinical_document.xpath('id').map{|id|generate_identifier(id)}&.first
         composition.status = :final
         composition.type = create_codeable_concept(
             clinical_document.xpath('code/@code').text,

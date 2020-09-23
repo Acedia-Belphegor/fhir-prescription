@@ -25,6 +25,12 @@ class QrGenerateComposition < QrGenerateAbstract
         event.period = period
         composition.event = event
 
+        # 処方箋番号レコード
+        prescription_number_record = get_records(82)&.first
+        if prescription_number_record.present?
+            composition.identifier = generate_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
+        end
+
         section = FHIR::Composition::Section.new
         section.title = '処方指示ヘッダ'
         section.code = create_codeable_concept('01', '処方指示ヘッダ', 'TBD')
