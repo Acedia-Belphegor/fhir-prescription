@@ -3,7 +3,7 @@ require_relative 'v2_generate_abstract'
 class V2GenerateCoverage < V2GenerateAbstract
     def perform()
         in1_segments = get_segments('IN1')
-        return unless in1_segments.present?
+        return [] unless in1_segments.present?
         results = []
 
         in1_segments.each do |in1_segment|

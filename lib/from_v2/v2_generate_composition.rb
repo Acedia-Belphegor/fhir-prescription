@@ -27,7 +27,7 @@ class V2GenerateComposition < V2GenerateAbstract
         rxe_segment = get_segments('RXE')&.first
         if rxe_segment.present?
             # RXE-15.処方箋番号
-            composition.identifier << generate_identifier(rxe_segment[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11') if rxe_segment[:prescription_number].present?
+            composition.identifier = [generate_identifier(rxe_segment[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')] if rxe_segment[:prescription_number].present?
         end
 
         section = FHIR::Composition::Section.new

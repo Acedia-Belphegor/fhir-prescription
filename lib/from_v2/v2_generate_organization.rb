@@ -2,13 +2,12 @@ require_relative 'v2_generate_abstract'
 
 class V2GenerateOrganization < V2GenerateAbstract
     def perform()
-        results = []
+        orc_segment = get_segments('ORC')&.first
+        return [] unless orc_segment.present?
 
+        results = []
         organization = FHIR::Organization.new
         organization.id = SecureRandom.uuid
-
-        orc_segment = get_segments('ORC')&.first
-        return unless orc_segment.present?
 
         organization.identifier << generate_identifier(get_params[:prefecture_code], '1.2.392.100495.20.3.21')
         organization.identifier << generate_identifier(get_params[:medical_fee_point_code], '1.2.392.100495.20.3.22')

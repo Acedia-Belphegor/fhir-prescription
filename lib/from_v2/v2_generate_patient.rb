@@ -2,11 +2,11 @@ require_relative 'v2_generate_abstract'
 
 class V2GeneratePatient < V2GenerateAbstract
     def perform()
+        pid_segment = get_segments('PID')&.first
+        return [] unless pid_segment.present?
+
         patient = FHIR::Patient.new
         patient.id = SecureRandom.uuid
-
-        pid_segment = get_segments('PID')&.first
-        return unless pid_segment.present?
 
         patient.identifier = pid_segment[:patient_identifier_list].map{|element|generate_identifier(element[:id_number], "urn:oid:1.2.392.100495.20.3.51.1")}
         patient.name = pid_segment[:patient_name].map{|element|generate_human_name(element)}
