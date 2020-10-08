@@ -7,7 +7,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
 
         # 医師レコード
         doctor_record = get_records(5)&.first
-        return unless doctor_record.present?
+        return [] unless doctor_record.present?
 
         # 医師コード
         practitioner.identifier << generate_identifier(doctor_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41.1')

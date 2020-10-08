@@ -12,7 +12,7 @@ class CdaFhirAbstractGenerator
         document = Nokogiri::XML.parse(Base64.decode64(params[:document]).force_encoding("utf-8"))
         document.remove_namespaces!
         @document = document
-        validation
+        @error = validation
         @client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
         @client.use_r4
         FHIR::Model.client = @client            
@@ -37,6 +37,14 @@ class CdaFhirAbstractGenerator
             document: @document, 
             bundle: @bundle,
         }
+    end
+
+    def has_error?()
+        @error.present? || false
+    end
+
+    def get_error()
+        @error
     end
 
     private

@@ -10,14 +10,20 @@ class FhirTestersController < ApplicationController
 
     def create
         generator = case params[:type]
-                    when 'cda'
+                    when 'hl7cda_to_fhir'
                         from_cda
-                    when 'v2'
+                    when 'hl7v2_to_fhir'
                         from_v2
-                    when 'qr'
+                    when 'jahisqr_to_fhir'
                         from_qr
                     end
 
+        if generator.has_error?
+            render json: { type: params[:type], errors: [generator.get_error] }, status: :bad_request and return
+        end
+
+        generator.perform
+            
         if params[:format] == 'xml'
             render xml: generator.get_resources.to_xml
         else
@@ -30,7 +36,7 @@ class FhirTestersController < ApplicationController
             encoding: "UTF-8", 
             document: Base64.encode64(params[:data])
         }
-        CdaFhirPrescriptionGenerator.new(cda_params).perform
+        CdaFhirPrescriptionGenerator.new(cda_params)
     end
 
     def from_v2
@@ -41,7 +47,7 @@ class FhirTestersController < ApplicationController
             medical_institution_code: "9999999",
             message: Base64.encode64(params[:data])
         }
-        V2FhirPrescriptionGenerator.new(v2_params).perform
+        V2FhirPrescriptionGenerator.new(v2_params)
     end
 
     def from_qr
@@ -49,6 +55,6 @@ class FhirTestersController < ApplicationController
             encoding: "UTF-8", 
             qr_code: Base64.encode64(params[:data])
         }
-        QrFhirPrescriptionGenerator.new(qr_params).perform
+        QrFhirPrescriptionGenerator.new(qr_params)
     end
 end

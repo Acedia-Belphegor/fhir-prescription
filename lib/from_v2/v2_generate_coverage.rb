@@ -15,7 +15,7 @@ class V2GenerateCoverage < V2GenerateAbstract
             insurance_type = get_insurance_type(in1_segment[:insurance_plan_id].first[:identifier])
             coverage.type = create_codeable_concept(insurance_type[:code], insurance_type[:name], 'urn:oid:1.2.392.100495.20.2.61') if insurance_type.present?
 
-            if insurance_type[:code] == '8'
+            if insurance_type[:code] == '8' # 8:公費
                 # IN1-3.保険会社ID(公費負担者番号)
                 if in1_segment[:insurance_company_id].present?
                     coverage.identifier << generate_identifier(in1_segment[:insurance_company_id].first[:id_number], 'urn:oid:1.2.392.100495.20.3.71')

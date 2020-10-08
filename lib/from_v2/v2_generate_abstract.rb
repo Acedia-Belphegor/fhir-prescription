@@ -117,6 +117,7 @@ class V2GenerateAbstract
         quantity
     end
 
+    # HL7v2:CWE -> FHIR:CodeableConcept 変換
     def generate_codeable_concept(code)
         return unless code.present?
         codeable_concept = FHIR::CodeableConcept.new        

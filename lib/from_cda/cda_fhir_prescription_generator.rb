@@ -16,7 +16,6 @@ class CdaFhirPrescriptionGenerator < CdaFhirAbstractGenerator
 
     private
     def validation()
-        # raise 'reject message, incorrect [MSH-9.MessageType]' unless validate_message_type('RDE','O11')
-        true
+        nil
     end
 end

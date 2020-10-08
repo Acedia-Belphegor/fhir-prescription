@@ -1,6 +1,5 @@
 require "base64"
 require './lib/from_v2/v2_fhir_prescription_generator'
-require_relative 'v2_examples'
 
 filename = File.join(File.dirname(__FILE__), "example_iso2022jp.txt")
 params = {

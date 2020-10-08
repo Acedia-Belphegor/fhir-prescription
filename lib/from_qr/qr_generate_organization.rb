@@ -2,14 +2,13 @@ require_relative 'qr_generate_abstract'
 
 class QrGenerateOrganization < QrGenerateAbstract
     def perform()
-        results = []
-
         # 医療機関レコード
         institution_record = get_records(1)&.first
-        return unless institution_record.present?
+        return [] unless institution_record.present?
 
         organization = FHIR::Organization.new
         organization.id = SecureRandom.uuid
+        results = []
 
         organization.identifier << generate_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
         organization.identifier << generate_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')

@@ -21,6 +21,7 @@ class V2MessageParser
         parse(raw_message) if raw_message.present?
     end
 
+    # ParseしたHL7v2メッセージをHashに変換する
     def to_simplify
         @parsed_message.map{|segment|
             Hash[segment.map{|field|

@@ -16,7 +16,7 @@ class QrFhirAbstractGenerator
             Base64.decode64(params[:qr_code]).force_encoding("utf-8")
         end
         @qr_code = QrCodeParser.new(str).parse
-        validation
+        @error = validation
         @client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
         @client.use_r4
         FHIR::Model.client = @client            
@@ -44,23 +44,16 @@ class QrFhirAbstractGenerator
         }
     end
 
+    def has_error?()
+        @error.present? || false
+    end
+
+    def get_error()
+        @error
+    end
+
     private
     def validation()
         raise NotImplementedError.new("You must implement #{self.class}##{__method__}")
     end
-
-    # def validate_message_type(message_code, trigger_event)
-    #     message_types = @parser.get_parsed_fields('MSH','Message Type')
-    #     return false if message_types.blank?
-
-    #     message_types.first['array_data'].first.select{ |c| ["Message Code","Trigger Event"].include?(c['name']) }.each do |element|
-    #         case element['name']
-    #         when 'Message Code'
-    #             return false unless element['value'] == message_code
-    #         when 'Trigger Event'
-    #             return false unless element['value'] == trigger_event
-    #         end
-    #     end
-    #     true
-    # end
 end
