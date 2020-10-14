@@ -15,5 +15,8 @@ Rails.application.routes.draw do
         namespace :jahis do
             resources :qr_fhir_prescription_generators, only: %i[create]
         end
+        namespace :nsips do
+            resources :sips_fhir_dispensing_generators, only: %i[create]
+        end
     end
 end
