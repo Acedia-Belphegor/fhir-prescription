@@ -25,7 +25,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
-            extension.valueCode = 'I' # 漢字
+            extension.valueCode = :IDE # 漢字
             human_name.extension << extension
             practitioner.name << human_name
         end
@@ -43,7 +43,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
-            extension.valueCode = 'P' # カナ
+            extension.valueCode = :SYL # カナ
             human_name.extension << extension
             practitioner.name << human_name
         end
