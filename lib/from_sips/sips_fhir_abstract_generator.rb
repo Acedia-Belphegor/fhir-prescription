@@ -1,17 +1,21 @@
 require 'json'
-require 'nokogiri'
+require "base64"
 require 'fhir_client'
+require_relative 'sips_parser'
 
-Dir[File.expand_path(File.dirname(__FILE__)) << '/cda_generate_*.rb'].each do |file|
+Dir[File.expand_path(File.dirname(__FILE__)) << '/sips_generate_*.rb'].each do |file|
     require file
 end
 
-class CdaFhirAbstractGenerator    
+class SipsFhirAbstractGenerator
     def initialize(params)
         @params = params
-        document = Nokogiri::XML.parse(Base64.decode64(params[:document]).force_encoding("utf-8"))
-        document.remove_namespaces!
-        @document = document
+        str = if Encoding.find(params[:encoding]) == Encoding::Shift_JIS
+            Base64.decode64(params[:nsips]).force_encoding("cp932").encode("utf-8")
+        else
+            Base64.decode64(params[:nsips]).force_encoding("utf-8")
+        end
+        @nsips = SipsParser.new(str).parse
         @error = validation
         @client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
         @client.use_r4
@@ -35,8 +39,9 @@ class CdaFhirAbstractGenerator
 
     def get_params()
         { 
-            document: @document, 
-            bundle: @bundle,
+            nsips: @nsips, 
+            bundle: @bundle, 
+            params: @params 
         }
     end
 

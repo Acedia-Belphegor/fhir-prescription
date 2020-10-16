@@ -2,6 +2,7 @@ require "base64"
 require './lib/from_cda/cda_fhir_prescription_generator'
 require './lib/from_v2/v2_fhir_prescription_generator'
 require './lib/from_qr/qr_fhir_prescription_generator'
+require './lib/from_sips/sips_fhir_dispensing_generator'
 
 class FhirTestersController < ApplicationController
     def index
@@ -16,6 +17,8 @@ class FhirTestersController < ApplicationController
                         from_v2
                     when 'jahisqr_to_fhir'
                         from_qr
+                    when 'nsips_to_fhir'
+                        from_sips
                     end
 
         if generator.has_error?
@@ -31,7 +34,7 @@ class FhirTestersController < ApplicationController
         end
     end
 
-    def from_cda
+    def from_cda()
         cda_params = {
             encoding: "UTF-8", 
             document: Base64.encode64(params[:data])
@@ -39,7 +42,7 @@ class FhirTestersController < ApplicationController
         CdaFhirPrescriptionGenerator.new(cda_params)
     end
 
-    def from_v2
+    def from_v2()
         v2_params = {
             encoding: "UTF-8",
             prefecture_code: "13",
@@ -50,11 +53,19 @@ class FhirTestersController < ApplicationController
         V2FhirPrescriptionGenerator.new(v2_params)
     end
 
-    def from_qr
+    def from_qr()
         qr_params = {
             encoding: "UTF-8", 
             qr_code: Base64.encode64(params[:data])
         }
         QrFhirPrescriptionGenerator.new(qr_params)
+    end
+
+    def from_sips()
+        sips_params = {
+            encoding: "UTF-8", 
+            nsips: Base64.encode64(params[:data])
+        }
+        SipsFhirDispensingGenerator.new(sips_params)
     end
 end

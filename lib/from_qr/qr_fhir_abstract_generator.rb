@@ -21,6 +21,7 @@ class QrFhirAbstractGenerator
         @client.use_r4
         FHIR::Model.client = @client            
         @bundle = FHIR::Bundle.new
+        @bundle.id = SecureRandom.uuid
         @bundle.type = :document
     end
 
