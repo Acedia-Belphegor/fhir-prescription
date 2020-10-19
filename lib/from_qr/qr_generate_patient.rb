@@ -11,7 +11,7 @@ class QrGeneratePatient < QrGenerateAbstract
         return unless patient_record.present?
 
         # 患者コード
-        patient.identifier = generate_identifier(patient_record[:record_number], "urn:oid:1.2.392.100495.20.3.51.1")
+        patient.identifier = create_identifier(patient_record[:record_number], "urn:oid:1.2.392.100495.20.3.51.1")
 
         # 患者漢字氏名
         if patient_record[:patient_kanji_name].present?

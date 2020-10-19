@@ -23,9 +23,9 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             next unless dosage_record.present?
 
             # RP番号
-            medication_dispense.identifier << generate_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
+            medication_dispense.identifier << create_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
             # 薬品番号
-            medication_dispense.identifier << generate_identifier(medication_record[:medication_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
+            medication_dispense.identifier << create_identifier(medication_record[:medication_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
 
             codeable_concept = FHIR::CodeableConcept.new
             # YJコード

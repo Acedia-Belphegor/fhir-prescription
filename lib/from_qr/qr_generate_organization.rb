@@ -10,9 +10,9 @@ class QrGenerateOrganization < QrGenerateAbstract
         organization.id = SecureRandom.uuid
         results = []
 
-        organization.identifier << generate_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
-        organization.identifier << generate_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
-        organization.identifier << generate_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
+        organization.identifier << create_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
+        organization.identifier << create_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
+        organization.identifier << create_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
         organization.name = institution_record[:medical_institution_name]
         organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 

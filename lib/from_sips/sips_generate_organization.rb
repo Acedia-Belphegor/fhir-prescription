@@ -21,9 +21,9 @@ class SipsGenerateOrganization < SipsGenerateAbstract
                    when '6' then '6' # 訪問看護
                    end
 
-        organization.identifier << generate_identifier(prescription_record[:medical_institution_prefecture_code], 'urn:oid:1.2.392.100495.20.3.21')
-        organization.identifier << generate_identifier(tensuhyo, 'urn:oid:1.2.392.100495.20.3.22')
-        organization.identifier << generate_identifier(prescription_record[:medical_institution_receipt_code], 'urn:oid:1.2.392.100495.20.3.23')
+        organization.identifier << create_identifier(prescription_record[:medical_institution_prefecture_code], 'urn:oid:1.2.392.100495.20.3.21')
+        organization.identifier << create_identifier(tensuhyo, 'urn:oid:1.2.392.100495.20.3.22')
+        organization.identifier << create_identifier(prescription_record[:medical_institution_receipt_code], 'urn:oid:1.2.392.100495.20.3.23')
         organization.name = prescription_record[:medical_institution_name]
         organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 
@@ -72,9 +72,9 @@ class SipsGenerateOrganization < SipsGenerateAbstract
         organization = FHIR::Organization.new
         organization.id = SecureRandom.uuid
 
-        organization.identifier << generate_identifier(header_record[:prefecture_code], 'urn:oid:1.2.392.100495.20.3.21')
-        organization.identifier << generate_identifier(header_record[:tensuhyo], 'urn:oid:1.2.392.100495.20.3.22')
-        organization.identifier << generate_identifier(header_record[:pharmacy_code], 'urn:oid:1.2.392.100495.20.3.23')
+        organization.identifier << create_identifier(header_record[:prefecture_code], 'urn:oid:1.2.392.100495.20.3.21')
+        organization.identifier << create_identifier(header_record[:tensuhyo], 'urn:oid:1.2.392.100495.20.3.22')
+        organization.identifier << create_identifier(header_record[:pharmacy_code], 'urn:oid:1.2.392.100495.20.3.23')
         organization.name = header_record[:pharmacy_name]
         organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 

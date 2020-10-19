@@ -10,7 +10,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
         return [] unless doctor_record.present?
 
         # 医師コード
-        practitioner.identifier << generate_identifier(doctor_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41.1')
+        practitioner.identifier << create_identifier(doctor_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41.1')
 
         # 医師漢字氏名
         if doctor_record[:doctor_kanji_name].present?
@@ -52,7 +52,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
         narcotic_record = get_records(61)&.first
         if narcotic_record.present?
             qualification = FHIR::Practitioner::Qualification.new
-            qualification.identifier = generate_identifier(narcotic_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
+            qualification.identifier = create_identifier(narcotic_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
             practitioner.qualification << qualification
         end
 

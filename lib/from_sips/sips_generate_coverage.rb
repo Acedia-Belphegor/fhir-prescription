@@ -30,7 +30,7 @@ class SipsGenerateCoverage < SipsGenerateAbstract
             # 保険者番号
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
-            organization.identifier << generate_identifier(patient_record[:insurer_number], 'urn:oid:1.2.392.100495.20.3.61')
+            organization.identifier << create_identifier(patient_record[:insurer_number], 'urn:oid:1.2.392.100495.20.3.61')
             organization.type << create_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
             entry = FHIR::Bundle::Entry.new
             entry.resource = organization

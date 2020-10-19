@@ -30,14 +30,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             # 処方箋番号レコード
             prescription_number_record = get_records(82)&.first
             if prescription_number_record.present?
-                medication_request.identifier << generate_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
+                medication_request.identifier << create_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
             end
 
             # RP番号
-            medication_request.identifier << generate_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
+            medication_request.identifier << create_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
 
             # RP内連番
-            medication_request.identifier << generate_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
+            medication_request.identifier << create_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
 
             # 薬品
             codeable_concept = FHIR::CodeableConcept.new

@@ -10,7 +10,7 @@ class SipsGeneratePatient < SipsGenerateAbstract
         patient.id = SecureRandom.uuid
 
         # 患者コード
-        patient.identifier = generate_identifier(patient_record[:patient_code], "urn:oid:1.2.392.100495.20.3.51.1")
+        patient.identifier = create_identifier(patient_record[:patient_code], "urn:oid:1.2.392.100495.20.3.51.1")
 
         # 患者カナ氏名
         if patient_record[:kana_name].present?

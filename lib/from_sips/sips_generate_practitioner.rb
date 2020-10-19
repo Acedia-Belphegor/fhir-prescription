@@ -17,7 +17,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner.id = SecureRandom.uuid
 
         # 医師コード
-        practitioner.identifier << generate_identifier(prescription_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41')
+        practitioner.identifier << create_identifier(prescription_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41')
 
         # 医師漢字氏名
         if prescription_record[:doctor_kanji_name].present?
@@ -50,7 +50,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
-            extension.valueCode = SYL # カナ
+            extension.valueCode = :SYL # カナ
             human_name.extension << extension
             practitioner.name << human_name
         end
@@ -58,7 +58,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         # 麻薬施用者免許番号
         if prescription_record[:narcotic_use_licence_number].present?
             qualification = FHIR::Practitioner::Qualification.new
-            qualification.identifier = generate_identifier(prescription_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
+            qualification.identifier = create_identifier(prescription_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
             practitioner.qualification << qualification
         end
 
@@ -95,7 +95,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner.id = SecureRandom.uuid
 
         # 薬剤師コード
-        practitioner.identifier << generate_identifier(prescription_record[:pharmacist_code], 'urn:oid:1.2.392.100495.20.3.43')
+        practitioner.identifier << create_identifier(prescription_record[:pharmacist_code], 'urn:oid:1.2.392.100495.20.3.43')
 
         # 薬剤師名
         if prescription_record[:pharmacist_name].present?
