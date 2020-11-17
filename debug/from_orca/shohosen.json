@@ -1,0 +1,610 @@
+{
+  "Information_Date": "2020-10-20",
+  "Information_Time": "21:02:27",
+  "Api_Result": "0000",
+  "Api_Result_Message": "処理終了",
+  "Form_ID": "shohosen",
+  "Form_Name": "処方箋",
+  "Print_Date": "2020-10-20",
+  "Print_Time": "21:02:24",
+  "Patient": {
+    "ID": "00145",
+    "Name": "オルカ　三郎",
+    "KanaName": "オルカ　サブロウ",
+    "BirthDate": "1945-01-01",
+    "Sex": "1"
+  },
+  "Forms": [
+    {
+      "data": {
+        "Form_ID": "shohosen",
+        "Printer": "lp1",
+        "Order_Class": "0",
+        "Perform_Date": "2020-10-20",
+        "IssuedDate": "2020-10-20",
+        "Department_Code": "01",
+        "Department_Name": "内科",
+        "EditPageNumber_Flg": "0",
+        "Split_Count": "0",
+        "Split_Number": "0",
+        "Patient": {
+          "ID": "00145",
+          "Name": "オルカ　三郎",
+          "KanaName": "オルカ　サブロウ",
+          "BirthDate": "1945-01-01",
+          "Sex": "1"
+        },
+        "Insurance_Combination_Information": {
+          "Number": "0004",
+          "InsuranceProvider_Class": "039",
+          "InsuranceProvider_Name": "後期高齢者",
+          "HealthInsuredPerson_Age": "075",
+          "HealthInsuredPerson_Rate": "020",
+          "HealthInsuredPerson_Rate_Class": "1",
+          "Partial_Cost_Payment_Class": "2",
+          "HealthInsurance_Information": {
+            "InsuranceProvider_Number": "39097001",
+            "HealthInsuredPerson_Number": "１２３",
+            "HealthInsuredPerson_Assistance": "3",
+            "RelationToInsuredPerson": "1",
+            "Certificate_StartDate": "2020-10-20",
+            "Certificate_ExpiredDate": "9999-12-31"
+          },
+          "PublicInsurance_Information": [
+            {
+              "PublicInsurance_Class": "054",
+              "PublicInsurance_Name": "難病",
+              "PublicInsurer_Number": "54220694",
+              "PublicInsuredPerson_Number": "5980610",
+              "Certificate_IssuedDate": "2020-10-20",
+              "Certificate_ExpiredDate": "9999-12-31"
+            },
+            {
+            },
+            {
+            },
+            {
+            }
+          ]
+        },
+        "Hospital": {
+          "Prefectures_Number": "13",
+          "Code": "1234567",
+          "Name": [
+            "医療法人　オルカ医院",
+            "",
+            ""
+          ],
+          "ZipCode": "1130021",
+          "Address": [
+            "東京都文京区本駒込２−２８−１６",
+            "",
+            ""
+          ],
+          "PhoneNumber": "03-3946-0001",
+          "FaxNumber": "03-3946-0002"
+        },
+        "Doctor": {
+          "Code": "10001"
+        },
+        "Check_Leftover_Class": "1",
+        "IncludingNarcotic_Flg": "1",
+        "IncludingUnchangeable_Flg": "0",
+        "Rp": [
+          {
+            "Medical_Class": "21",
+            "Count": "014",
+            "Unit_Name": "日分",
+            "Medication": [
+              {
+                "Name": "ロキソニン錠６０ｍｇ",
+                "Amount": "00003.00000",
+                "Unit_Name": "錠",
+                "Code": "620098801",
+                "Generic_Flg": "0",
+                "Generic_Code": "1149019F1560"
+              },
+              {
+                "Name": "ＰＬ配合顆粒",
+                "Amount": "00003.00000",
+                "Unit_Name": "ｇ",
+                "Code": "620160501",
+                "Generic_Flg": "0",
+                "Generic_Code": "1180107D1131"
+              },
+              {
+                "Name": "【１日３回朝昼夕食後】",
+                "Code": "001100044",
+                "Generic_Flg": "0"
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              }
+            ]
+          },
+          {
+            "Medical_Class": "21",
+            "Count": "005",
+            "Unit_Name": "日分",
+            "Medication": [
+              {
+                "Name": "【般】クラリスロマイシン錠２００ｍｇ",
+                "Amount": "00002.00000",
+                "Unit_Name": "錠",
+                "Code": "616140105",
+                "Generic_Flg": "1",
+                "Generic_Code": "6149003F2038"
+              },
+              {
+                "Name": "フリーコメント",
+                "Code": "810000001",
+                "Generic_Flg": "0"
+              },
+              {
+                "Name": "【朝：１．５　夕：０．５】",
+                "Code": "001101006",
+                "Generic_Flg": "0"
+              },
+              {
+                "Name": "【１日２回朝夕食後】",
+                "Code": "001100029",
+                "Generic_Flg": "0"
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              }
+            ]
+          },
+          {
+            "Medical_Class": "22",
+            "Count": "010",
+            "Unit_Name": "回分",
+            "Medication": [
+              {
+                "Name": "ＭＳコンチン錠６０ｍｇ",
+                "Amount": "00001.00000",
+                "Unit_Name": "錠",
+                "Code": "610406378",
+                "Generic_Flg": "0",
+                "Generic_Code": "8114004G3020"
+              },
+              {
+                "Name": "【疼痛時】",
+                "Code": "001100071",
+                "Generic_Flg": "0"
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              },
+              {
+              }
+            ]
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          },
+          {
+          }
+        ],
+        "Memo2": [
+          "（高７）",
+          "",
+          "",
+          ""
+        ],
+        "Memo": [
+          "患者住所：東京都港区六本木３−２−１　住友不動産六本木グランドタワー　２２階",
+          "麻薬施用者免許証番号：123456",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      }
+    }
+  ]
+}

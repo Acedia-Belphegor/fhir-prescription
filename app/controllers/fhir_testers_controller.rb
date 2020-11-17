@@ -2,6 +2,7 @@ require "base64"
 require './lib/from_cda/cda_fhir_prescription_generator'
 require './lib/from_v2/v2_fhir_prescription_generator'
 require './lib/from_qr/qr_fhir_prescription_generator'
+require './lib/from_orca/orca_fhir_prescription_generator'
 require './lib/from_sips/sips_fhir_dispensing_generator'
 
 class FhirTestersController < ApplicationController
@@ -17,6 +18,8 @@ class FhirTestersController < ApplicationController
                         from_v2
                     when 'jahisqr_to_fhir'
                         from_qr
+                    when 'orca_to_fhir'
+                        from_orca
                     when 'nsips_to_fhir'
                         from_sips
                     end
@@ -59,6 +62,10 @@ class FhirTestersController < ApplicationController
             qr_code: Base64.encode64(params[:data])
         }
         QrFhirPrescriptionGenerator.new(qr_params)
+    end
+
+    def from_orca()
+        OrcaFhirPrescriptionGenerator.new(params[:data])
     end
 
     def from_sips()
