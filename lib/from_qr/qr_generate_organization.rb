@@ -10,9 +10,28 @@ class QrGenerateOrganization < QrGenerateAbstract
         organization.id = SecureRandom.uuid
         results = []
 
-        organization.identifier << create_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
-        organization.identifier << create_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
-        organization.identifier << create_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
+        organization.identifier << create_identifier(
+            "#{institution_record[:medical_institution_prefecture_code]}#{institution_record[:medical_institution_code_kind]}#{institution_record[:medical_institution_code]}", 
+            create_url(:name_space, 'InsuranceMedicalInstitutionNo')
+        )
+        # 都道府県番号
+        extension = FHIR::Extension.new
+        extension.valueIdentifier = create_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
+        extension.url = create_url(:structure_definition, 'PrefectureNo')
+        organization.extension << extension
+
+        # 点数表コード
+        extension = FHIR::Extension.new
+        extension.valueIdentifier = create_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
+        extension.url = create_url(:structure_definition, 'OrganizationCategory')
+        organization.extension << extension
+
+        # 保険医療機関番号
+        extension = FHIR::Extension.new
+        extension.valueIdentifier = create_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
+        extension.url = create_url(:structure_definition, 'OrganizationNo')
+        organization.extension << extension
+
         organization.name = institution_record[:medical_institution_name]
         organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 
@@ -51,10 +70,7 @@ class QrGenerateOrganization < QrGenerateAbstract
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
     
-            organization.identifier << create_identifier(
-                department_record[:department_code], 
-                department_record[:department_code_kind] == '2' ? "urn:oid:1.2.392.100495.20.2.51" : "LC"
-            )
+            organization.identifier << create_identifier(department_record[:department_code], create_url(:name_space, 'DepartmentCode'))
             organization.name = department_record[:department_name]
             organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://hl7.org/fhir/ValueSet/organization-type')
 

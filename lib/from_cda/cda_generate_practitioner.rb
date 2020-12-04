@@ -17,6 +17,10 @@ class CdaGeneratePractitioner < CdaGenerateAbstract
             if identifier.system.match(/^urn:oid:1.2.392.100495.20.3.(?=31)|(?=32)|(?=33).*$/).present?
                 qualification = FHIR::Practitioner::Qualification.new
                 qualification.identifier = identifier
+                qualification.code = case identifier.value
+                    when 'urn:oid:1.2.392.100495.20.3.32'
+                        create_codeable_concept('NarcoticsPractitioner', nil, create_url(:code_system, 'Certificate'))
+                    end
                 practitioner.qualification << qualification
             else
                 practitioner.identifier << identifier

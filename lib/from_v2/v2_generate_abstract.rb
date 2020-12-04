@@ -106,10 +106,11 @@ class V2GenerateAbstract
     end
 
     # HL7v2:CQ -> FHIR:Quantity 変換
-    def generate_quantity(cq)
+    def generate_quantity(cq, system = nil)
         return unless cq.present?
         quantity = FHIR::Quantity.new
         quantity.value = cq[:quantity].to_f
+        quantity.system = system
         if cq[:units].present?
             quantity.unit = cq[:units][:text]
             quantity.code = cq[:units][:code]
@@ -122,18 +123,10 @@ class V2GenerateAbstract
         return unless code.present?
         codeable_concept = FHIR::CodeableConcept.new        
         if code[:identifier].present?
-            coding = FHIR::Coding.new
-            coding.code = code[:identifier]
-            coding.display = code[:text]
-            coding.system = code[:name_of_coding_system]
-            codeable_concept.coding << coding
+            codeable_concept.coding << create_coding(code[:identifier], code[:text], code[:name_of_coding_system])
         end
         if code[:alternate_identifier].present?
-            coding = FHIR::Coding.new
-            coding.code = code[:alternate_identifier]
-            coding.display = code[:alternate_text]
-            coding.system = code[:name_of_alternate_coding_system]
-            codeable_concept.coding << coding
+            codeable_concept.coding << create_coding(code[:alternate_identifier], code[:alternate_text], code[:name_of_alternate_coding_system])
         end
         codeable_concept
     end
@@ -145,27 +138,48 @@ class V2GenerateAbstract
         identifier
     end
 
-    def create_codeable_concept(code, display, system = 'LC')
-        codeable_concept = FHIR::CodeableConcept.new
+    def create_coding(code, display, system = 'LC')
         coding = FHIR::Coding.new
         coding.code = code
         coding.display = display
         coding.system = system
-        codeable_concept.coding << coding
+        coding
+    end
+
+    def create_codeable_concept(code, display, system = 'LC')
+        codeable_concept = FHIR::CodeableConcept.new
+        codeable_concept.coding << create_coding(code, display, system)
         codeable_concept
     end
 
-    def create_reference(resource)
+    def create_reference(resource, type = :uuid)
         reference = FHIR::Reference.new
-        reference.reference = "#{resource.resourceType}/#{resource.id}"
+        reference.reference = if type == :literal
+            "#{resource.resourceType}/#{resource.id}"
+        else
+            "urn:uuid:#{resource.id}"
+        end
         reference
     end
 
-    def create_quantity(value, unit = nil, code = nil)
+    def create_quantity(value, unit = nil, system = nil)
         quantity = FHIR::Quantity.new
         quantity.value = value
         quantity.unit = unit
-        quantity.code = code
+        quantity.system = system
         quantity
+    end
+
+    def create_url(type, str)
+        case type
+        when :code_system
+            "http://hl7.jp/fhir/ePrescription/CodeSystem/#{str}"
+        when :structure_definition
+            "http://hl7.jp/fhir/ePrescription/StructureDefinition/#{str}"
+        when :value_set
+            "http://hl7.jp/fhir/ePrescription/ValueSet/#{str}"
+        else
+            "http://hl7.jp/fhir/ePrescription/#{str}"
+        end
     end
 end

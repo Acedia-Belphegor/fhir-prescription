@@ -9,7 +9,7 @@ class QrGenerateCoverage < QrGenerateAbstract
         if insurer_record.present?
             coverage = FHIR::Coverage.new
             coverage.id = SecureRandom.uuid
-            coverage.status = :draft
+            coverage.status = :active
 
             # 保険種別レコード
             insurance_kind_record = get_records(21)&.first
@@ -45,7 +45,7 @@ class QrGenerateCoverage < QrGenerateAbstract
             sym_num_record = get_records(23)&.first
             if sym_num_record.present?
                 # 被保険者証記号/番号
-                coverage.subscriberId = "#{sym_num_record[:insured_symbol]} #{sym_num_record[:insured_number]}"
+                coverage.subscriberId = "#{sym_num_record[:insured_symbol]}・#{sym_num_record[:insured_number]}"
                 # 被保険者／被扶養者
                 coverage.relationship = create_codeable_concept(sym_num_record[:relationship], (sym_num_record[:relationship] == '1' ? '被保険者' : '被扶養者'), 'urn:oid:1.2.392.100495.20.2.62')
             end
@@ -74,6 +74,9 @@ class QrGenerateCoverage < QrGenerateAbstract
                 coverage.costToBeneficiary << cost
             end
 
+            # Patientリソースの参照
+            coverage.beneficiary = create_reference(get_resources_from_type('Patient').first.resource)
+
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage
             results << entry
@@ -88,7 +91,7 @@ class QrGenerateCoverage < QrGenerateAbstract
 
             # 公費負担者番号
             extension = FHIR::Extension.new
-            extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+            extension.url = create_url(:code_system, 'CoverageClass')
             extension.valueString = public_insurance_record[:identification_number]
             coverage.extension << extension
 
@@ -96,6 +99,9 @@ class QrGenerateCoverage < QrGenerateAbstract
             coverage.subscriberId = public_insurance_record[:recipient_number]
 
             coverage.order = idx + 1
+
+            # Patientリソースの参照
+            coverage.beneficiary = create_reference(get_resources_from_type('Patient').first.resource)
 
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage

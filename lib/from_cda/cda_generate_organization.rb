@@ -10,7 +10,16 @@ class CdaGenerateOrganization < CdaGenerateAbstract
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
 
-            organization.identifier = represented_rganization.xpath('id').map{ |id| generate_identifier(id) }
+            organization.identifier = create_identifier(
+                represented_rganization.xpath('id').map{ |id| id.xpath('@extension').text }.join, 
+                create_url(:name_space, 'InsuranceMedicalInstitutionNo')
+            )
+            organization.extension = represented_rganization.xpath('id').map{|id| 
+                extension = FHIR::Extension.new
+                extension.valueIdentifier = generate_identifier(id)
+                extension.url = convert_oid_to_url(extension.valueIdentifier.system)
+                extension
+            }
             organization.name = represented_rganization.xpath('name').text
             organization.address = represented_rganization.xpath('addr').map{ |addr| generate_address(addr) }
             organization.telecom = represented_rganization.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
@@ -27,7 +36,7 @@ class CdaGenerateOrganization < CdaGenerateAbstract
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
 
-            organization.identifier = create_identifier(code.xpath('@code').text, "urn:oid:#{code.xpath('@codeSystem').text}")
+            organization.identifier = create_identifier(code.xpath('@code').text, create_url(:name_space, 'DepartmentCode'))
             organization.name = code.xpath('@displayName').text
             organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://hl7.org/fhir/ValueSet/organization-type')
 

@@ -17,56 +17,22 @@ class CdaGenerateCoverage < CdaGenerateAbstract
         component.xpath('section/entry/act/entryRelationship').each do |entry_relationship|
             coverage = FHIR::Coverage.new
             coverage.id = SecureRandom.uuid
-            coverage.status = :draft
+            coverage.status = :active
 
             act = entry_relationship.xpath('act')
 
             # 保険種別
             coverage.type = generate_codeable_concept(act.xpath('code'))
 
-            # if act.xpath('code/@code').text == '8'
-            #     # 公費負担者番号
-            #     id = act.xpath('performer/assignedEntity/id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.71' }
-            #     if id.present?
-            #         coverage.identifier << generate_identifier(id)
-            #     end
-            #     # 公費受給者番号
-            #     id = act.xpath('participant/participantRole/id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.72' }
-            #     if id.present?
-            #         coverage.identifier << generate_identifier(id)
-            #     end
-            # else
-            #     # 保険者番号
-            #     id = act.xpath('performer/assignedEntity/id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.61' }
-            #     if id.present?
-            #         coverage.identifier << generate_identifier(id)
-            #     end
-            #     # 被保険者証記号/番号
-            #     coverage.identifier = act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.map{ |id| generate_identifier(id) }
-            #     # 患者区分
-            #     coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
-
-            #     cost = FHIR::Coverage::CostToBeneficiary.new
-            #     cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-            #     cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
-
-            #     # 患者一部負担区分
-            #     if act.xpath("entryRelationship").present?
-            #         exception = FHIR::Coverage::CostToBeneficiary::Exception.new
-            #         exception.type = generate_codeable_concept(act.xpath('entryRelationship/observation/code'))
-            #         cost.exception << exception
-            #     end
-            #     coverage.costToBeneficiary << cost
-            # end
-
             if act.xpath('code/@code').text == '8'
                 # 公費負担者番号
                 id = act.xpath('performer/assignedEntity/id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.71' }
                 if id.present?
-                    extension = FHIR::Extension.new
-                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
-                    extension.valueString = id.xpath('@extension').text
-                    coverage.extension << extension
+                    coverage_class = FHIR::Coverage::Class.new
+                    coverage_class.type = create_codeable_concept('1', '公費負担者番号', create_url(:code_system, 'CoverageClass'))
+                    coverage_class.value = id.xpath('@extension').text
+                    coverage_class.name = "公費負担者番号"
+                    coverage.local_class << coverage_class
                 end
 
                 # 公費受給者番号
@@ -94,7 +60,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 end
 
                 # 被保険者証記号/番号
-                coverage.subscriberId = act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.map{ |id| id.xpath('@extension').text }.join(" ")
+                coverage.subscriberId = act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.map{ |id| id.xpath('@extension').text }.join("・")
                 # 枝番
                 coverage.dependent = ""
                 # 患者区分
@@ -112,6 +78,9 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 end
                 coverage.costToBeneficiary << cost
             end
+
+            # Patientリソースの参照
+            coverage.beneficiary = create_reference(get_resources_from_type('Patient').first.resource)
 
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage

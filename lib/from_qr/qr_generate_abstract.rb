@@ -58,17 +58,35 @@ class QrGenerateAbstract
         codeable_concept
     end
 
-    def create_reference(resource)
+    def create_reference(resource, type = :uuid)
         reference = FHIR::Reference.new
-        reference.reference = "#{resource.resourceType}/#{resource.id}"
+        reference.reference = if type == :literal
+            "#{resource.resourceType}/#{resource.id}"
+        else
+            "urn:uuid:#{resource.id}"
+        end
         reference
     end
 
-    def create_quantity(value, unit = nil)
+    def create_quantity(value, unit = nil, system = nil)
         quantity = FHIR::Quantity.new
         quantity.value = value
         quantity.unit = unit
+        quantity.system = system
         quantity
+    end
+
+    def create_url(type, str)
+        case type
+        when :code_system
+            "http://hl7.jp/fhir/ePrescription/CodeSystem/#{str}"
+        when :structure_definition
+            "http://hl7.jp/fhir/ePrescription/StructureDefinition/#{str}"
+        when :value_set
+            "http://hl7.jp/fhir/ePrescription/ValueSet/#{str}"
+        else
+            "http://hl7.jp/fhir/ePrescription/#{str}"
+        end
     end
 
     def get_receipt_medication_master()

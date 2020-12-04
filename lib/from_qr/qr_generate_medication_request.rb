@@ -37,7 +37,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             medication_request.identifier << create_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
 
             # RP内連番
-            medication_request.identifier << create_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
+            medication_request.identifier << create_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.82')
 
             # 薬品
             codeable_concept = FHIR::CodeableConcept.new
@@ -64,7 +64,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             medication_request.medicationCodeableConcept = codeable_concept
 
             # 剤形
-            medication_request.category << create_codeable_concept(
+            dosage.local_method = create_codeable_concept(
                 form_record[:dosage_form_class], 
                 case form_record[:dosage_form_class]
                 when '1' then '内服'
@@ -89,8 +89,8 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
 
             # 用量(1日量)
             ratio = FHIR::Ratio.new
-            ratio.numerator = create_quantity(medication_record[:dose_quantity].to_f, medication_record[:unit_name])
-            ratio.denominator = create_quantity(1, "d")
+            ratio.numerator = create_quantity(medication_record[:dose_quantity].to_f, medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
+            ratio.denominator = create_quantity(1, "d", 'http://unitsofmeasure.org')
             dose.rateRatio = ratio
             dosage.doseAndRate << dose
 
@@ -104,7 +104,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             else
                 # 回数
                 extension = FHIR::Extension.new
-                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                extension.url = create_url(:structure_definition, 'expectedRepeatCount')
                 extension.valueInteger = form_record[:dispensing_quantity].to_i
                 dispense_request.extension << extension
                 # 頓用
@@ -211,7 +211,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 for idx in 1..5 do
                     next unless imbalance_record["dose_quantity#{idx}".to_sym].present?
                     extension = FHIR::Extension.new
-                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                    extension.url = create_url(:structure_definition, 'SubInstruction')
                     imbalance_dosage = FHIR::Dosage.new
                     imbalance_dosage.sequence = idx
                     if imbalance_record["dose_quantity_code#{idx}".to_sym].present?

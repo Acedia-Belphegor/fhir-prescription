@@ -53,6 +53,7 @@ class QrGeneratePractitioner < QrGenerateAbstract
         if narcotic_record.present?
             qualification = FHIR::Practitioner::Qualification.new
             qualification.identifier = create_identifier(narcotic_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
+            qualification.code = create_codeable_concept('NarcoticsPractitioner', nil, create_url(:code_system, 'Certificate'))
             practitioner.qualification << qualification
         end
 

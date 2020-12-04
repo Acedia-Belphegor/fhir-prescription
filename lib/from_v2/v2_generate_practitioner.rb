@@ -16,7 +16,8 @@ class V2GeneratePractitioner < V2GenerateAbstract
         if dea_numbers.present?
             practitioner.qualification = dea_numbers.map{|dea_number|
                 qualification = FHIR::Practitioner::Qualification.new
-                qualification.identifier = generate_identifier(dea_number, 'urn:oid:1.2.392.100495.20.3.32')
+                qualification.identifier = generate_identifier(dea_number.first[:id_number], 'urn:oid:1.2.392.100495.20.3.32')
+                qualification.code = create_codeable_concept('NarcoticsPractitioner', nil, create_url(:code_system, 'Certificate'))
                 qualification
             }
         end

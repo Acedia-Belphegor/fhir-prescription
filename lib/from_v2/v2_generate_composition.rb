@@ -10,6 +10,7 @@ class V2GenerateComposition < V2GenerateAbstract
 
         composition.status = :final
         composition.type = create_codeable_concept('01', '処方箋', 'urn:oid:1.2.392.100495.20.2.11')
+        composition.category << create_codeable_concept('01', '一般処方箋', create_url(:code_system, 'PrescriptionCategory'))
         composition.date = DateTime.parse(msh_segment[:datetime_of_message].first[:time])
         composition.title = '処方箋'
         composition.confidentiality = 'N'

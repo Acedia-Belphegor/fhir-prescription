@@ -4,6 +4,7 @@ class V2FhirPrescriptionGenerator < V2FhirAbstractGenerator
     def perform()
         @bundle.entry.concat(V2GenerateComposition.new(get_params).perform) # Composition
         @bundle.entry.concat(V2GeneratePatient.new(get_params).perform) # Patient
+        @bundle.entry.concat(V2GenerateEncounter.new(get_params).perform) # Encounter
         @bundle.entry.concat(V2GenerateOrganization.new(get_params).perform) # Organization
         @bundle.entry.concat(V2GeneratePractitioner.new(get_params).perform) # Practitioner
         @bundle.entry.concat(V2GeneratePractitionerRole.new(get_params).perform) # PractitionerRole

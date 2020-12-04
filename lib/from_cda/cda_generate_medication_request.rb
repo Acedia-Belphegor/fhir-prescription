@@ -43,13 +43,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 rp = id.xpath('@extension').text.to_i
                 sequence[rp] ||= 0
                 sequence[rp] += 1
-                medication_request.identifier << create_identifier(sequence[rp].to_s, '1.2.392.100495.20.3.XX')
-            end
-
-            # 服用順序
-            id = sbadm.xpath('id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.82' }
-            if id.present?
-                dosage.sequence = id.xpath('@extension').to_i
+                medication_request.identifier << create_identifier(sequence[rp].to_s, '1.2.392.100495.20.3.82')
             end
 
             # 剤型
@@ -94,11 +88,12 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                     duration = FHIR::Duration.new
                     duration.value = effective_time.xpath('width/@value').text.to_i
                     duration.unit = 'd'
+                    duration.system = 'http://unitsofmeasure.org'
                     dispense_request.expectedSupplyDuration = duration
                 else
                     # 回数
                     extension = FHIR::Extension.new
-                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                    extension.url = create_url(:structure_definition, 'expectedRepeatCount')
                     extension.valueInteger = effective_time.xpath('width/@value').text.to_i
                     dispense_request.extension << extension
                 end
@@ -118,10 +113,15 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 dosage.site = generate_codeable_concept(sbadm.xpath('approachSiteCode').first)
             end
 
+            # 投与方法
+            if sbadm.xpath('code').present?
+                dosage.local_method = generate_codeable_concept(sbadm.xpath('code').first) 
+            end
+
             dose = FHIR::Dosage::DoseAndRate.new
             # 一回量
             if sbadm.xpath('doseQuantity').present?
-                dose.doseQuantity = generate_quantity(sbadm.xpath('doseQuantity'))
+                dose.doseQuantity = generate_quantity(sbadm.xpath('doseQuantity'), 'urn:oid:1.2.392.100495.20.2.101')
                 # 力価区分
                 dose.type = generate_codeable_concept(sbadm.xpath('doseCheckQuantity/numerator/translation'))
             end
@@ -129,8 +129,8 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
             # 一日量
             if sbadm.xpath('doseCheckQuantity').present?
                 ratio = FHIR::Ratio.new
-                ratio.numerator = generate_quantity(sbadm.xpath('doseCheckQuantity/numerator'))
-                ratio.denominator = generate_quantity(sbadm.xpath('doseCheckQuantity/denominator'))
+                ratio.numerator = generate_quantity(sbadm.xpath('doseCheckQuantity/numerator'), 'urn:oid:1.2.392.100495.20.2.101')
+                ratio.denominator = generate_quantity(sbadm.xpath('doseCheckQuantity/denominator'), 'http://unitsofmeasure.org')
                 dose.rateRatio = ratio
             end
             dosage.doseAndRate << dose
@@ -148,7 +148,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 # 調剤補足情報
                 if sbadm.xpath('entryRelationship/supply/text').present?
                     extension = FHIR::Extension.new
-                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-DispenseInstruction"
+                    extension.url = create_url(:structure_definition, 'InstructionForDispense')
                     codeable_concept = FHIR::CodeableConcept.new
                     codeable_concept.text = sbadm.xpath('entryRelationship/supply/text').text
                     extension.valueCodeableConcept = codeable_concept

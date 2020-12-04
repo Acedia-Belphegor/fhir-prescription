@@ -28,8 +28,6 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             medication_request.identifier << generate_identifier(orc_segment[:placer_order_number].first[:entity_identifier], 'urn:oid:1.2.392.100495.20.3.11')
             # ORC-4.依頼者グループ番号
             medication_request.identifier << generate_identifier(orc_segment[:placer_group_number].first[:entity_identifier], 'urn:oid:1.2.392.100495.20.3.81')
-            # ORC-29.オーダタイプ
-            medication_request.category << generate_codeable_concept(orc_segment[:order_type].first)
 
             # RXEセグメント
             rxe_segment = segments.find{|segment|segment[:segment_id] == 'RXE'}
@@ -55,7 +53,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 rxe_segment[:providers_administration_instructions].each do |element|
                     if element[:name_of_coding_system].in? %w[JHSP0001 JHSP0002] # JHSP0001:依頼者の処方指示 / JHSP0002:調剤特別指示
                         extension = FHIR::Extension.new
-                        extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-DispenseInstruction"
+                        extension.url = create_url(:structure_definition, 'InstructionForDispense')
                         extension.valueCodeableConcept = generate_codeable_concept(element)
                         dispense_request.extension << extension
                     else
@@ -76,8 +74,8 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             # RXE-19.1日あたりの総投与量
             if rxe_segment[:total_daily_dose].present?
                 ratio = FHIR::Ratio.new
-                ratio.numerator = generate_quantity(rxe_segment[:total_daily_dose].first)
-                ratio.denominator = create_quantity(1, "d")
+                ratio.numerator = generate_quantity(rxe_segment[:total_daily_dose].first, 'urn:oid:1.2.392.100495.20.2.101')
+                ratio.denominator = create_quantity(1, "d", 'http://unitsofmeasure.org')
                 dose.rateRatio = ratio
             end
 
@@ -89,7 +87,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             # RXE-27.与薬指示
             if rxe_segment[:give_indication].present?
                 codeable_concept = generate_codeable_concept(rxe_segment[:give_indication].first)
-                medication_request.category << codeable_concept
+                dosage.local_method = codeable_concept
     
                 if codeable_concept.coding.first.code == '22' # 頓用
                     dosage.asNeededBoolean = true
@@ -139,7 +137,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             # TQ1-14.事象総数(頓用指示の回数)
             if tq1_segment[:total_occurrences].present?
                 extension = FHIR::Extension.new
-                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                extension.url = create_url(:structure_definition, 'expectedRepeatCount')
                 extension.valueInteger = tq1_segment[:total_occurrences].to_i
                 dispense_request.extension << extension
             end
@@ -160,7 +158,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             if imbalances.count.positive?
                 imbalances.each_with_index{|imbalance, idx|
                     extension = FHIR::Extension.new
-                    extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                    extension.url = create_url(:structure_definition, 'SubInstruction')
                     imbalance_dosage = FHIR::Dosage.new
                     imbalance_dosage.sequence = idx + 1
                     imbalance_dosage.additionalInstruction = imbalance

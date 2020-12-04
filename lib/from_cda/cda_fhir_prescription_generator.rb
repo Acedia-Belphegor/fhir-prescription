@@ -4,6 +4,7 @@ class CdaFhirPrescriptionGenerator < CdaFhirAbstractGenerator
     def perform()
         @bundle.entry.concat(CdaGenerateComposition.new(get_params).perform) # Composition
         @bundle.entry.concat(CdaGeneratePatient.new(get_params).perform) # Patient
+        @bundle.entry.concat(CdaGenerateEncounter.new(get_params).perform) # Encounter
         @bundle.entry.concat(CdaGenerateOrganization.new(get_params).perform) # Organization
         @bundle.entry.concat(CdaGeneratePractitioner.new(get_params).perform) # Practitioner
         @bundle.entry.concat(CdaGeneratePractitionerRole.new(get_params).perform) # PractitionerRole
