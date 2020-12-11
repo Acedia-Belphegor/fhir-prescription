@@ -9,8 +9,8 @@ class Api::Hl7::V2FhirPrescriptionGeneratorsController < ApplicationController
         end
         generator.perform
         respond_to do |format|
-            format.json { render :json => generator.get_resources.to_json }
-            format.xml  { render :xml => generator.get_resources.to_xml }
+            format.json { render :json => generator.to_json }
+            format.xml  { render :xml => generator.to_xml }
         end
     end
 

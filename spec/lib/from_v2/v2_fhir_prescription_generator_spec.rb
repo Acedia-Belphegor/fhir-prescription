@@ -2,44 +2,118 @@ require './lib/from_v2/v2_fhir_prescription_generator'
 require "base64"
 
 RSpec.describe V2FhirPrescriptionGenerator do
-    let(:generator) { V2FhirPrescriptionGenerator.new params }
+    let(:generator) { V2FhirPrescriptionGenerator.new create_params }
 
-    def params()
+    def create_params()
+        filename = File.join(File.dirname(__FILE__), "example_utf8.txt")
         {
             encoding: "utf-8",
             prefecture_code: "13",
             medical_fee_point_code: "1",
             medical_institution_code: "9999999",
-            message: Base64.encode64(message),
-        }        
+            message: Base64.encode64(File.read(filename, encoding: "utf-8"))
+        }
     end
 
-    def message()
-        return <<~MSG
-            MSH|^~\&|HL7v2|1319999999|HL7FHIR|1319999999|20160821161523||RDE^O11^RDE_O11|201608211615230143|P|2.5||||||~ISOIR87||ISO 2022-1994
-            PID|||1000000001^^^^PI||患者^太郎^^^^^L^I~カンジャ^タロウ^^^^^L^P||19791101|M|||^^渋谷区^東京都^1510071^JPN^H^東京都渋谷区本町三丁目１２ー１||^PRN^PH^^^^^^^^^03-1234-5678|||||||||||N||||||N|||20161028143309
-            IN1|1|06^組合管掌健康保険^JHSD0001|06050116|||||||９２０４５|１０|19990514|||||SEL^本人^HL70063
-            ORC|NW|12345678||12345678_01|||||20160825|||123456^医師^春子^^^^^^^L^^^^^I~^イシ^ハルコ^^^^^^^L^^^^^P|||||01^内科^99Z01||||メドレークリニック|^^港区^東京都^^JPN^^東京都港区六本木３−２−１|||||||O^外来患者オーダ^HL70482
-            RXE||103835401^ムコダイン錠２５０ｍｇ^HOT|1||TAB^錠^MR9P|TAB^錠^MR9P|01^１回目から服用^JHSP0005|||9|TAB^錠^MR9P||||||||3^TAB&錠&MR9P||OHP^外来処方^MR9P~OHI^院内処方^MR9P||||||21^内服^JHSP0003
-            TQ1|||1013044400000000&内服・経口・１日３回朝昼夕食後&JAMISDP01|||3^D&日&ISO+|20160825
-            RXR|PO^口^HL70162
-            ORC|NW|12345678||12345678_01|||||20160825|||123456^医師^春子^^^^^^^L^^^^^I~^イシ^ハルコ^^^^^^^L^^^^^P|||||01^内科^99Z01||||メドレークリニック|^^港区^東京都^^JPN^^東京都港区六本木３−２−１|||||||O^外来患者オーダ^HL70482
-            RXE||110626901^パンスポリンＴ錠１００ １００ｍｇ^HOT|2||TAB^錠^MR9P|TAB^錠^MR9P|01^１回目から服用^JHSP0005|||18|TAB^錠^MR9P||||||||6^TAB&錠&MR9P||OHP^外来処方^MR9P~OHI^院内処方^MR9P||||||21^内服^JHSP0003
-            TQ1|||1013044400000000&内服・経口・１日３回朝昼夕食後&JAMISDP01|||3^D&日&ISO+|20160825
-            RXR|PO^口^HL70162
-            ORC|NW|12345678||12345678_02|||||20160825|||123456^医師^春子^^^^^^^L^^^^^I~^イシ^ハルコ^^^^^^^L^^^^^P|||||01^内科^99Z01||||メドレークリニック|^^港区^東京都^^JPN^^東京都港区六本木３−２−１|||||||O^外来患者オーダ^HL70482
-            RXE||100795402^ボルタレン錠２５ｍｇ^HOT|1||TAB^錠^MR9P|||||10|TAB^錠^MR9P||||||||||OHP^外来処方^MR9P~OHI^院内処方^MR9P||||||22^頓用^JHSP0003
-            TQ1|||1050110020000000&内服・経口・疼痛時&JAMISDP01||||20160825||||1 日2 回まで|||10
-            RXR|PO^口^HL70162
-            ORC|NW|12345678||12345678_03|||||20160825|||123456^医師^春子^^^^^^^L^^^^^I~^イシ^ハルコ^^^^^^^L^^^^^P|||||01^内科^99Z01||||メドレークリニック|^^港区^東京都^^JPN^^東京都港区六本木３−２−１|||||||O^外来患者オーダ^HL70482
-            RXE||106238001^ジフラール軟膏０．０５％^HOT|""||""|OIT^軟膏^MR9P||||2|HON^本^MR9P||||||||||OHP^外来処方^MR9P~OHO^院外処方^MR9P||||||23^外用^JHSP0003
-            TQ1|||2B74000000000000&外用・塗布・１日４回&JAMISDP01||||20160825
-            RXR|AP^外用^HL70162|77L^左手^JAMISDP01
-        MSG
-    end
+    describe "#perform" do
+        subject { generator.perform }
 
-    it '#perform' do
-        generator.perform
-        expect(generator.get_resources.entry.count).to eq 13
+        # Patient Resource
+        context "Patient" do
+            let(:result) { subject.get_resources_from_type("Patient").first }
+            
+            # 患者番号
+            it "identifier" do
+                expect(result.identifier.first.value).to eq "1000000001"
+            end
+
+            # 患者氏名
+            it "name" do
+                expect(result.name.count).to eq 2
+
+                result.name.each do |r|
+                    case r.extension.first.valueCode
+                    when :IDE
+                        expect(r.family).to eq "患者"
+                        expect(r.given.first).to eq "太郎"
+                    when :SYL
+                        expect(r.family).to eq "カンジャ"
+                        expect(r.given.first).to eq "タロウ"
+                    end
+                end
+            end
+
+            # 性別
+            it "gender" do
+                expect(result.gender).to eq :male
+            end
+
+            # 生年月日
+            it "birthDate" do
+                expect(result.birthDate).to eq Date.new(1979, 11, 1)
+            end
+        end
+
+        # Encounter Resource
+        context "Encounter" do
+            let(:result) { subject.get_resources_from_type("Encounter").first }
+
+            it "class" do
+                expect(result.local_class.code).to eq "AMB"
+            end
+        end
+
+        # Organization Resource
+        context "Organization" do
+            let(:result) { subject.get_resources_from_type("Organization") }
+
+            # 医療機関
+            it "prov" do
+                organization = result.find{|r|r.type.first.coding.first.code == 'prov'}
+                expect(organization.name).to eq "メドレークリニック"
+            end
+
+            # 診療科
+            it "dept" do
+                organization = result.find{|r|r.type.first.coding.first.code == 'dept'}
+                expect(organization.name).to eq "内科"
+            end
+        end
+
+        # Practitioner Resource
+        context "Practitioner" do
+            let(:result) { subject.get_resources_from_type("Practitioner").first }
+
+            # 医師氏名
+            it "name" do
+                expect(result.name.count).to eq 2
+
+                result.name.each do |r|
+                    case r.extension.first.valueCode
+                    when :IDE
+                        expect(r.family).to eq "医師"
+                        expect(r.given.first).to eq "春子"
+                    when :SYL
+                        expect(r.family).to eq "イシ"
+                        expect(r.given.first).to eq "ハルコ"
+                    end
+                end
+            end
+        end
+
+        # PractitionerRole Resource
+        context "PractitionerRole" do
+            let(:result) { subject.get_resources_from_type("PractitionerRole").first }
+
+            it "code" do
+                expect(result.code.first.coding.first.code).to eq "doctor"
+            end
+
+            # it "organization" do
+            #     id = result.organization.reference.delete("urn:uuid:")
+            #     organization = subject.get_resource_from_id(id)
+            #     expect(organization.name).to eq "メドレークリニック"
+            # end
+        end
     end
 end

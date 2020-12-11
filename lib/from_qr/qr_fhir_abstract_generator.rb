@@ -29,19 +29,27 @@ class QrFhirAbstractGenerator
         raise NotImplementedError.new("You must implement #{self.class}##{__method__}")
     end
 
-    def get_resources()
-        @bundle
+    def to_json()
+        @bundle.to_json
+    end
+
+    def to_xml()
+        @bundle.to_xml
+    end
+
+    def get_resource_from_id(id)
+        @bundle.entry.find{|e|e.resource.id == id}&.resource
     end
 
     def get_resources_from_type(resource_type)
-        @bundle.entry.select{ |c| c.resource.resourceType == resource_type }
+        @bundle.entry.select{|e|e.resource.resourceType == resource_type}.map{|e|e.resource}
     end
 
     def get_params()
         { 
-            qr_code: @qr_code, 
-            bundle: @bundle, 
-            params: @params 
+            qr_code: @qr_code, # QRパーサー（変換元）
+            bundle: @bundle, # FHIR Bundleリソース（変換先）
+            params: @params # permitted_params
         }
     end
 

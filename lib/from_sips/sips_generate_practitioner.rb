@@ -73,7 +73,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner_role.code << create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
         practitioner_role.practitioner = create_reference(practitioner)
 
-        organization = get_resources_from_type('Organization').find{|r|r.resource.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '1'}&.resource
+        organization = get_resources_from_type('Organization').find{|r|r.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '1'}
         practitioner_role.organization = create_reference(organization) if organization.present?
 
         # composition = get_composition.resource
@@ -126,10 +126,10 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner_role.code << create_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role') # 薬剤師
         practitioner_role.practitioner = create_reference(practitioner)
 
-        organization = get_resources_from_type('Organization').find{|r|r.resource.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '4'}&.resource
+        organization = get_resources_from_type('Organization').find{|r|r.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '4'}
         practitioner_role.organization = create_reference(organization) if organization.present?
         
-        # composition = get_composition.resource
+        # composition = get_composition
         # composition.author << create_reference(practitioner_role)
 
         entry = FHIR::Bundle::Entry.new

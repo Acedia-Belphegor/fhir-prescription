@@ -40,7 +40,7 @@ entry.resource = composition
 bundle.entry << entry
 
 # とりあえず同じ処方箋インスタンスを3つ生成する
-prescriptions = 3.times.map{ QrFhirPrescriptionGenerator.new(params).perform.get_resources }
+prescriptions = 3.times.map{ QrFhirPrescriptionGenerator.new(params).perform.get_params[:bundle] }
 bundle.entry.concat prescriptions
 
 section.entry = prescriptions.map{|prescription|

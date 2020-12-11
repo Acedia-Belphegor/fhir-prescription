@@ -29,12 +29,16 @@ class V2GenerateAbstract
         get_resources_from_type('Composition').first
     end
 
+    def get_resource_from_id(id)
+        @bundle.entry.find{|e|e.resource.id == id}&.resource
+    end
+
     def get_resources_from_type(resource_type)
-        @bundle.entry.select{ |c| c.resource.resourceType == resource_type }
+        @bundle.entry.select{|e|e.resource.resourceType == resource_type}.map{|e|e.resource}
     end
 
     def get_resources_from_identifier(resource_type, identifier)
-        get_resources_from_type(resource_type).select{ |c| c.resource.identifier.include?(identifier) }
+        get_resources_from_type(resource_type).select{|r|r.identifier.include?(identifier)}
     end
 
     def generate_identifier(value, system)
@@ -75,7 +79,7 @@ class V2GenerateAbstract
         address.state = addr[:state_or_province]
         address.city = addr[:city]
         address.line << addr[:street_address]
-        address.line << addr[:other_geographic_designation]
+        address.text = addr[:other_geographic_designation]
         address.postalCode = addr[:zip_or_postal_code]
         address
     end

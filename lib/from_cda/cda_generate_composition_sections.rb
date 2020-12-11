@@ -2,7 +2,7 @@ require_relative 'cda_generate_abstract'
 
 class CdaGenerateCompositionSections < CdaGenerateAbstract
     def perform()
-        composition = get_composition.resource
+        composition = get_composition
 
         # 処方箋備考情報セクション
         component = get_clinical_document.xpath('component/structuredBody/component').find{ |c| 

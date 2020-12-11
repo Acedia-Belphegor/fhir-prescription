@@ -173,9 +173,9 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             end
 
             # Patientリソースの参照
-            medication_request.subject = create_reference(get_resources_from_type('Patient').first.resource)
+            medication_request.subject = create_reference(get_resources_from_type('Patient').first)
             # PractitionerRoleリソースの参照
-            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first.resource)
+            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first)
 
             section.entry << create_reference(medication_request)
 
@@ -184,7 +184,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             results << entry
         end
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.section << section
         results
     end

@@ -7,7 +7,7 @@ class QrGenerateEncounter < QrGenerateAbstract
         encounter.status = :finished
         encounter.local_class = create_coding('AMB', '外来', 'http://terminology.hl7.org/CodeSystem/v3-ActCode')
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.encounter = create_reference(encounter)
 
         entry = FHIR::Bundle::Entry.new

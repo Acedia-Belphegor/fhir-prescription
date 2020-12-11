@@ -165,7 +165,7 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             end
 
             # Patientリソースの参照
-            medication_dispense.subject = create_reference(get_resources_from_type('Patient').first.resource)
+            medication_dispense.subject = create_reference(get_resources_from_type('Patient').first)
 
             section.entry << create_reference(medication_dispense)
 
@@ -174,7 +174,7 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             results << entry
         end
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.section << section
         results
     end

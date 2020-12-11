@@ -10,7 +10,7 @@ params = {
     message: Base64.encode64(File.read(filename, encoding: "iso_2022_jp")),
 }
 generator = V2FhirPrescriptionGenerator.new(params).perform
-result = generator.get_resources.to_json
+result = generator.to_json
 puts result
 __END__
 

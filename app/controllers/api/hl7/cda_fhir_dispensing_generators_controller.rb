@@ -5,8 +5,8 @@ class Api::Hl7::CdaFhirDispensingGeneratorsController < ApplicationController
     def create        
         generator = CdaFhirDispensingGenerator.new(permitted_params).perform
         respond_to do |format|
-            format.json { render :json => generator.get_resources.to_json }
-            format.xml  { render :xml => generator.get_resources.to_xml }
+            format.json { render :json => generator.to_json }
+            format.xml  { render :xml => generator.to_xml }
         end
     end
 

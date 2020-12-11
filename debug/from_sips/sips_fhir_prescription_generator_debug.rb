@@ -7,7 +7,7 @@ params = {
     nsips: Base64.encode64(File.read(filename, encoding: "shift_jis")),
 }
 generator = SipsFhirDispensingGenerator.new(params).perform
-result = generator.get_resources.to_json
+result = generator.to_json
 puts result
 __END__
 

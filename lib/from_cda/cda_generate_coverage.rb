@@ -80,14 +80,14 @@ class CdaGenerateCoverage < CdaGenerateAbstract
             end
 
             # Patientリソースの参照
-            coverage.beneficiary = create_reference(get_resources_from_type('Patient').first.resource)
+            coverage.beneficiary = create_reference(get_resources_from_type('Patient').first)
 
             entry = FHIR::Bundle::Entry.new
             entry.resource = coverage
             results << entry
         end
 
-        get_composition.resource.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+        get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
         results
     end
 end

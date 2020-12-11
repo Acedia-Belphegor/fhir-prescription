@@ -64,7 +64,7 @@ class CdaGenerateCommunication < CdaGenerateAbstract
             results << entry
         end
 
-        get_composition.resource.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+        get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
         results
     end
 end

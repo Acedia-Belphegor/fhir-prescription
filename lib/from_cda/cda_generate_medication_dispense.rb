@@ -107,12 +107,12 @@ class CdaGenerateMedicationDispense < CdaGenerateAbstract
             medication_dispense.substitution = substitution
 
             # Patientリソースの参照
-            medication_dispense.subject = create_reference(get_resources_from_type('Patient').first.resource)
+            medication_dispense.subject = create_reference(get_resources_from_type('Patient').first)
 
             # PractitionerRoleリソースの参照
             performer = FHIR::MedicationDispense::Performer.new
             performer.function = create_codeable_concept('finalchecker','Final Checker','http://terminology.hl7.org/CodeSystem/medicationdispense-performer-function')
-            performer.actor = create_reference(get_resources_from_type('PractitionerRole').first.resource)
+            performer.actor = create_reference(get_resources_from_type('PractitionerRole').first)
             medication_dispense.performer << performer
 
             section.entry << create_reference(medication_dispense)
@@ -122,7 +122,7 @@ class CdaGenerateMedicationDispense < CdaGenerateAbstract
             results << entry
         end
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.section << section
         results
     end

@@ -71,7 +71,7 @@ class QrGeneratePatient < QrGenerateAbstract
         if narcotic_record.present?
             # 麻薬施用患者住所
             address = FHIR::Address.new
-            address.line << narcotic_record[:narcotic_use_patient_address]
+            address.text = narcotic_record[:narcotic_use_patient_address]
             patient.address << address
 
             # 麻薬施用患者電話番号
@@ -81,7 +81,7 @@ class QrGeneratePatient < QrGenerateAbstract
             patient.telecom << contact_point
         end
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.subject = create_reference(patient)
 
         entry = FHIR::Bundle::Entry.new

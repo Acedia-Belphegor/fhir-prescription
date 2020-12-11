@@ -76,7 +76,7 @@ class SipsGeneratePatient < SipsGenerateAbstract
             patient.telecom << contact_point
         }
 
-        composition = get_composition.resource
+        composition = get_composition
         composition.subject = create_reference(patient)
 
         entry = FHIR::Bundle::Entry.new
