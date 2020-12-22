@@ -3,7 +3,7 @@ require 'fhir_client'
 require 'securerandom'
 
 class V2GenerateAbstract
-    def initialize(params)        
+    def initialize(params)
         @message = params[:message]
         @bundle = params[:bundle]
         @params = params[:params]

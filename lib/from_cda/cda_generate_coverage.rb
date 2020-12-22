@@ -66,17 +66,17 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 # 患者区分
                 coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
 
-                cost = FHIR::Coverage::CostToBeneficiary.new
-                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-                cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
+                # cost = FHIR::Coverage::CostToBeneficiary.new
+                # cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                # cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
 
-                # 患者一部負担区分
-                if act.xpath("entryRelationship").present?
-                    exception = FHIR::Coverage::CostToBeneficiary::Exception.new
-                    exception.type = generate_codeable_concept(act.xpath('entryRelationship/observation/code'))
-                    cost.exception << exception
-                end
-                coverage.costToBeneficiary << cost
+                # # 患者一部負担区分
+                # if act.xpath("entryRelationship").present?
+                #     exception = FHIR::Coverage::CostToBeneficiary::Exception.new
+                #     exception.type = generate_codeable_concept(act.xpath('entryRelationship/observation/code'))
+                #     cost.exception << exception
+                # end
+                # coverage.costToBeneficiary << cost
             end
 
             # Patientリソースの参照

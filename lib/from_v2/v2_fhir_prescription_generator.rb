@@ -1,4 +1,5 @@
 require_relative 'v2_fhir_abstract_generator'
+require_relative '../common/generate_signature'
 
 class V2FhirPrescriptionGenerator < V2FhirAbstractGenerator
     def perform()
@@ -10,6 +11,7 @@ class V2FhirPrescriptionGenerator < V2FhirAbstractGenerator
         @bundle.entry.concat(V2GeneratePractitionerRole.new(get_params).perform) # PractitionerRole
         @bundle.entry.concat(V2GenerateCoverage.new(get_params).perform) # Coverage
         @bundle.entry.concat(V2GenerateMedicationRequest.new(get_params).perform) # MedicationRequest
+        GenerateSignature.new(@bundle).perform # Signature
         self
     end
 

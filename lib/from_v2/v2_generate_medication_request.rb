@@ -27,7 +27,13 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             # ORC-2.依頼者オーダ番号
             medication_request.identifier << generate_identifier(orc_segment[:placer_order_number].first[:entity_identifier], 'urn:oid:1.2.392.100495.20.3.11')
             # ORC-4.依頼者グループ番号
-            medication_request.identifier << generate_identifier(orc_segment[:placer_group_number].first[:entity_identifier], 'urn:oid:1.2.392.100495.20.3.81')
+            rp_number = orc_segment[:placer_group_number].first[:entity_identifier]
+            medication_request.identifier << generate_identifier(rp_number, 'urn:oid:1.2.392.100495.20.3.81')
+            # RP内連番
+            medication_request.identifier << generate_identifier(
+                (results.present? ? results.select{|mr|mr.resource.identifier.select{|id|id.system == 'urn:oid:1.2.392.100495.20.3.81'}.first.value == rp_number}.length + 1 : 1).to_s,
+                'urn:oid:1.2.392.100495.20.3.82'
+            )
 
             # RXEセグメント
             rxe_segment = segments.find{|segment|segment[:segment_id] == 'RXE'}
@@ -122,10 +128,10 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             if tq1_segment[:start_datetime].present?
                 timing_repeat = FHIR::Timing::Repeat.new
                 period = FHIR::Period.new
-                period.start = tq1_segment[:start_datetime].first[:time]
+                period.start = Date.parse(tq1_segment[:start_datetime].first[:time])
                 # TQ1-8.終了日時
                 if tq1_segment[:end_datetime].present?
-                    period.end = tq1_segment[:end_datetime].first[:time]
+                    period.end = Date.Parse(tq1_segment[:end_datetime].first[:time])
                 end
                 timing_repeat.boundsPeriod = period
                 dosage.timing.repeat = timing_repeat

@@ -42,9 +42,9 @@ class SipsGenerateCoverage < SipsGenerateAbstract
             # 被保険者／被扶養者
             coverage.relationship = create_codeable_concept(patient_record[:relationship], (patient_record[:relationship] == '1' ? '被保険者' : '被扶養者'), 'urn:oid:1.2.392.100495.20.2.62')
 
-            cost = FHIR::Coverage::CostToBeneficiary.new
-            cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-            cost.valueQuantity = create_quantity(patient_record[:patient_payment_rate].to_i, '%') if patient_record[:patient_payment_rate].present?
+            # cost = FHIR::Coverage::CostToBeneficiary.new
+            # cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+            # cost.valueQuantity = create_quantity(patient_record[:patient_payment_rate].to_i, '%') if patient_record[:patient_payment_rate].present?
 
             if patient_record[:copay_amount_class].to_i.positive?
                 exception = FHIR::Coverage::CostToBeneficiary::Exception.new

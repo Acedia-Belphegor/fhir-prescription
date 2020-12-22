@@ -58,10 +58,10 @@ class V2GenerateCoverage < V2GenerateAbstract
                             create_codeable_concept('2', '被扶養者', 'urn:oid:1.2.392.100495.20.2.62')
                         end
                 end
-                cost = FHIR::Coverage::CostToBeneficiary.new
-                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-                cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
-                coverage.costToBeneficiary << cost
+                # cost = FHIR::Coverage::CostToBeneficiary.new
+                # cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                # cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
+                # coverage.costToBeneficiary << cost
 
                 period = FHIR::Period.new
                 # IN1-12.プラン有効日付(有効開始日)                
