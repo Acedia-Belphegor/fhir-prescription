@@ -22,6 +22,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         context "Patient" do
             let(:result) { subject.get_resources_from_type("Patient").first }
             
+            it "resourceType" do
+                expect(result.class).to eq FHIR::Patient
+            end
+
             # 患者番号
             it "identifier" do
                 expect(result.identifier.first.value).to eq "1000000001"
@@ -58,6 +62,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         context "Encounter" do
             let(:result) { subject.get_resources_from_type("Encounter").first }
 
+            it "resourceType" do
+                expect(result.class).to eq FHIR::Encounter
+            end
+
             it "class" do
                 expect(result.local_class.code).to eq "AMB"
             end
@@ -66,6 +74,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         # Organization Resource
         context "Organization" do
             let(:result) { subject.get_resources_from_type("Organization") }
+
+            it "resourceType" do
+                expect(result.first.class).to eq FHIR::Organization
+            end
 
             # 医療機関
             it "prov" do
@@ -83,6 +95,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         # Practitioner Resource
         context "Practitioner" do
             let(:result) { subject.get_resources_from_type("Practitioner").first }
+
+            it "resourceType" do
+                expect(result.class).to eq FHIR::Practitioner
+            end
 
             # 医師氏名
             it "name" do
@@ -105,6 +121,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         context "PractitionerRole" do
             let(:result) { subject.get_resources_from_type("PractitionerRole").first }
 
+            it "resourceType" do
+                expect(result.class).to eq FHIR::PractitionerRole
+            end
+
             it "code" do
                 expect(result.code.first.coding.first.code).to eq "doctor"
             end
@@ -126,6 +146,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         # Coverage Resource
         context "Coverage" do
             let(:result) { subject.get_resources_from_type("Coverage").first }
+
+            it "resourceType" do
+                expect(result.class).to eq FHIR::Coverage
+            end
 
             it "type" do
                 expect(result.type.coding.first.code).to eq "1" # 社保
@@ -152,6 +176,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
         # MedicationRequest Resource
         context "MedicationRequest" do
             let(:result) { subject.get_resources_from_type("MedicationRequest") }
+
+            it "resourceType" do
+                expect(result.first.class).to eq FHIR::MedicationRequest
+            end
 
             context "内服薬" do
                 let(:mr) { result.select{|mr|mr.identifier.select{|id|id.system == 'urn:oid:1.2.392.100495.20.3.81'}.first.value == '01'}.first }
