@@ -64,10 +64,11 @@ class QrGenerateAbstract
 
     def create_reference(resource, type = :uuid)
         reference = FHIR::Reference.new
-        reference.reference = if type == :literal
-            "#{resource.resourceType}/#{resource.id}"
+        if type == :literal
+            reference.reference = "#{resource.resourceType}/#{resource.id}"
         else
-            "urn:uuid:#{resource.id}"
+            reference.reference = "urn:uuid:#{resource.id}"
+            reference.type = resource.resourceType
         end
         reference
     end
@@ -91,6 +92,13 @@ class QrGenerateAbstract
         else
             "http://hl7.jp/fhir/ePrescription/#{str}"
         end
+    end
+
+    def create_entry(resource)
+        entry = FHIR::Bundle::Entry.new
+        entry.resource = resource
+        entry.fullUrl = "urn:uuid:#{resource.id}"
+        entry
     end
 
     def get_receipt_medication_master()

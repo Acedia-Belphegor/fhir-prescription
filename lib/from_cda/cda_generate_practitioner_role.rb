@@ -17,8 +17,6 @@ class CdaGeneratePractitionerRole < CdaGenerateAbstract
         composition = get_composition
         composition.author << create_reference(practitioner_role)
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = practitioner_role
-        [entry]
+        [create_entry(practitioner_role)]
     end
 end

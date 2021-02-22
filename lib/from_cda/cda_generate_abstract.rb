@@ -72,6 +72,7 @@ class CdaGenerateAbstract
         address.city = addr.xpath('city').text
         address.line << addr.xpath('streetAddressLine').text
         address.postalCode = addr.xpath('postalCode').text
+        address.text = "#{address.state}#{address.city}#{address.line.join}"
         address
     end
 
@@ -134,10 +135,11 @@ class CdaGenerateAbstract
 
     def create_reference(resource, type = :uuid)
         reference = FHIR::Reference.new
-        reference.reference = if type == :literal
-            "#{resource.resourceType}/#{resource.id}"
+        if type == :literal
+            reference.reference = "#{resource.resourceType}/#{resource.id}"
         else
-            "urn:uuid:#{resource.id}"
+            reference.reference = "urn:uuid:#{resource.id}"
+            reference.type = resource.resourceType
         end
         reference
     end
@@ -169,5 +171,12 @@ class CdaGenerateAbstract
         when 'urn:oid:1.2.392.100495.20.3.22' then create_url(:structure_definition, 'OrganizationCategory') # 点数表コード
         when 'urn:oid:1.2.392.100495.20.3.23' then create_url(:structure_definition, 'OrganizationNo') # 保険医療機関番号
         end
+    end
+
+    def create_entry(resource)
+        entry = FHIR::Bundle::Entry.new
+        entry.resource = resource
+        entry.fullUrl = "urn:uuid:#{resource.id}"
+        entry
     end
 end

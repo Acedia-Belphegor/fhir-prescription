@@ -10,17 +10,10 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
         results = []
         sequence = {}
 
-        section = FHIR::Composition::Section.new
-        # section.title = component.xpath('section/title').text
-        # section.code = generate_codeable_concept(component.xpath('section/code'))
-        section.title = '処方指示ボディ'
-        section.code = create_codeable_concept('02', '処方指示ボディ', 'TBD')
-        section.text = component.xpath('section/text/list/item').map{ |item| item.text }.join('\n')
-
         component.xpath('section/entry').each do |entry|
             medication_request = FHIR::MedicationRequest.new
             medication_request.id = SecureRandom.uuid
-            medication_request.status = :draft
+            medication_request.status = :active
             medication_request.intent = :order
             dosage = FHIR::Dosage.new
             dosage.timing = FHIR::Timing.new
@@ -44,16 +37,6 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 sequence[rp] ||= 0
                 sequence[rp] += 1
                 medication_request.identifier << create_identifier(sequence[rp].to_s, '1.2.392.100495.20.3.82')
-            end
-
-            # 剤型
-            if sbadm.xpath('code').present?
-                medication_request.category << generate_codeable_concept(sbadm.xpath('code'))
-
-                # 頓服
-                if sbadm.xpath('code/@code').text == '2'
-                    dosage.asNeededBoolean = true 
-                end
             end
 
             # 医薬品名
@@ -99,14 +82,14 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                 end
             end
 
-            # 1日当たりの投与回数
-            if sbadm.xpath('repeatNumber/@value').present?
-                timing_repeat = FHIR::Timing::Repeat.new
-                timing_repeat.frequency = sbadm.xpath('repeatNumber/@value').text.to_i
-                timing_repeat.period = 1
-                timing_repeat.periodUnit = 'd'
-                dosage.timing.repeat = timing_repeat
-            end
+            # # 1日当たりの投与回数
+            # if sbadm.xpath('repeatNumber/@value').present?
+            #     timing_repeat = FHIR::Timing::Repeat.new
+            #     timing_repeat.frequency = sbadm.xpath('repeatNumber/@value').text.to_i
+            #     timing_repeat.period = 1
+            #     timing_repeat.periodUnit = 'd'
+            #     dosage.timing.repeat = timing_repeat
+            # end
 
             # 部位
             if sbadm.xpath('approachSiteCode').present?
@@ -115,7 +98,10 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
 
             # 投与方法
             if sbadm.xpath('code').present?
-                dosage.local_method = generate_codeable_concept(sbadm.xpath('code').first) 
+                dosage.local_method = generate_codeable_concept(sbadm.xpath('code').first)
+
+                # 頓服
+                dosage.asNeededBoolean = true if sbadm.xpath('code/@code').text == '2'
             end
 
             dose = FHIR::Dosage::DoseAndRate.new
@@ -159,17 +145,13 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
             # Patientリソースの参照
             medication_request.subject = create_reference(get_resources_from_type('Patient').first)
             # PractitionerRoleリソースの参照
-            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first)
-
-            section.entry << create_reference(medication_request)
-
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = medication_request
-            results << entry
+            medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
+            # Section
+            get_composition.section.first.entry.concat << create_reference(medication_request)
+            
+            results << create_entry(medication_request)
         end
 
-        composition = get_composition
-        composition.section << section
         results
     end
 end

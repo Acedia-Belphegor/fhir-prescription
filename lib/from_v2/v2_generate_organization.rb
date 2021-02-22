@@ -36,9 +36,7 @@ class V2GenerateOrganization < V2GenerateAbstract
         organization.telecom = orc_segment[:ordering_facility_phone_number].map{|telecom|generate_contact_point(telecom)} if orc_segment[:ordering_facility_phone_number].present?
         organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = organization
-        results << entry
+        results << create_entry(organization)
 
         # 診療科
         if orc_segment[:entering_organization].present?
@@ -54,9 +52,7 @@ class V2GenerateOrganization < V2GenerateAbstract
                 results.first.resource.partOf = create_reference(organization)
             end
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = organization
-            results << entry
+            results << create_entry(organization)
         end
 
         results

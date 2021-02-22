@@ -33,12 +33,16 @@ class QrGenerateComposition < QrGenerateAbstract
         end
 
         section = FHIR::Composition::Section.new
-        section.title = '処方指示ヘッダ'
-        section.code = create_codeable_concept('01', '処方指示ヘッダ', 'TBD')
+        section.title = '処方情報'
+        section.code = create_codeable_concept('01', '処方情報', 'urn:oid:1.2.392.100495.20.2.12')
         composition.section << section
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = composition
-        [entry]
+        # 文書のバージョン
+        extension = FHIR::Extension.new
+        extension.url = create_url(:structure_definition, 'composition-clinicaldocument-versionNumber')
+        extension.valueString = "1.0"
+        composition.extension << extension
+
+        [create_entry(composition)]
     end
 end

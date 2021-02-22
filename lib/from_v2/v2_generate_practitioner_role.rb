@@ -12,11 +12,6 @@ class V2GeneratePractitionerRole < V2GenerateAbstract
         practitioner_role.practitioner = create_reference(get_resources_from_type('Practitioner').first)
         practitioner_role.organization = create_reference(get_resources_from_type('Organization').first)
 
-        composition = get_composition
-        composition.author << create_reference(practitioner_role)
-
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = practitioner_role
-        [entry]
+        [create_entry(practitioner_role)]
     end
 end

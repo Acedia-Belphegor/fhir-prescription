@@ -29,8 +29,8 @@ class CdaGeneratePractitioner < CdaGenerateAbstract
 
         practitioner.name = assigned_author.xpath('assignedPerson/name').map{ |name| generate_human_name(name) }
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = practitioner
-        [entry]
+        get_composition.author << create_reference(practitioner)
+
+        [create_entry(practitioner)]
     end
 end

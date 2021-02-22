@@ -19,6 +19,10 @@ class CdaFhirAbstractGenerator
         @bundle = FHIR::Bundle.new
         @bundle.id = SecureRandom.uuid
         @bundle.type = :document
+        @bundle.timestamp = DateTime.now
+        meta = FHIR::Meta.new
+        meta.profile = "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
+        @bundle.meta = meta
     end
 
     def perform()

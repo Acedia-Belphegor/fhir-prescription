@@ -13,11 +13,11 @@ class CdaGenerateCommunication < CdaGenerateAbstract
             communication = FHIR::Communication.new
             communication.id = SecureRandom.uuid
             communication.status = :unknown
-            communication.category = create_codeable_concept('1', '処方箋備考', 'LC')
+            communication.category = create_codeable_concept('1', '処方箋備考', create_url(:code_system, 'CommunicationCategory'))
 
             component.xpath('section/text/list/item').each do |item|
                 extension = FHIR::Extension.new
-                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                extension.url = create_url(:structure_definition, 'CommunicationContent')
                 extension.valueString = item.text
                 communication.extension << extension
             end
@@ -29,16 +29,14 @@ class CdaGenerateCommunication < CdaGenerateAbstract
                 communication = FHIR::Communication.new
                 communication.id = SecureRandom.uuid
                 communication.status = :unknown
-                communication.category = create_codeable_concept('3', '残確確認指示', 'LC')
+                communication.category = create_codeable_concept('3', '残薬確認指示', create_url(:code_system, 'CommunicationCategory'))
 
                 extension = FHIR::Extension.new
-                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                extension.url = create_url(:structure_definition, 'CommunicationContent')
                 extension.valueCodeableConcept = generate_codeable_concept(component.xpath('section/entry/supply/code'))
                 communication.extension << extension
             
-                entry = FHIR::Bundle::Entry.new
-                entry.resource = communication
-                results << entry
+                results << create_entry(communication)
             end
         end
 
@@ -51,20 +49,21 @@ class CdaGenerateCommunication < CdaGenerateAbstract
             communication = FHIR::Communication.new
             communication.id = SecureRandom.uuid
             communication.status = :unknown
-            communication.category = create_codeable_concept('1', '処方箋備考', 'LC')
+            communication.category = create_codeable_concept('1', '処方箋備考', create_url(:code_system, 'CommunicationCategory'))
 
             component.xpath('section/text/list/item').each do |item|
                 extension = FHIR::Extension.new
-                extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-xxx"
+                extension.url = create_url(:structure_definition, 'CommunicationContent')
                 extension.valueString = item.text
                 communication.extension << extension
-            end            
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = communication
-            results << entry
+            end
+            
+            results << create_entry(communication)
         end
 
+        # Section
         get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+        
         results
     end
 end

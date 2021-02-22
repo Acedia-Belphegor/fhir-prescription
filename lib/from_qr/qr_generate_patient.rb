@@ -11,7 +11,9 @@ class QrGeneratePatient < QrGenerateAbstract
         return unless patient_record.present?
 
         # 患者コード
-        patient.identifier = create_identifier(patient_record[:record_number], "urn:oid:1.2.392.100495.20.3.51.1")
+        if patient_record[:patient_code].present?
+            patient.identifier = create_identifier(patient_record[:patient_code], "urn:oid:1.2.392.100495.20.3.51.1")
+        end
 
         # 患者漢字氏名
         if patient_record[:patient_kanji_name].present?
@@ -81,11 +83,8 @@ class QrGeneratePatient < QrGenerateAbstract
             patient.telecom << contact_point
         end
 
-        composition = get_composition
-        composition.subject = create_reference(patient)
+        get_composition.subject = create_reference(patient)
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = patient
-        [entry]
+        [create_entry(patient)]
     end
 end

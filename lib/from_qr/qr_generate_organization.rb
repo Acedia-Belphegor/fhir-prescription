@@ -60,9 +60,7 @@ class QrGenerateOrganization < QrGenerateAbstract
             organization.telecom << contact_point
         end
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = organization
-        results << entry
+        results << create_entry(organization)
 
         # 診療科レコード
         department_record = get_records(4)&.first
@@ -78,9 +76,7 @@ class QrGenerateOrganization < QrGenerateAbstract
                 results.first.resource.partOf = create_reference(organization)
             end
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = organization
-            results << entry
+            results << create_entry(organization)
         end
         
         results

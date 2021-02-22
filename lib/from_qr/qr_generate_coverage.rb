@@ -44,8 +44,20 @@ class QrGenerateCoverage < QrGenerateAbstract
             # 記号番号レコード
             sym_num_record = get_records(23)&.first
             if sym_num_record.present?
-                # 被保険者証記号/番号
-                coverage.subscriberId = "#{sym_num_record[:insured_symbol]}・#{sym_num_record[:insured_number]}"
+                # 被保険者証記号
+                if sym_num_record[:insured_symbol].present?
+                    extension = FHIR::Extension.new
+                    extension.url = create_url(:structure_definition, 'InsuredPersonSymbol')
+                    extension.valueString = sym_num_record[:insured_symbol]
+                    coverage.extension << extension
+                end
+                # 被保険者証記号
+                if sym_num_record[:insured_number].present?
+                    extension = FHIR::Extension.new
+                    extension.url = create_url(:structure_definition, 'InsuredPersonNumber')
+                    extension.valueString = sym_num_record[:insured_number]
+                    coverage.extension << extension
+                end
                 # 被保険者／被扶養者
                 coverage.relationship = create_codeable_concept(sym_num_record[:relationship], (sym_num_record[:relationship] == '1' ? '被保険者' : '被扶養者'), 'urn:oid:1.2.392.100495.20.2.62')
             end
@@ -77,9 +89,7 @@ class QrGenerateCoverage < QrGenerateAbstract
             # Patientリソースの参照
             coverage.beneficiary = create_reference(get_resources_from_type('Patient').first)
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = coverage
-            results << entry
+            results << create_entry(coverage)
         end
 
         # 第一,第二,第三,特殊公費レコード
@@ -103,12 +113,12 @@ class QrGenerateCoverage < QrGenerateAbstract
             # Patientリソースの参照
             coverage.beneficiary = create_reference(get_resources_from_type('Patient').first)
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = coverage
-            results << entry
+            results << create_entry(coverage)
         end
 
+        # Section
         get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+        
         results
     end
 end

@@ -2,16 +2,12 @@ require_relative 'qr_generate_abstract'
 
 class QrGenerateMedicationRequest < QrGenerateAbstract
     def perform()
-        section = FHIR::Composition::Section.new
-        section.title = '処方指示ボディ'
-        section.code = create_codeable_concept('02', '処方指示ボディ', 'TBD')
-
         results = []
 
         get_records(201).each do |medication_record|
             medication_request = FHIR::MedicationRequest.new
             medication_request.id = SecureRandom.uuid
-            medication_request.status = :draft
+            medication_request.status = :active
             medication_request.intent = :order
             dosage = FHIR::Dosage.new
             dosage.timing = FHIR::Timing.new
@@ -229,16 +225,12 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             medication_request.subject = create_reference(get_resources_from_type('Patient').first)
             # PractitionerRoleリソースの参照
             medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first)
+            # Section
+            get_composition.section.first.entry.concat << create_reference(medication_request)
 
-            section.entry << create_reference(medication_request)
-
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = medication_request
-            results << entry
+            results << create_entry(medication_request)
         end
 
-        composition = get_composition
-        composition.section << section
         results
     end
 end

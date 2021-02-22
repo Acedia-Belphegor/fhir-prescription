@@ -10,8 +10,6 @@ class CdaGenerateEncounter < CdaGenerateAbstract
         composition = get_composition
         composition.encounter = create_reference(encounter)
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = encounter
-        [entry]
+        [create_entry(encounter)]
     end
 end

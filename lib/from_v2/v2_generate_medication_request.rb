@@ -2,16 +2,12 @@ require_relative 'v2_generate_abstract'
 
 class V2GenerateMedicationRequest < V2GenerateAbstract
     def perform()
-        section = FHIR::Composition::Section.new
-        section.title = '処方指示ボディ'
-        section.code = create_codeable_concept('02', '処方指示ボディ', 'TBD')
-
         results = []
 
         get_segment_groups.each do |segments|
             medication_request = FHIR::MedicationRequest.new
             medication_request.id = SecureRandom.uuid
-            medication_request.status = :draft
+            medication_request.status = :active
             medication_request.intent = :order
             dosage = FHIR::Dosage.new
             dosage.timing = FHIR::Timing.new
@@ -34,6 +30,8 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 (results.present? ? results.select{|mr|mr.resource.identifier.select{|id|id.system == 'urn:oid:1.2.392.100495.20.3.81'}.first.value == rp_number}.length + 1 : 1).to_s,
                 'urn:oid:1.2.392.100495.20.3.82'
             )
+            # ORC-9.トランザクション日時
+            medication_request.authoredOn = DateTime.parse(orc_segment[:datetime_of_transaction].first[:time]) if orc_segment[:datetime_of_transaction].present?
 
             # RXEセグメント
             rxe_segment = segments.find{|segment|segment[:segment_id] == 'RXE'}
@@ -85,10 +83,10 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 dose.rateRatio = ratio
             end
 
-            # RXE-21.薬剤部門/治療部門による特別な調剤指示
-            if rxe_segment[:pharmacytreatment_suppliers_special_dispensing_instructions].present?
-                medication_request.category.concat rxe_segment[:pharmacytreatment_suppliers_special_dispensing_instructions].map{|element|generate_codeable_concept(element)}
-            end
+            # # RXE-21.薬剤部門/治療部門による特別な調剤指示
+            # if rxe_segment[:pharmacytreatment_suppliers_special_dispensing_instructions].present?
+            #     medication_request.category.concat rxe_segment[:pharmacytreatment_suppliers_special_dispensing_instructions].map{|element|generate_codeable_concept(element)}
+            # end
 
             # RXE-27.与薬指示
             if rxe_segment[:give_indication].present?
@@ -180,18 +178,14 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
             # Patientリソースの参照
             medication_request.subject = create_reference(get_resources_from_type('Patient').first)
-            # PractitionerRoleリソースの参照
-            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first)
-
-            section.entry << create_reference(medication_request)
-
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = medication_request
-            results << entry
+            # Practitionerリソースの参照
+            medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
+            # Section
+            get_composition.section.first.entry.concat << create_reference(medication_request)
+            
+            results << create_entry(medication_request)
         end
 
-        composition = get_composition
-        composition.section << section
         results
     end
 

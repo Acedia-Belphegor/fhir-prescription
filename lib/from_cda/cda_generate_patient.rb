@@ -23,8 +23,6 @@ class CdaGeneratePatient < CdaGenerateAbstract
         composition = get_composition
         composition.subject = create_reference(patient)
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = patient
-        [entry]
+        [create_entry(patient)]
     end
 end

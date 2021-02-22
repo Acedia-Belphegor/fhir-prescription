@@ -22,8 +22,8 @@ class V2GeneratePractitioner < V2GenerateAbstract
             }
         end
 
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = practitioner
-        [entry]
+        get_composition.author << create_reference(practitioner)
+
+        [create_entry(practitioner)]
     end
 end

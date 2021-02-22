@@ -25,9 +25,7 @@ class CdaGenerateOrganization < CdaGenerateAbstract
             organization.telecom = represented_rganization.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
             organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = organization
-            results << entry
+            results << create_entry(organization)
         end
 
         # 診療科情報
@@ -44,9 +42,7 @@ class CdaGenerateOrganization < CdaGenerateAbstract
                 results.first.resource.partOf = create_reference(organization)
             end
 
-            entry = FHIR::Bundle::Entry.new
-            entry.resource = organization
-            results << entry
+            results << create_entry(organization)
         end
 
         results
