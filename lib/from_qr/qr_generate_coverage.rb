@@ -67,7 +67,7 @@ class QrGenerateCoverage < QrGenerateAbstract
             if payment_record.present?
                 cost = FHIR::Coverage::CostToBeneficiary.new
                 cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-                cost.valueQuantity = create_quantity(payment_record[:patient_payment_rate].to_i, '%')
+                cost.valueQuantity = create_quantity(payment_record[:patient_payment_rate].to_i, '%', 'http://unitsofmeasure.org')
 
                 # 患者一部負担区分レコード
                 partial_payment_record = get_records(14)&.first

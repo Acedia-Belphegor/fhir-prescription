@@ -71,7 +71,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 # 患者負担割
                 cost = FHIR::Coverage::CostToBeneficiary.new
                 cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-                cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%
+                cost.valueQuantity = create_quantity(30, '%', 'http://unitsofmeasure.org') # MEMO:とりあえず仮設定で30%
 
                 # 患者一部負担区分
                 if act.xpath("entryRelationship").present?

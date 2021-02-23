@@ -63,7 +63,14 @@ class V2GenerateCoverage < V2GenerateAbstract
                 # 患者負担率
                 cost = FHIR::Coverage::CostToBeneficiary.new
                 cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-                cost.valueQuantity = create_quantity(30, '%', 'http://unitsofmeasure.org') # MEMO:とりあえず仮設定で30%
+                if in1_segment[:coordination_of_benefits].present?
+                    value = if in1_segment[:coordination_of_benefits] == "MX"
+                        0
+                    else
+                        100 - in1_segment[:coordination_of_benefits].to_i
+                    end
+                    cost.valueQuantity = create_quantity(value, '%', 'http://unitsofmeasure.org')
+                end
                 coverage.costToBeneficiary << cost
 
                 period = FHIR::Period.new
