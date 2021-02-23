@@ -3,6 +3,10 @@ require "base64"
 require 'fhir_client'
 require_relative 'qr_code_parser'
 
+Dir[File.expand_path('..', File.dirname(__FILE__)) << '/common/*.rb'].each do |file| 
+    require file
+end
+
 Dir[File.expand_path(File.dirname(__FILE__)) << '/qr_generate_*.rb'].each do |file|
     require file
 end

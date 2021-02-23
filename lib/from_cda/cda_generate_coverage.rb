@@ -68,7 +68,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 coverage.dependent = ""
                 # 患者区分
                 coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
-
+                # 患者負担割
                 cost = FHIR::Coverage::CostToBeneficiary.new
                 cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
                 cost.valueQuantity = create_quantity(30, '%') # MEMO:とりあえず仮設定で30%

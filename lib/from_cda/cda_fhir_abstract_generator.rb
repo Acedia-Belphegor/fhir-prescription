@@ -2,6 +2,10 @@ require 'json'
 require 'nokogiri'
 require 'fhir_client'
 
+Dir[File.expand_path('..', File.dirname(__FILE__)) << '/common/*.rb'].each do |file| 
+    require file
+end
+
 Dir[File.expand_path(File.dirname(__FILE__)) << '/cda_generate_*.rb'].each do |file|
     require file
 end

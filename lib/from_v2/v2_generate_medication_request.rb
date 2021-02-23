@@ -45,11 +45,12 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
             # RXE-3.与薬量－最小 / RXE-5.与薬単位
             if rxe_segment[:give_amount_minimum].to_f.positive?
-                quantity = FHIR::Quantity.new
-                quantity.value = rxe_segment[:give_amount_minimum].to_f
-                quantity.code = rxe_segment[:give_units].first[:identifier]
-                quantity.unit = rxe_segment[:give_units].first[:text]
-                dose.doseQuantity = quantity
+                dose.doseQuantity = create_quantity(
+                    rxe_segment[:give_amount_minimum].to_f,
+                    rxe_segment[:give_units].first[:text],
+                    nil,
+                    rxe_segment[:give_units].first[:identifier]
+                )
             end
 
             # RXE-7.依頼者の投薬指示
@@ -68,11 +69,12 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
             # RXE-10.調剤量 / RXE-11.調剤単位
             if rxe_segment[:dispense_amount].to_f.positive?
-                quantity = FHIR::Quantity.new
-                quantity.value = rxe_segment[:dispense_amount].to_f
-                quantity.code = rxe_segment[:dispense_units].first[:identifier]
-                quantity.unit = rxe_segment[:dispense_units].first[:text]
-                dispense_request.quantity = quantity
+                dispense_request.quantity = create_quantity(
+                    rxe_segment[:dispense_amount].to_f, 
+                    rxe_segment[:dispense_units].first[:text],
+                    nil,
+                    rxe_segment[:dispense_units].first[:identifier]
+                )
             end
 
             # RXE-19.1日あたりの総投与量

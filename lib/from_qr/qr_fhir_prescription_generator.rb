@@ -11,6 +11,7 @@ class QrFhirPrescriptionGenerator < QrFhirAbstractGenerator
         @bundle.entry.concat(QrGenerateCoverage.new(get_params).perform) # Coverage
         @bundle.entry.concat(QrGenerateCommunication.new(get_params).perform) # Communication
         @bundle.entry.concat(QrGenerateMedicationRequest.new(get_params).perform) # MedicationRequest
+        GenerateSignature.new(@bundle).perform # Signature
         self
     end
 

@@ -1,5 +1,4 @@
 require_relative 'v2_fhir_abstract_generator'
-require_relative '../common/generate_signature'
 
 class V2FhirPrescriptionGenerator < V2FhirAbstractGenerator
     def perform()

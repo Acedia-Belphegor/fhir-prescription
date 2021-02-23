@@ -11,7 +11,7 @@ class CdaFhirPrescriptionGenerator < CdaFhirAbstractGenerator
         @bundle.entry.concat(CdaGenerateCoverage.new(get_params).perform) # Coverage
         @bundle.entry.concat(CdaGenerateCommunication.new(get_params).perform) # Communication
         @bundle.entry.concat(CdaGenerateMedicationRequest.new(get_params).perform) # MedicationRequest
-        # CdaGenerateCompositionSections.new(get_params).perform # Composition.section
+        GenerateSignature.new(@bundle).perform # Signature
         self
     end
 

@@ -101,7 +101,7 @@ class CdaGenerateAbstract
     def generate_quantity(x_quantity, system = nil)
         return unless x_quantity.present?
         quantity = FHIR::Quantity.new
-        quantity.value = x_quantity.xpath('@value').text.to_f
+        quantity.value = x_quantity.xpath('@value').text.to_numeric
         quantity.unit = x_quantity.xpath('@unit').text
         quantity.system = system
         quantity
@@ -112,71 +112,11 @@ class CdaGenerateAbstract
         create_codeable_concept(code.xpath('@code').text, code.xpath('@displayName').text, "urn:oid:#{code.xpath('@codeSystem').text}")
     end
 
-    def create_identifier(value, system)
-        identifier = FHIR::Identifier.new
-        identifier.system = system
-        identifier.value = value
-        identifier
-    end
-
-    def create_coding(code, display, system = 'LC')
-        coding = FHIR::Coding.new
-        coding.code = code
-        coding.display = display
-        coding.system = system
-        coding
-    end
-
-    def create_codeable_concept(code, display, system = 'LC')
-        codeable_concept = FHIR::CodeableConcept.new
-        codeable_concept.coding << create_coding(code, display, system)
-        codeable_concept
-    end
-
-    def create_reference(resource, type = :uuid)
-        reference = FHIR::Reference.new
-        if type == :literal
-            reference.reference = "#{resource.resourceType}/#{resource.id}"
-        else
-            reference.reference = "urn:uuid:#{resource.id}"
-            reference.type = resource.resourceType
-        end
-        reference
-    end
-
-    def create_quantity(value, unit = nil, system = nil)
-        quantity = FHIR::Quantity.new
-        quantity.value = value
-        quantity.unit = unit
-        quantity.system = system
-        quantity
-    end
-
-    def create_url(type, str)
-        case type
-        when :code_system
-            "http://hl7.jp/fhir/ePrescription/CodeSystem/#{str}"
-        when :structure_definition
-            "http://hl7.jp/fhir/ePrescription/StructureDefinition/#{str}"
-        when :value_set
-            "http://hl7.jp/fhir/ePrescription/ValueSet/#{str}"
-        else
-            "http://hl7.jp/fhir/ePrescription/#{str}"
-        end
-    end
-
     def convert_oid_to_url(oid)
         case oid
         when 'urn:oid:1.2.392.100495.20.3.21' then create_url(:structure_definition, 'PrefectureNo') # 都道府県番号
         when 'urn:oid:1.2.392.100495.20.3.22' then create_url(:structure_definition, 'OrganizationCategory') # 点数表コード
         when 'urn:oid:1.2.392.100495.20.3.23' then create_url(:structure_definition, 'OrganizationNo') # 保険医療機関番号
         end
-    end
-
-    def create_entry(resource)
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = resource
-        entry.fullUrl = "urn:uuid:#{resource.id}"
-        entry
     end
 end

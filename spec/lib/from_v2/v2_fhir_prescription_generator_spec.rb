@@ -167,10 +167,10 @@ RSpec.describe V2FhirPrescriptionGenerator do
                 expect(organization.identifier.first.value).to eq "06050116"
             end
 
-            # 被保険者記号・番号
-            it "subscriberId" do
-                expect(result.subscriberId).to eq "９２０４５・１０"
-            end
+            # # 被保険者記号・番号
+            # it "subscriberId" do
+            #     expect(result.subscriberId).to eq "９２０４５・１０"
+            # end
         end
 
         # MedicationRequest Resource

@@ -80,12 +80,12 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 r[:rp_branch_number] == medication_record[:rp_branch_number]
             }
             if one_time_dose_record.present?
-                dose.doseQuantity = create_quantity(one_time_dose_record[:one_time_dose_quantity].to_f, medication_record[:unit_name])
+                dose.doseQuantity = create_quantity(one_time_dose_record[:one_time_dose_quantity], medication_record[:unit_name])
             end
 
             # 用量(1日量)
             ratio = FHIR::Ratio.new
-            ratio.numerator = create_quantity(medication_record[:dose_quantity].to_f, medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
+            ratio.numerator = create_quantity(medication_record[:dose_quantity], medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
             ratio.denominator = create_quantity(1, "d", 'http://unitsofmeasure.org')
             dose.rateRatio = ratio
             dosage.doseAndRate << dose
@@ -124,14 +124,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 )
             end
             
-            # １日回数
-            if dosage_record[:number_of_times_per_day].to_i.positive?
-                timing_repeat = FHIR::Timing::Repeat.new
-                timing_repeat.frequency = dosage_record[:number_of_times_per_day].to_i
-                timing_repeat.period = 1
-                timing_repeat.periodUnit = 'd'
-                dosage.timing.repeat = timing_repeat
-            end
+            # # １日回数
+            # if dosage_record[:number_of_times_per_day].to_i.positive?
+            #     timing_repeat = FHIR::Timing::Repeat.new
+            #     timing_repeat.frequency = dosage_record[:number_of_times_per_day].to_i
+            #     timing_repeat.period = 1
+            #     timing_repeat.periodUnit = 'd'
+            #     dosage.timing.repeat = timing_repeat
+            # end
 
             # 用法補足レコード
             get_records(181).select{|record|record[:rp_number] == medication_record[:rp_number]}.each{|record|
@@ -214,7 +214,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                         imbalance_dosage.additionalInstruction = create_codeable_concept(imbalance_record["dose_quantity_code#{idx}".to_sym], "")
                     end
                     imbalance_dose = FHIR::Dosage::DoseAndRate.new
-                    imbalance_dose.doseQuantity = create_quantity(imbalance_record["dose_quantity#{idx}".to_sym].to_f, medication_record[:unit_name])
+                    imbalance_dose.doseQuantity = create_quantity(imbalance_record["dose_quantity#{idx}".to_sym], medication_record[:unit_name])
                     imbalance_dosage.doseAndRate << imbalance_dose
                     extension.valueDosage = imbalance_dosage
                     dosage.extension << extension
@@ -224,7 +224,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             # Patientリソースの参照
             medication_request.subject = create_reference(get_resources_from_type('Patient').first)
             # PractitionerRoleリソースの参照
-            medication_request.requester = create_reference(get_resources_from_type('PractitionerRole').first)
+            medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
             # Section
             get_composition.section.first.entry.concat << create_reference(medication_request)
 

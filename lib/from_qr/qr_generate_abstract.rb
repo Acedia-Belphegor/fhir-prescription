@@ -41,66 +41,6 @@ class QrGenerateAbstract
         get_resources_from_type(resource_type).select{|r|r.identifier.include?(identifier)}
     end
 
-    def create_identifier(value, system)
-        identifier = FHIR::Identifier.new
-        identifier.system = system
-        identifier.value = value
-        identifier
-    end
-
-    def create_coding(code, display, system = 'LC')
-        coding = FHIR::Coding.new
-        coding.code = code
-        coding.display = display
-        coding.system = system
-        coding
-    end
-
-    def create_codeable_concept(code, display, system = 'LC')
-        codeable_concept = FHIR::CodeableConcept.new
-        codeable_concept.coding << create_coding(code, display, system)
-        codeable_concept
-    end
-
-    def create_reference(resource, type = :uuid)
-        reference = FHIR::Reference.new
-        if type == :literal
-            reference.reference = "#{resource.resourceType}/#{resource.id}"
-        else
-            reference.reference = "urn:uuid:#{resource.id}"
-            reference.type = resource.resourceType
-        end
-        reference
-    end
-
-    def create_quantity(value, unit = nil, system = nil)
-        quantity = FHIR::Quantity.new
-        quantity.value = value
-        quantity.unit = unit
-        quantity.system = system
-        quantity
-    end
-
-    def create_url(type, str)
-        case type
-        when :code_system
-            "http://hl7.jp/fhir/ePrescription/CodeSystem/#{str}"
-        when :structure_definition
-            "http://hl7.jp/fhir/ePrescription/StructureDefinition/#{str}"
-        when :value_set
-            "http://hl7.jp/fhir/ePrescription/ValueSet/#{str}"
-        else
-            "http://hl7.jp/fhir/ePrescription/#{str}"
-        end
-    end
-
-    def create_entry(resource)
-        entry = FHIR::Bundle::Entry.new
-        entry.resource = resource
-        entry.fullUrl = "urn:uuid:#{resource.id}"
-        entry
-    end
-
     def get_receipt_medication_master()
         @master ||= load_receipt_medication_master
     end
