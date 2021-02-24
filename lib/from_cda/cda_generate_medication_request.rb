@@ -70,8 +70,9 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
                     # 日数
                     duration = FHIR::Duration.new
                     duration.value = effective_time.xpath('width/@value').text.to_i
-                    duration.unit = 'd'
+                    duration.unit = '日'
                     duration.system = 'http://unitsofmeasure.org'
+                    duration.code = 'd'
                     dispense_request.expectedSupplyDuration = duration
                 else
                     # 回数

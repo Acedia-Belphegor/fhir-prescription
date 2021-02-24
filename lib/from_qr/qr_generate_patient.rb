@@ -21,9 +21,9 @@ class QrGeneratePatient < QrGenerateAbstract
             human_name.use = :official
             human_name.text = patient_record[:patient_kanji_name]
             names = human_name.text.split(/\p{blank}/)
-            if names.length == 2
+            if names.length > 1
                 human_name.family = names.first
-                human_name.given << names.last
+                human_name.given = names[1..-1]
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
@@ -38,9 +38,9 @@ class QrGeneratePatient < QrGenerateAbstract
             human_name.use = :official
             human_name.text = Moji.han_to_zen(patient_record[:patient_kana_name])
             names = human_name.text.split(/\p{blank}/)
-            if names.length == 2
+            if names.length > 1
                 human_name.family = names.first
-                human_name.given << names.last
+                human_name.given = names[1..-1]
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"

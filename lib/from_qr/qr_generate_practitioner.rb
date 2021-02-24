@@ -18,9 +18,9 @@ class QrGeneratePractitioner < QrGenerateAbstract
             human_name.use = :official
             human_name.text = doctor_record[:doctor_kanji_name]
             names = human_name.text.split(/\p{blank}/)
-            if names.length == 2
+            if names.length > 1
                 human_name.family = names.first
-                human_name.given << names.last
+                human_name.given = names[1..-1]
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
@@ -35,9 +35,9 @@ class QrGeneratePractitioner < QrGenerateAbstract
             human_name.use = :official
             human_name.text = doctor_record[:doctor_kana_name]
             names = human_name.text.split(/\p{blank}/)
-            if names.length == 2
+            if names.length > 1
                 human_name.family = names.first
-                human_name.given << names.last
+                human_name.given = names[1..-1]
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"

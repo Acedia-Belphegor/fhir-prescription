@@ -86,7 +86,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
             # 用量(1日量)
             ratio = FHIR::Ratio.new
             ratio.numerator = create_quantity(medication_record[:dose_quantity], medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
-            ratio.denominator = create_quantity(1, "d", 'http://unitsofmeasure.org')
+            ratio.denominator = create_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
             dose.rateRatio = ratio
             dosage.doseAndRate << dose
 
@@ -95,7 +95,9 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 # 日数
                 duration = FHIR::Duration.new
                 duration.value = form_record[:dispensing_quantity].to_i
-                duration.unit = 'd'
+                duration.unit = '日'
+                duration.system = 'http://unitsofmeasure.org'
+                duration.code = 'd'
                 dispense_request.expectedSupplyDuration = duration
             else
                 # 回数

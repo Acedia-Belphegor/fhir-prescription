@@ -118,7 +118,7 @@ class V2GenerateAbstract
         quantity.system = system
         if cq[:units].present?
             quantity.unit = cq[:units][:text]
-            quantity.code = cq[:units][:code]
+            quantity.code = cq[:units][:identifier]
         end
         quantity
     end
@@ -128,11 +128,20 @@ class V2GenerateAbstract
         return unless code.present?
         codeable_concept = FHIR::CodeableConcept.new        
         if code[:identifier].present?
-            codeable_concept.coding << create_coding(code[:identifier], code[:text], code[:name_of_coding_system])
+            codeable_concept.coding << create_coding(code[:identifier], code[:text], convert_coding_system(code[:name_of_coding_system]))
         end
         if code[:alternate_identifier].present?
-            codeable_concept.coding << create_coding(code[:alternate_identifier], code[:alternate_text], code[:name_of_alternate_coding_system])
+            codeable_concept.coding << create_coding(code[:alternate_identifier], code[:alternate_text], convert_coding_system(code[:name_of_alternate_coding_system]))
         end
         codeable_concept
+    end
+
+    def convert_coding_system(coding_system)
+        case coding_system
+        when 'JAMISDP01' then 'urn:oid:1.2.392.10495.20.2.31' # JAMI標準用法コード
+        when 'JHSP0003' then 'urn:oid:1.2.392.10495.20.2.34' # 投与方法
+        when 'HL70162' then 'urn:oid:1.2.392.10495.20.2.35' # 投与経路
+        else coding_system
+        end
     end
 end

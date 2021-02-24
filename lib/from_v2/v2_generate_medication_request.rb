@@ -48,7 +48,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 dose.doseQuantity = create_quantity(
                     rxe_segment[:give_amount_minimum].to_f,
                     rxe_segment[:give_units].first[:text],
-                    nil,
+                    'urn:oid:1.2.392.100495.20.2.101',
                     rxe_segment[:give_units].first[:identifier]
                 )
             end
@@ -72,7 +72,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 dispense_request.quantity = create_quantity(
                     rxe_segment[:dispense_amount].to_f, 
                     rxe_segment[:dispense_units].first[:text],
-                    nil,
+                    'urn:oid:1.2.392.100495.20.2.101',
                     rxe_segment[:dispense_units].first[:identifier]
                 )
             end
@@ -81,7 +81,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             if rxe_segment[:total_daily_dose].present?
                 ratio = FHIR::Ratio.new
                 ratio.numerator = generate_quantity(rxe_segment[:total_daily_dose].first, 'urn:oid:1.2.392.100495.20.2.101')
-                ratio.denominator = create_quantity(1, "d", 'http://unitsofmeasure.org')
+                ratio.denominator = create_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
                 dose.rateRatio = ratio
             end
 
@@ -120,7 +120,9 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             if tq1_segment[:service_duration].present?
                 duration = FHIR::Duration.new
                 duration.value = tq1_segment[:service_duration].first[:quantity].to_i
-                duration.unit = 'd'
+                duration.unit = '日'
+                duration.system = 'http://unitsofmeasure.org'
+                duration.code = 'd'
                 dispense_request.expectedSupplyDuration = duration
             end
 
