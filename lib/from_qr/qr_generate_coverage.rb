@@ -96,7 +96,7 @@ class QrGenerateCoverage < QrGenerateAbstract
         get_all_records.select{|record|record[:record_number].in? %w[27 28 29 30]}.each_with_index do |public_insurance_record, idx|
             coverage = FHIR::Coverage.new
             coverage.id = SecureRandom.uuid
-            coverage.status = :draft
+            coverage.status = :active
             coverage.type = create_codeable_concept('8', '公費', 'urn:oid:1.2.392.100495.20.2.61')
 
             # 公費負担者番号

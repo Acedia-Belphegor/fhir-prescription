@@ -1,7 +1,7 @@
 def create_identifier(value, system)
   identifier = FHIR::Identifier.new
-  identifier.system = system
   identifier.value = value
+  identifier.system = system if value.present?
   identifier
 end
 
@@ -15,8 +15,8 @@ end
 
 def create_codeable_concept(code, display, system = 'LC', text = nil)
   codeable_concept = FHIR::CodeableConcept.new
-  codeable_concept.coding << create_coding(code, display, system)
-  codeable_concept.text = text
+  codeable_concept.coding << create_coding(code, display, system) if code.present?
+  codeable_concept.text = text || (code.blank? ? display : nil)
   codeable_concept
 end
 
@@ -42,7 +42,7 @@ def create_quantity(value, unit = nil, system = nil, code = nil)
       value
     end
   quantity.unit = unit
-  quantity.system = system
+  quantity.system = code.present? ? system : nil # codeが未設定の場合はsystemも設定しない
   quantity.code = code
   quantity
 end

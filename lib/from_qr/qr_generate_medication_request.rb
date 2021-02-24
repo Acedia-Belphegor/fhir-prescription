@@ -117,7 +117,12 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
 
             # 用法
             if dosage_record[:dosage_code_kind] == '1'
-                dosage.text = dosage_record[:dosage_name]
+                dosage.timing.code = create_codeable_concept(
+                    nil,
+                    nil,
+                    nil,
+                    dosage_record[:dosage_name]
+                )
             else
                 dosage.timing.code = create_codeable_concept(
                     dosage_record[:dosage_code],
@@ -125,6 +130,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                     dosage_record[:dosage_code_kind] == '2' ? 'urn:oid:1.2.392.100495.20.2.31' : nil # 2:JAMI用法コード
                 )
             end
+            dosage.text = dosage_record[:dosage_name]
             
             # # １日回数
             # if dosage_record[:number_of_times_per_day].to_i.positive?
