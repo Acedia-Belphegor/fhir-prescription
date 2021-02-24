@@ -220,7 +220,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
                         expect(dosage.doseAndRate.first.rateRatio.numerator.value).to eq 3
                         expect(dosage.doseAndRate.first.rateRatio.numerator.unit).to eq "錠"
                         expect(dosage.doseAndRate.first.rateRatio.denominator.value).to eq 1
-                        expect(dosage.doseAndRate.first.rateRatio.denominator.unit).to eq "d"
+                        expect(dosage.doseAndRate.first.rateRatio.denominator.unit).to eq "日"
                     end
                 end
 
@@ -237,7 +237,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
                     # 払い出し日数
                     it "expectedSupplyDuration" do
                         expect(dispenseRequest.expectedSupplyDuration.value).to eq 3
-                        expect(dispenseRequest.expectedSupplyDuration.unit).to eq "d"
+                        expect(dispenseRequest.expectedSupplyDuration.unit).to eq "日"
                     end
                 end
             end
@@ -289,7 +289,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
                         expect(dosage.doseAndRate.first.rateRatio.numerator.value).to eq 2
                         expect(dosage.doseAndRate.first.rateRatio.numerator.unit).to eq "個"
                         expect(dosage.doseAndRate.first.rateRatio.denominator.value).to eq 1
-                        expect(dosage.doseAndRate.first.rateRatio.denominator.unit).to eq "d"
+                        expect(dosage.doseAndRate.first.rateRatio.denominator.unit).to eq "日"
                     end
                 end
             end
