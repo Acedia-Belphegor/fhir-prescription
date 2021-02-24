@@ -55,6 +55,7 @@ class V2GenerateAbstract
         human_name.use = :official
         human_name.family = name[:family_name][:surname]
         human_name.given << name[:given_name]
+        human_name.text = "#{name[:family_name][:surname]}#{name[:given_name]}"
 
         extension = FHIR::Extension.new
         extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"

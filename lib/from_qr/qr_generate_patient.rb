@@ -19,12 +19,11 @@ class QrGeneratePatient < QrGenerateAbstract
         if patient_record[:patient_kanji_name].present?
             human_name = FHIR::HumanName.new
             human_name.use = :official
-            names = patient_record[:patient_kanji_name].split(/\p{blank}/)
+            human_name.text = patient_record[:patient_kanji_name]
+            names = human_name.text.split(/\p{blank}/)
             if names.length == 2
                 human_name.family = names.first
                 human_name.given << names.last
-            else
-                human_name.text = names.join
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
@@ -37,12 +36,11 @@ class QrGeneratePatient < QrGenerateAbstract
         if patient_record[:patient_kana_name].present?
             human_name = FHIR::HumanName.new
             human_name.use = :official
-            names = Moji.han_to_zen(patient_record[:patient_kana_name]).split(/\p{blank}/)
+            human_name.text = Moji.han_to_zen(patient_record[:patient_kana_name])
+            names = human_name.text.split(/\p{blank}/)
             if names.length == 2
                 human_name.family = names.first
                 human_name.given << names.last
-            else
-                human_name.text = names.join
             end
             extension = FHIR::Extension.new
             extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"

@@ -50,6 +50,7 @@ class CdaGenerateAbstract
         human_name.use = :official
         human_name.family = name.xpath('family').text
         human_name.given << name.xpath('given').text
+        human_name.text = "#{name.xpath('family').text}#{name.xpath('given').text}"
 
         extension = FHIR::Extension.new
         extension.url = "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation"
