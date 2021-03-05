@@ -26,7 +26,7 @@ composition = FHIR::Composition.new
 composition.id = SecureRandom.uuid
 composition.status = :final
 composition.type = create_codeable_concept('XX', '分割処方箋(仮)', 'TBD')
-composition.date = DateTime.now
+composition.date = Time.now
 composition.title = "分割処方箋(仮)"
 composition.confidentiality = "N"
 

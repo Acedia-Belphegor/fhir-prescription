@@ -16,7 +16,7 @@ class GenerateSignature
         signature.type = FHIR::CodeableConcept.new
         signature.type.coding << coding
 
-        signature.when = DateTime.now
+        signature.when = Time.now
 
         practitioner = @target_bundle.entry.select{|e|e.resource.resourceType == "Practitioner"}.map{|e|e.resource}&.first
         if practitioner.present?
