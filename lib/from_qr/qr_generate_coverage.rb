@@ -35,7 +35,7 @@ class QrGenerateCoverage < QrGenerateAbstract
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
             organization.identifier << create_identifier(insurer_record[:insurer_number], 'urn:oid:1.2.392.100495.20.3.61')
-            organization.type << create_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
+            organization.type << create_codeable_concept('pay', 'Payer', 'http://terminology.hl7.org/CodeSystem/organization-type')
             entry = FHIR::Bundle::Entry.new
             entry.resource = organization
             @bundle.entry.concat << entry
@@ -66,7 +66,7 @@ class QrGenerateCoverage < QrGenerateAbstract
             payment_record = get_records(24)&.first
             if payment_record.present?
                 cost = FHIR::Coverage::CostToBeneficiary.new
-                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://terminology.hl7.org/CodeSystem/coverage-copay-type')
                 cost.valueQuantity = create_quantity(payment_record[:patient_payment_rate].to_i, '%', 'http://unitsofmeasure.org')
 
                 # 患者一部負担区分レコード

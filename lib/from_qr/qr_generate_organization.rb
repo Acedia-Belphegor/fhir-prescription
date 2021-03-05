@@ -33,7 +33,7 @@ class QrGenerateOrganization < QrGenerateAbstract
         organization.extension << extension
 
         organization.name = institution_record[:medical_institution_name]
-        organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
+        organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
         # 医療機関所在地レコード
         address_record = get_records(2)&.first
@@ -70,11 +70,10 @@ class QrGenerateOrganization < QrGenerateAbstract
     
             organization.identifier << create_identifier(department_record[:department_code], create_url(:name_space, 'DepartmentCode'))
             organization.name = department_record[:department_name]
-            organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://hl7.org/fhir/ValueSet/organization-type')
+            organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
-            if results.present?
-                results.first.resource.partOf = create_reference(organization)
-            end
+            # 医療機関
+            organization.partOf = create_reference(results.first.resource)
 
             results << create_entry(organization)
         end

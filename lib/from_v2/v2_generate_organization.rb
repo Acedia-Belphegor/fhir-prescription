@@ -34,7 +34,7 @@ class V2GenerateOrganization < V2GenerateAbstract
         organization.name = orc_segment[:ordering_facility_name].first[:organization_name] if orc_segment[:ordering_facility_name].present?
         organization.address = orc_segment[:ordering_facility_address].map{|addr|generate_address(addr)} if orc_segment[:ordering_facility_address].present?
         organization.telecom = orc_segment[:ordering_facility_phone_number].map{|telecom|generate_contact_point(telecom)} if orc_segment[:ordering_facility_phone_number].present?
-        organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://hl7.org/fhir/ValueSet/organization-type')
+        organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
         results << create_entry(organization)
 
@@ -46,11 +46,10 @@ class V2GenerateOrganization < V2GenerateAbstract
             dept = orc_segment[:entering_organization].first
             organization.identifier << create_identifier(dept[:identifier], create_url(:name_space, 'DepartmentCode'))
             organization.name = dept[:text]
-            organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://hl7.org/fhir/ValueSet/organization-type')
+            organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
-            if results.present?
-                results.first.resource.partOf = create_reference(organization)
-            end
+            # 医療機関
+            organization.partOf = create_reference(results.first.resource)
 
             results << create_entry(organization)
         end

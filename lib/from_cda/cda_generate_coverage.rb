@@ -47,7 +47,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                     organization = FHIR::Organization.new
                     organization.id = SecureRandom.uuid
                     organization.identifier << generate_identifier(id)
-                    organization.type << create_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
+                    organization.type << create_codeable_concept('pay', 'Payer', 'http://terminology.hl7.org/CodeSystem/organization-type')
                     entry = FHIR::Bundle::Entry.new
                     entry.resource = organization
                     @bundle.entry.concat << entry
@@ -70,7 +70,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
                 coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
                 # 患者負担割
                 cost = FHIR::Coverage::CostToBeneficiary.new
-                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://terminology.hl7.org/CodeSystem/coverage-copay-type')
                 cost.valueQuantity = create_quantity(30, '%', 'http://unitsofmeasure.org') # MEMO:とりあえず仮設定で30%
 
                 # 患者一部負担区分

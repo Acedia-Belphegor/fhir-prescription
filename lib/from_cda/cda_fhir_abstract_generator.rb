@@ -12,6 +12,7 @@ end
 
 class CdaFhirAbstractGenerator    
     def initialize(params)
+        Time.zone = 'Tokyo'
         @params = params
         document = Nokogiri::XML.parse(Base64.decode64(params[:document]).force_encoding("utf-8"))
         document.remove_namespaces!
@@ -25,7 +26,7 @@ class CdaFhirAbstractGenerator
         @bundle.type = :document
         @bundle.timestamp = DateTime.now
         meta = FHIR::Meta.new
-        meta.profile = "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
+        meta.profile << "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
         @bundle.meta = meta
     end
 

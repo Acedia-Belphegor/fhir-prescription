@@ -13,6 +13,7 @@ end
 
 class V2FhirAbstractGenerator    
     def initialize(params)
+        Time.zone = 'Tokyo'
         @params = params
         str = if Encoding.find(params[:encoding]) == Encoding::ISO_2022_JP
             Base64.decode64(params[:message]).force_encoding(Encoding::ISO_2022_JP).encode("utf-8")
@@ -29,7 +30,7 @@ class V2FhirAbstractGenerator
         @bundle.type = :document
         @bundle.timestamp = DateTime.now
         meta = FHIR::Meta.new
-        meta.profile = "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
+        meta.profile << "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
         @bundle.meta = meta
     end
 

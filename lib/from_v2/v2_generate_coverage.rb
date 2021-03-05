@@ -32,7 +32,7 @@ class V2GenerateCoverage < V2GenerateAbstract
                     organization = FHIR::Organization.new
                     organization.id = SecureRandom.uuid
                     organization.identifier << create_identifier(in1_segment[:insurance_company_id].first[:id_number], 'urn:oid:1.2.392.100495.20.3.61')
-                    organization.type << create_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
+                    organization.type << create_codeable_concept('pay', 'Payer', 'http://terminology.hl7.org/CodeSystem/organization-type')
                     @bundle.entry.concat << create_entry(organization)
                     coverage.payor << create_reference(organization)
                 end
@@ -62,7 +62,7 @@ class V2GenerateCoverage < V2GenerateAbstract
                 end
                 # 患者負担率
                 cost = FHIR::Coverage::CostToBeneficiary.new
-                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+                cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://terminology.hl7.org/CodeSystem/coverage-copay-type')
                 if in1_segment[:coordination_of_benefits].present?
                     value = if in1_segment[:coordination_of_benefits] == "MX"
                         0

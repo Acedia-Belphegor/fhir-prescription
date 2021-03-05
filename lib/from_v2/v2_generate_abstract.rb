@@ -79,8 +79,8 @@ class V2GenerateAbstract
         address.country = addr[:country]
         address.state = addr[:state_or_province]
         address.city = addr[:city]
-        address.line << addr[:street_address]
-        address.text = addr[:other_geographic_designation]
+        address.line << addr[:other_geographic_designation]
+        address.text = addr[:street_address][:street_or_mailing_address] if addr[:street_address].present?
         address.postalCode = addr[:zip_or_postal_code]
         address
     end
@@ -106,7 +106,7 @@ class V2GenerateAbstract
             contact_point.system = :phone
             contact_point.use = :mobile
         end
-        contact_point.value = telecom[:unformatted_telephone_number_]
+        contact_point.value = telecom[:telephone_number] || telecom[:unformatted_telephone_number_]
         contact_point
     end
 

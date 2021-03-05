@@ -31,14 +31,14 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
                 'urn:oid:1.2.392.100495.20.3.82'
             )
             # ORC-9.トランザクション日時
-            medication_request.authoredOn = DateTime.parse(orc_segment[:datetime_of_transaction].first[:time]) if orc_segment[:datetime_of_transaction].present?
+            medication_request.authoredOn = Time.zone.parse(orc_segment[:datetime_of_transaction].first[:time]) if orc_segment[:datetime_of_transaction].present?
 
             # RXEセグメント
             rxe_segment = segments.find{|segment|segment[:segment_id] == 'RXE'}
 
             # RXE-2.与薬コード
             codeable_concept = generate_codeable_concept(rxe_segment[:give_code].first)
-            if codeable_concept.coding.first.system == 'HOT'
+            if codeable_concept.coding.first.system.start_with?('HOT')
                 codeable_concept.coding.first.system = 'urn:oid:1.2.392.100495.20.2.74' # HOTコード
             end
             medication_request.medicationCodeableConcept = codeable_concept

@@ -13,6 +13,7 @@ end
 
 class QrFhirAbstractGenerator
     def initialize(params)
+        Time.zone = 'Tokyo'
         @params = params
         str = if Encoding.find(params[:encoding]) == Encoding::Shift_JIS
             Base64.decode64(params[:qr_code]).force_encoding("cp932").encode("utf-8")
@@ -29,7 +30,7 @@ class QrFhirAbstractGenerator
         @bundle.type = :document
         @bundle.timestamp = DateTime.now
         meta = FHIR::Meta.new
-        meta.profile = "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
+        meta.profile << "http://hl7.jp/fhir/ePrescription/StructureDefinition/ePrescription-Bundle/1.0"
         @bundle.meta = meta
     end
 

@@ -16,7 +16,7 @@ class CdaGenerateComposition < CdaGenerateAbstract
             clinical_document.xpath('code/@codeSystem').text
         )
         composition.category << create_codeable_concept('01', '一般処方箋', create_url(:code_system, 'PrescriptionCategory'))
-        composition.date = DateTime.parse(clinical_document.xpath('effectiveTime/@value').text)
+        composition.date = Time.zone.parse(clinical_document.xpath('effectiveTime/@value').text)
         composition.title = clinical_document.xpath('title').text
         composition.confidentiality = clinical_document.xpath('confidentialityCode/@code').text
 
