@@ -37,11 +37,27 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
             rxe_segment = segments.find{|segment|segment[:segment_id] == 'RXE'}
 
             # RXE-2.与薬コード
-            codeable_concept = generate_codeable_concept(rxe_segment[:give_code].first)
-            if codeable_concept.coding.first.system.start_with?('HOT')
-                codeable_concept.coding.first.system = 'urn:oid:1.2.392.100495.20.2.74' # HOTコード
+            medication_code = generate_codeable_concept(rxe_segment[:give_code].first)
+
+            # RXE-31.補足コード
+            if rxe_segment[:supplementary_code].present?
+                codes = rxe_segment[:supplementary_code].map{|sc|generate_codeable_concept(sc)}
+                medication_code.coding.concat codes.flat_map{|c|c.coding}
             end
-            medication_request.medicationCodeableConcept = codeable_concept
+
+            medication_code.coding.each do |coding|
+                coding.system = case coding.system
+                    when 'HOT','HOT9'
+                        'urn:oid:1.2.392.100495.20.2.74' # HOTコード
+                    when 'YJ'
+                        'urn:oid:1.2.392.10495.20.1.73' # YJコード
+                    when 'MYAK'
+                        'urn:oid:1.2.392.10495.20.1.72' # 薬価基準収載医薬品コード（厚労省コード）
+                    else
+                        coding.system
+                    end
+            end
+            medication_request.medicationCodeableConcept = medication_code
 
             # RXE-3.与薬量－最小 / RXE-5.与薬単位
             if rxe_segment[:give_amount_minimum].to_f.positive?

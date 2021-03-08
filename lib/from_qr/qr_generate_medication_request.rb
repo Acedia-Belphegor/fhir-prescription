@@ -83,6 +83,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
                 dose.doseQuantity = create_quantity(one_time_dose_record[:one_time_dose_quantity], medication_record[:unit_name])
             end
 
+            # 力価フラグ
+            dose.type = case medication_record[:strength_flag]
+                        when '1'
+                            create_codeable_concept('1', '製剤量', 'urn:oid:1.2.392.100495.20.2.22')
+                        when '2'
+                            create_codeable_concept('2', '原薬量', 'urn:oid:1.2.392.100495.20.2.22')
+                        end
+
             # 用量(1日量)
             ratio = FHIR::Ratio.new
             ratio.numerator = create_quantity(medication_record[:dose_quantity], medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
