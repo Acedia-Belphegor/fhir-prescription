@@ -3,8 +3,8 @@ require './lib/from_sips/sips_fhir_dispensing_generator'
 
 filename = File.join(File.dirname(__FILE__), "example_sjis.csv")
 params = {
-    encoding: "Shift_JIS",
-    nsips: Base64.encode64(File.read(filename, encoding: "shift_jis")),
+  encoding: "Shift_JIS",
+  nsips: Base64.encode64(File.read(filename, encoding: "shift_jis")),
 }
 generator = SipsFhirDispensingGenerator.new(params).perform
 result = generator.to_json

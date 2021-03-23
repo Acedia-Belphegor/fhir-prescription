@@ -3,11 +3,11 @@ require './lib/from_v2/v2_fhir_prescription_generator'
 
 filename = File.join(File.dirname(__FILE__), "example_iso2022jp.txt")
 params = {
-    encoding: "ISO-2022-JP",
-    prefecture_code: "13",
-    medical_fee_point_code: "1",
-    medical_institution_code: "9999999",
-    message: Base64.encode64(File.read(filename, encoding: "iso_2022_jp")),
+  encoding: "ISO-2022-JP",
+  prefecture_code: "13",
+  medical_fee_point_code: "1",
+  medical_institution_code: "9999999",
+  message: Base64.encode64(File.read(filename, encoding: "iso_2022_jp")),
 }
 generator = V2FhirPrescriptionGenerator.new(params).perform
 result = generator.to_json

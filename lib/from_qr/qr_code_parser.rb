@@ -3,28 +3,28 @@ require 'csv'
 require 'pathname'
 
 class QrCodeParser
-    def initialize(qr_code)
-        @qr_code = qr_code
-        
-        # JAHIS院外処方箋２次元シンボル記録条件規約のフォーマットファイルを読み込む
-        @jahis_format = File.open(Pathname.new(File.dirname(File.expand_path(__FILE__))).join('json').join('jahis_format.json')) do |io|
-            JSON.load(io, nil, {:symbolize_names => true, :create_additions => false})
-        end
+  def initialize(qr_code)
+    @qr_code = qr_code
+    
+    # JAHIS院外処方箋２次元シンボル記録条件規約のフォーマットファイルを読み込む
+    @jahis_format = File.open(Pathname.new(File.dirname(File.expand_path(__FILE__))).join('json').join('jahis_format.json')) do |io|
+      JSON.load(io, nil, {:symbolize_names => true, :create_additions => false})
+    end
+  end
+
+  def parse()
+    results = []
+
+    @qr_code.split("\n").each do |record|
+      next if record.upcase.start_with?('JAHIS')
+      record_number = record.split(/,/).first.to_i
+      formats = @jahis_format[:records].find{|r|r[:record_number] == record_number}
+      next unless formats.present?
+      results.concat CSV.parse(record, headers: formats[:rayout].map{|r|r[:name].to_sym}.unshift(:record_number)).map(&:to_hash)
     end
 
-    def parse()
-        results = []
-
-        @qr_code.split("\n").each do |record|
-            next if record.upcase.start_with?('JAHIS')
-            record_number = record.split(/,/).first.to_i
-            formats = @jahis_format[:records].find{|r|r[:record_number] == record_number}
-            next unless formats.present?
-            results.concat CSV.parse(record, headers: formats[:rayout].map{|r|r[:name].to_sym}.unshift(:record_number)).map(&:to_hash)
-        end
-
-        @parsed_qr = results
-    end
+    @parsed_qr = results
+  end
 end
 __END__
 [

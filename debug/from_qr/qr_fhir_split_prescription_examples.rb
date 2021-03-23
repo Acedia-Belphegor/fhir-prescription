@@ -2,18 +2,18 @@ require "base64"
 require './lib/from_qr/qr_fhir_prescription_generator'
 
 def create_codeable_concept(code, display, system = 'LC')
-    codeable_concept = FHIR::CodeableConcept.new
-    coding = FHIR::Coding.new
-    coding.code = code
-    coding.display = display
-    coding.system = system
-    codeable_concept.coding << coding
-    codeable_concept
+  codeable_concept = FHIR::CodeableConcept.new
+  coding = FHIR::Coding.new
+  coding.code = code
+  coding.display = display
+  coding.system = system
+  codeable_concept.coding << coding
+  codeable_concept
 end
 
 params = {
-    encoding: "UTF-8",
-    qr_code: "SkFISVM1CjEsMSwxMjM0NTY3LDEzLOWMu+eZguazleS6uuOAgOOCquODq+OC\nq+WMu+mZogoyLDExMy0wMDIxLOadseS6rOmDveaWh+S6rOWMuuacrOmnkui+\nvO+8kuKIku+8ku+8mOKIku+8ke+8lgozLDAzLTM5NDYtMDAwMSwwMy0zOTQ2\nLTAwMDIKNCwyLDAxLOWGheenkQo1LCws44OG44K544OI5Yy75birCjExLCzm\ngqPogIXjgIDkuIDpg44s7722776d7728776e772sIO+9su++ge++m++9swox\nMiwxCjEzLDE5NzkxMTAxCjIxLDIKMjIsMTMzOTU5CjIzLO+8ke+8ku+8kyzv\nvJTvvJXvvJYsMQo1MSwyMDIwMTAxNAo2MywzLDEKMTAxLDEsMSwsNjYKMTAy\nLDEsMTEsNjYKMTExLDEsMSws77yR5pel77yT5Zue5pyd5pi85aSV6aOf5b6M\nLAoyMDEsMSwxLDEsNiwxMDA5ODgwMDEs44Ot44Kt44K944OL44Oz6Yyg77yW\n77yQ772N772HLDMsMSzpjKA=\n"
+  encoding: "UTF-8",
+  qr_code: "SkFISVM1CjEsMSwxMjM0NTY3LDEzLOWMu+eZguazleS6uuOAgOOCquODq+OC\nq+WMu+mZogoyLDExMy0wMDIxLOadseS6rOmDveaWh+S6rOWMuuacrOmnkui+\nvO+8kuKIku+8ku+8mOKIku+8ke+8lgozLDAzLTM5NDYtMDAwMSwwMy0zOTQ2\nLTAwMDIKNCwyLDAxLOWGheenkQo1LCws44OG44K544OI5Yy75birCjExLCzm\ngqPogIXjgIDkuIDpg44s7722776d7728776e772sIO+9su++ge++m++9swox\nMiwxCjEzLDE5NzkxMTAxCjIxLDIKMjIsMTMzOTU5CjIzLO+8ke+8ku+8kyzv\nvJTvvJXvvJYsMQo1MSwyMDIwMTAxNAo2MywzLDEKMTAxLDEsMSwsNjYKMTAy\nLDEsMTEsNjYKMTExLDEsMSws77yR5pel77yT5Zue5pyd5pi85aSV6aOf5b6M\nLAoyMDEsMSwxLDEsNiwxMDA5ODgwMDEs44Ot44Kt44K944OL44Oz6Yyg77yW\n77yQ772N772HLDMsMSzpjKA=\n"
 }
 
 client = FHIR::Client.new("http://localhost:8080", default_format: 'json')
@@ -44,9 +44,9 @@ prescriptions = 3.times.map{ QrFhirPrescriptionGenerator.new(params).perform.get
 bundle.entry.concat prescriptions
 
 section.entry = prescriptions.map{|prescription|
-    reference = FHIR::Reference.new
-    reference.reference = "#{prescription.resourceType}/#{prescription.id}"
-    reference
+  reference = FHIR::Reference.new
+  reference.reference = "#{prescription.resourceType}/#{prescription.id}"
+  reference
 }
 
 section = FHIR::Composition::Section.new
