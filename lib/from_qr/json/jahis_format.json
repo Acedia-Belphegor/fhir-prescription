@@ -1,329 +1,329 @@
 {
-    "records": [
-        {
-            "record_number": 1,
-            "record_name": "医療機関レコード",
-            "rayout": [
-                { "name": "medical_institution_code_kind", "ja_name": "医療機関コード種別" },
-                { "name": "medical_institution_code", "ja_name": "医療機関コード" },
-                { "name": "medical_institution_prefecture_code", "ja_name": "医療機関都道府県コード" },
-                { "name": "medical_institution_name", "ja_name": "医療機関名称" }
-            ]
-        },
-        {
-            "record_number": 2,
-            "record_name": "医療機関所在地レコード",
-            "rayout": [
-                { "name": "medical_institution_postalcode", "ja_name": "医療機関郵便番号" },
-                { "name": "medical_institution_address", "ja_name": "医療機関所在地" }
-            ]
-        },
-        {
-            "record_number": 3,
-            "record_name": "医療機関電話レコード",
-            "rayout": [
-                { "name": "medical_institution_tel", "ja_name": "医療機関電話番号" },
-                { "name": "medical_institution_fax", "ja_name": "FAX番号" },
-                { "name": "medical_institution_other_contact", "ja_name": "その他連絡先" }
-            ]
-        },
-        {
-            "record_number": 4,
-            "record_name": "診療科レコード",
-            "rayout": [
-                { "name": "department_code_kind", "ja_name": "診療科コード種別" },
-                { "name": "department_code", "ja_name": "診療科コード" },
-                { "name": "department_name", "ja_name": "診療科名" }
-            ]
-        },
-        {
-            "record_number": 5,
-            "record_name": "医師レコード",
-            "rayout": [
-                { "name": "doctor_code", "ja_name": "医師コード" },
-                { "name": "doctor_kana_name", "ja_name": "医師カナ氏名" },
-                { "name": "doctor_kanji_name", "ja_name": "医師漢字氏名" }
-            ]
-        },
-        {
-            "record_number": 11,
-            "record_name": "患者氏名レコード",
-            "rayout": [
-                { "name": "patient_code", "ja_name": "患者コード" },
-                { "name": "patient_kanji_name", "ja_name": "患者漢字氏名" },
-                { "name": "patient_kana_name", "ja_name": "患者カナ氏名" }
-            ]
-        },
-        {
-            "record_number": 12,
-            "record_name": "患者性別レコード",
-            "rayout": [
-                { "name": "patient_gender", "ja_name": "患者性別" }
-            ]
-        },
-        {
-            "record_number": 13,
-            "record_name": "患者生年月日レコード",
-            "rayout": [
-                { "name": "patient_birthdate", "ja_name": "患者生年月日" }
-            ]
-        },
-        {
-            "record_number": 14,
-            "record_name": "患者一部負担区分レコード",
-            "rayout": [
-                { "name": "partial_payment_class", "ja_name": "一部負担金区分" }
-            ]
-        },
-        {
-            "record_number": 21,
-            "record_name": "保険種別レコード",
-            "rayout": [
-                { "name": "insurance_kind", "ja_name": "保険種別" }
-            ]
-        },
-        {
-            "record_number": 22,
-            "record_name": "保険者番号レコード",
-            "rayout": [
-                { "name": "insurer_number", "ja_name": "保険者番号" }
-            ]
-        },
-        {
-            "record_number": 23,
-            "record_name": "記号番号レコード",
-            "rayout": [
-                { "name": "insured_symbol", "ja_name": "被保険者証記号" },
-                { "name": "insured_number", "ja_name": "被保険者証番号" },
-                { "name": "relationship", "ja_name": "被保険者／被扶養者" }
-            ]
-        },
-        {
-            "record_number": 24,
-            "record_name": "負担・給付率レコード",
-            "rayout": [
-                { "name": "patient_payment_rate", "ja_name": "患者負担率" },
-                { "name": "insurance_payment_rate", "ja_name": "保険給付率" }
-            ]
-        },
-        {
-            "record_number": 25,
-            "record_name": "職務上の事由レコード",
-            "rayout": [
-                { "name": "business_reasons", "ja_name": "職務上の事由" }
-            ]
-        },
-        {
-            "record_number": 27,
-            "record_name": "第一公費レコード",
-            "rayout": [
-                { "name": "identification_number", "ja_name": "第一公費負担者番号" },
-                { "name": "recipient_number", "ja_name": "第一公費受給者番号" }
-            ]
-        },
-        {
-            "record_number": 28,
-            "record_name": "第二公費レコード",
-            "rayout": [
-                { "name": "identification_number", "ja_name": "第二公費負担者番号" },
-                { "name": "recipient_number", "ja_name": "第二公費受給者番号" }
-            ]
-        },
-        {
-            "record_number": 29,
-            "record_name": "第三公費レコード",
-            "rayout": [
-                { "name": "identification_number", "ja_name": "第三公費負担者番号" },
-                { "name": "recipient_number", "ja_name": "第三公費受給者番号" }
-            ]
-        },
-        {
-            "record_number": 30,
-            "record_name": "特殊公費レコード",
-            "rayout": [
-                { "name": "identification_number", "ja_name": "特殊公費負担者番号" },
-                { "name": "recipient_number", "ja_name": "特殊公費受給者番号" }
-            ]
-        },
-        {
-            "record_number": 31,
-            "record_name": "レセプト種別レコード",
-            "rayout": [
-                { "name": "receipt_kind_code", "ja_name": "レセプト種別コード" }
-            ]
-        },
-        {
-            "record_number": 51,
-            "record_name": "処方箋交付年月日レコード",
-            "rayout": [
-                { "name": "delivery_date", "ja_name": "処方箋交付年月日" }
-            ]
-        },
-        {
-            "record_number": 52,
-            "record_name": "使用期限年月日レコード",
-            "rayout": [
-                { "name": "expiration_date", "ja_name": "使用期限年月日" }
-            ]
-        },
-        {
-            "record_number": 61,
-            "record_name": "麻薬施用レコード",
-            "rayout": [
-                { "name": "narcotic_use_licence_number", "ja_name": "麻薬施用者免許番号" },
-                { "name": "narcotic_use_patient_address", "ja_name": "麻薬施用患者住所" },
-                { "name": "narcotic_use_patient_tel", "ja_name": "麻薬施用患者電話番号" }
-            ]
-        },
-        {
-            "record_number": 62,
-            "record_name": "残薬確認欄レコード",
-            "rayout": [
-                { "name": "confirm_remaining_medicine", "ja_name": "残薬確認対応フラグ" }
-            ]
-        },
-        {
-            "record_number": 63,
-            "record_name": "分割指示レコード",
-            "rayout": [
-                { "name": "total_number_of_divisions", "ja_name": "分割回数" },
-                { "name": "number_of_divisions", "ja_name": "分割回" }
-            ]
-        },
-        {
-            "record_number": 81,
-            "record_name": "備考レコード",
-            "rayout": [
-                { "name": "remark_serial_number", "ja_name": "備考連番" },
-                { "name": "remark_kind", "ja_name": "備考種別" },
-                { "name": "remarks", "ja_name": "備考" }
-            ]
-        },
-        {
-            "record_number": 82,
-            "record_name": "処方箋番号レコード",
-            "rayout": [
-                { "name": "prescription_number_kind", "ja_name": "処方箋番号種別" },
-                { "name": "prescription_number", "ja_name": "処方箋番号" }
-            ]
-        },
-        {
-            "record_number": 101,
-            "record_name": "剤形レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "dosage_form_class", "ja_name": "剤形区分" },
-                { "name": "dosage_form_name", "ja_name": "剤形名称" },
-                { "name": "dispensing_quantity", "ja_name": "調剤数量" }
-            ]
-        },
-        {
-            "record_number": 102,
-            "record_name": "分割指示調剤数量レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "dispensing_quantity_per_division", "ja_name": "分割回ごと調剤数量" },
-                { "name": "total_dispensing_quantity", "ja_name": "総調剤数量" }
-            ]
-        },
-        {
-            "record_number": 111,
-            "record_name": "用法レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "dosage_code_kind", "ja_name": "用法コード種別" },
-                { "name": "dosage_code", "ja_name": "用法コード" },
-                { "name": "dosage_name", "ja_name": "用法名称" },
-                { "name": "number_of_times_per_day", "ja_name": "１日回数" }
-            ]
-        },
-        {
-            "record_number": 181,
-            "record_name": "用法補足レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP補足連番" },
-                { "name": "dosage_supplement_class", "ja_name": "用法補足区分" },
-                { "name": "dosage_supplement_information", "ja_name": "用法補足情報" },
-                { "name": "dosage_supplement_code", "ja_name": "補足用法コード" },
-                { "name": "site_code", "ja_name": "部位コード" }
-            ]
-        },
-        {
-            "record_number": 201,
-            "record_name": "薬品レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "information_class", "ja_name": "情報区分" },
-                { "name": "medication_code_kind", "ja_name": "薬品コード種別" },
-                { "name": "medication_code", "ja_name": "薬品コード" },
-                { "name": "medication_name", "ja_name": "薬品名称" },
-                { "name": "dose_quantity", "ja_name": "用量" },
-                { "name": "strength_flag", "ja_name": "力価フラグ" },
-                { "name": "unit_name", "ja_name": "単位名" }
-            ]
-        },
-        {
-            "record_number": 211,
-            "record_name": "単位変換レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "unit_conversion_factor", "ja_name": "単位変換係数" }
-            ]
-        },
-        {
-            "record_number": 221,
-            "record_name": "不均等レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "dose_quantity1", "ja_name": "１回目服用量" },
-                { "name": "dose_quantity2", "ja_name": "２回目服用量" },
-                { "name": "dose_quantity3", "ja_name": "３回目服用量" },
-                { "name": "dose_quantity4", "ja_name": "４回目服用量" },
-                { "name": "dose_quantity5", "ja_name": "５回目服用量" },
-                { "name": "dose_quantity_code1", "ja_name": "１回目服用量コード" },
-                { "name": "dose_quantity_code2", "ja_name": "２回目服用量コード" },
-                { "name": "dose_quantity_code3", "ja_name": "３回目服用量コード" },
-                { "name": "dose_quantity_code4", "ja_name": "４回目服用量コード" },
-                { "name": "dose_quantity_code5", "ja_name": "５回目服用量コード" }
-            ]
-        },
-        {
-            "record_number": 231,
-            "record_name": "負担区分レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "public_insurance1_payment_class", "ja_name": "第一公費負担区分" },
-                { "name": "public_insurance2_payment_class", "ja_name": "第二公費負担区分" },
-                { "name": "public_insurance3_payment_class", "ja_name": "第三公費負担区分" },
-                { "name": "special_insurance_payment_class", "ja_name": "特殊公費負担区分" }
-            ]
-        },
-        {
-            "record_number": 241,
-            "record_name": "１回服用量レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "one_time_dose_quantity", "ja_name": "１回服用量" },
-                { "name": "number_of_times_per_day", "ja_name": "１日服用回数" }
-            ]
-        },
-        {
-            "record_number": 281,
-            "record_name": "薬品補足レコード",
-            "rayout": [
-                { "name": "rp_number", "ja_name": "RP番号" },
-                { "name": "rp_branch_number", "ja_name": "RP内連番" },
-                { "name": "medication_branch_number", "ja_name": "薬品補足連番" },
-                { "name": "medication_supplement_class", "ja_name": "薬品補足区分" },
-                { "name": "medication_supplement_information", "ja_name": "薬品補足情報" },
-                { "name": "dosage_supplement_code", "ja_name": "補足用法コード" }
-            ]
-        }
-    ]
+  "records": [
+    {
+      "record_number": 1,
+      "record_name": "医療機関レコード",
+      "rayout": [
+        { "name": "medical_institution_code_kind", "ja_name": "医療機関コード種別" },
+        { "name": "medical_institution_code", "ja_name": "医療機関コード" },
+        { "name": "medical_institution_prefecture_code", "ja_name": "医療機関都道府県コード" },
+        { "name": "medical_institution_name", "ja_name": "医療機関名称" }
+      ]
+    },
+    {
+      "record_number": 2,
+      "record_name": "医療機関所在地レコード",
+      "rayout": [
+        { "name": "medical_institution_postalcode", "ja_name": "医療機関郵便番号" },
+        { "name": "medical_institution_address", "ja_name": "医療機関所在地" }
+      ]
+    },
+    {
+      "record_number": 3,
+      "record_name": "医療機関電話レコード",
+      "rayout": [
+        { "name": "medical_institution_tel", "ja_name": "医療機関電話番号" },
+        { "name": "medical_institution_fax", "ja_name": "FAX番号" },
+        { "name": "medical_institution_other_contact", "ja_name": "その他連絡先" }
+      ]
+    },
+    {
+      "record_number": 4,
+      "record_name": "診療科レコード",
+      "rayout": [
+        { "name": "department_code_kind", "ja_name": "診療科コード種別" },
+        { "name": "department_code", "ja_name": "診療科コード" },
+        { "name": "department_name", "ja_name": "診療科名" }
+      ]
+    },
+    {
+      "record_number": 5,
+      "record_name": "医師レコード",
+      "rayout": [
+        { "name": "doctor_code", "ja_name": "医師コード" },
+        { "name": "doctor_kana_name", "ja_name": "医師カナ氏名" },
+        { "name": "doctor_kanji_name", "ja_name": "医師漢字氏名" }
+      ]
+    },
+    {
+      "record_number": 11,
+      "record_name": "患者氏名レコード",
+      "rayout": [
+        { "name": "patient_code", "ja_name": "患者コード" },
+        { "name": "patient_kanji_name", "ja_name": "患者漢字氏名" },
+        { "name": "patient_kana_name", "ja_name": "患者カナ氏名" }
+      ]
+    },
+    {
+      "record_number": 12,
+      "record_name": "患者性別レコード",
+      "rayout": [
+        { "name": "patient_gender", "ja_name": "患者性別" }
+      ]
+    },
+    {
+      "record_number": 13,
+      "record_name": "患者生年月日レコード",
+      "rayout": [
+        { "name": "patient_birthdate", "ja_name": "患者生年月日" }
+      ]
+    },
+    {
+      "record_number": 14,
+      "record_name": "患者一部負担区分レコード",
+      "rayout": [
+        { "name": "partial_payment_class", "ja_name": "一部負担金区分" }
+      ]
+    },
+    {
+      "record_number": 21,
+      "record_name": "保険種別レコード",
+      "rayout": [
+        { "name": "insurance_kind", "ja_name": "保険種別" }
+      ]
+    },
+    {
+      "record_number": 22,
+      "record_name": "保険者番号レコード",
+      "rayout": [
+        { "name": "insurer_number", "ja_name": "保険者番号" }
+      ]
+    },
+    {
+      "record_number": 23,
+      "record_name": "記号番号レコード",
+      "rayout": [
+        { "name": "insured_symbol", "ja_name": "被保険者証記号" },
+        { "name": "insured_number", "ja_name": "被保険者証番号" },
+        { "name": "relationship", "ja_name": "被保険者／被扶養者" }
+      ]
+    },
+    {
+      "record_number": 24,
+      "record_name": "負担・給付率レコード",
+      "rayout": [
+        { "name": "patient_payment_rate", "ja_name": "患者負担率" },
+        { "name": "insurance_payment_rate", "ja_name": "保険給付率" }
+      ]
+    },
+    {
+      "record_number": 25,
+      "record_name": "職務上の事由レコード",
+      "rayout": [
+        { "name": "business_reasons", "ja_name": "職務上の事由" }
+      ]
+    },
+    {
+      "record_number": 27,
+      "record_name": "第一公費レコード",
+      "rayout": [
+        { "name": "identification_number", "ja_name": "第一公費負担者番号" },
+        { "name": "recipient_number", "ja_name": "第一公費受給者番号" }
+      ]
+    },
+    {
+      "record_number": 28,
+      "record_name": "第二公費レコード",
+      "rayout": [
+        { "name": "identification_number", "ja_name": "第二公費負担者番号" },
+        { "name": "recipient_number", "ja_name": "第二公費受給者番号" }
+      ]
+    },
+    {
+      "record_number": 29,
+      "record_name": "第三公費レコード",
+      "rayout": [
+        { "name": "identification_number", "ja_name": "第三公費負担者番号" },
+        { "name": "recipient_number", "ja_name": "第三公費受給者番号" }
+      ]
+    },
+    {
+      "record_number": 30,
+      "record_name": "特殊公費レコード",
+      "rayout": [
+        { "name": "identification_number", "ja_name": "特殊公費負担者番号" },
+        { "name": "recipient_number", "ja_name": "特殊公費受給者番号" }
+      ]
+    },
+    {
+      "record_number": 31,
+      "record_name": "レセプト種別レコード",
+      "rayout": [
+        { "name": "receipt_kind_code", "ja_name": "レセプト種別コード" }
+      ]
+    },
+    {
+      "record_number": 51,
+      "record_name": "処方箋交付年月日レコード",
+      "rayout": [
+        { "name": "delivery_date", "ja_name": "処方箋交付年月日" }
+      ]
+    },
+    {
+      "record_number": 52,
+      "record_name": "使用期限年月日レコード",
+      "rayout": [
+        { "name": "expiration_date", "ja_name": "使用期限年月日" }
+      ]
+    },
+    {
+      "record_number": 61,
+      "record_name": "麻薬施用レコード",
+      "rayout": [
+        { "name": "narcotic_use_licence_number", "ja_name": "麻薬施用者免許番号" },
+        { "name": "narcotic_use_patient_address", "ja_name": "麻薬施用患者住所" },
+        { "name": "narcotic_use_patient_tel", "ja_name": "麻薬施用患者電話番号" }
+      ]
+    },
+    {
+      "record_number": 62,
+      "record_name": "残薬確認欄レコード",
+      "rayout": [
+        { "name": "confirm_remaining_medicine", "ja_name": "残薬確認対応フラグ" }
+      ]
+    },
+    {
+      "record_number": 63,
+      "record_name": "分割指示レコード",
+      "rayout": [
+        { "name": "total_number_of_divisions", "ja_name": "分割回数" },
+        { "name": "number_of_divisions", "ja_name": "分割回" }
+      ]
+    },
+    {
+      "record_number": 81,
+      "record_name": "備考レコード",
+      "rayout": [
+        { "name": "remark_serial_number", "ja_name": "備考連番" },
+        { "name": "remark_kind", "ja_name": "備考種別" },
+        { "name": "remarks", "ja_name": "備考" }
+      ]
+    },
+    {
+      "record_number": 82,
+      "record_name": "処方箋番号レコード",
+      "rayout": [
+        { "name": "prescription_number_kind", "ja_name": "処方箋番号種別" },
+        { "name": "prescription_number", "ja_name": "処方箋番号" }
+      ]
+    },
+    {
+      "record_number": 101,
+      "record_name": "剤形レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "dosage_form_class", "ja_name": "剤形区分" },
+        { "name": "dosage_form_name", "ja_name": "剤形名称" },
+        { "name": "dispensing_quantity", "ja_name": "調剤数量" }
+      ]
+    },
+    {
+      "record_number": 102,
+      "record_name": "分割指示調剤数量レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "dispensing_quantity_per_division", "ja_name": "分割回ごと調剤数量" },
+        { "name": "total_dispensing_quantity", "ja_name": "総調剤数量" }
+      ]
+    },
+    {
+      "record_number": 111,
+      "record_name": "用法レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "dosage_code_kind", "ja_name": "用法コード種別" },
+        { "name": "dosage_code", "ja_name": "用法コード" },
+        { "name": "dosage_name", "ja_name": "用法名称" },
+        { "name": "number_of_times_per_day", "ja_name": "１日回数" }
+      ]
+    },
+    {
+      "record_number": 181,
+      "record_name": "用法補足レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP補足連番" },
+        { "name": "dosage_supplement_class", "ja_name": "用法補足区分" },
+        { "name": "dosage_supplement_information", "ja_name": "用法補足情報" },
+        { "name": "dosage_supplement_code", "ja_name": "補足用法コード" },
+        { "name": "site_code", "ja_name": "部位コード" }
+      ]
+    },
+    {
+      "record_number": 201,
+      "record_name": "薬品レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "information_class", "ja_name": "情報区分" },
+        { "name": "medication_code_kind", "ja_name": "薬品コード種別" },
+        { "name": "medication_code", "ja_name": "薬品コード" },
+        { "name": "medication_name", "ja_name": "薬品名称" },
+        { "name": "dose_quantity", "ja_name": "用量" },
+        { "name": "strength_flag", "ja_name": "力価フラグ" },
+        { "name": "unit_name", "ja_name": "単位名" }
+      ]
+    },
+    {
+      "record_number": 211,
+      "record_name": "単位変換レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "unit_conversion_factor", "ja_name": "単位変換係数" }
+      ]
+    },
+    {
+      "record_number": 221,
+      "record_name": "不均等レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "dose_quantity1", "ja_name": "１回目服用量" },
+        { "name": "dose_quantity2", "ja_name": "２回目服用量" },
+        { "name": "dose_quantity3", "ja_name": "３回目服用量" },
+        { "name": "dose_quantity4", "ja_name": "４回目服用量" },
+        { "name": "dose_quantity5", "ja_name": "５回目服用量" },
+        { "name": "dose_quantity_code1", "ja_name": "１回目服用量コード" },
+        { "name": "dose_quantity_code2", "ja_name": "２回目服用量コード" },
+        { "name": "dose_quantity_code3", "ja_name": "３回目服用量コード" },
+        { "name": "dose_quantity_code4", "ja_name": "４回目服用量コード" },
+        { "name": "dose_quantity_code5", "ja_name": "５回目服用量コード" }
+      ]
+    },
+    {
+      "record_number": 231,
+      "record_name": "負担区分レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "public_insurance1_payment_class", "ja_name": "第一公費負担区分" },
+        { "name": "public_insurance2_payment_class", "ja_name": "第二公費負担区分" },
+        { "name": "public_insurance3_payment_class", "ja_name": "第三公費負担区分" },
+        { "name": "special_insurance_payment_class", "ja_name": "特殊公費負担区分" }
+      ]
+    },
+    {
+      "record_number": 241,
+      "record_name": "１回服用量レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "one_time_dose_quantity", "ja_name": "１回服用量" },
+        { "name": "number_of_times_per_day", "ja_name": "１日服用回数" }
+      ]
+    },
+    {
+      "record_number": 281,
+      "record_name": "薬品補足レコード",
+      "rayout": [
+        { "name": "rp_number", "ja_name": "RP番号" },
+        { "name": "rp_branch_number", "ja_name": "RP内連番" },
+        { "name": "medication_branch_number", "ja_name": "薬品補足連番" },
+        { "name": "medication_supplement_class", "ja_name": "薬品補足区分" },
+        { "name": "medication_supplement_information", "ja_name": "薬品補足情報" },
+        { "name": "dosage_supplement_code", "ja_name": "補足用法コード" }
+      ]
+    }
+  ]
 }
