@@ -134,12 +134,19 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
       # TQ1-6.サービス期間(投薬日数)
       if tq1_segment[:service_duration].present?
+        # 調剤日数
         duration = FHIR::Duration.new
         duration.value = tq1_segment[:service_duration].first[:quantity].to_i
         duration.unit = '日'
         duration.system = 'http://unitsofmeasure.org'
         duration.code = 'd'
         dispense_request.expectedSupplyDuration = duration
+
+        # 実投与⽇数
+        extension = FHIR::Extension.new
+        extension.url = create_url(:structure_definition, 'UsageDuration')
+        extension.valueDuration = duration
+        medication_request.extension << extension
       end
 
       # TQ1-7.開始日時
@@ -151,8 +158,14 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
         if tq1_segment[:end_datetime].present?
           period.end = Date.Parse(tq1_segment[:end_datetime].first[:time])
         end
-        timing_repeat.boundsPeriod = period
-        dosage.timing.repeat = timing_repeat
+        # timing_repeat.boundsPeriod = period
+        # dosage.timing.repeat = timing_repeat
+
+        # 投与開始日
+        extension = FHIR::Extension.new
+        extension.url = create_url(:structure_definition, 'PeriodOfUse')
+        extension.valuePeriod = period
+        medication_request.extension << extension
       end
 
       # TQ1-11.テキスト指令
@@ -166,15 +179,30 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
         dispense_request.extension << extension
       end
 
+      # JAMI標準用法コードが設定されている場合
+      jami_usage = dosage.timing.code.coding.find{ |c| c.system == 'urn:oid:1.2.392.100495.20.2.31' }
+      if jami_usage.present?
+        # 基本用法区分
+        dosage.local_method = JamiUsages::get_method_as_codeable_concept(jami_usage.code)
+        # 用法詳細区分
+        dosage.route = JamiUsages::get_route_as_codeable_concept(jami_usage.code)
+      end
+
       # RXRセグメント
       rxr_segment = segments.find{|segment|segment[:segment_id] == 'RXR'}
       if rxr_segment.present?
         # RXR-1.経路
-        dosage.route = generate_codeable_concept(rxr_segment[:route].first) if rxr_segment[:route].present?
+        if rxr_segment[:route].present?
+          dosage.route ||= generate_codeable_concept(rxr_segment[:route].first)
+        end
         # RXR-2.部位
-        dosage.site = generate_codeable_concept(rxr_segment[:administration_site].first) if rxr_segment[:administration_site].present?
+        if rxr_segment[:administration_site].present?
+          dosage.site ||= generate_codeable_concept(rxr_segment[:administration_site].first)
+        end
         # RXR-4.投薬方法
-        dosage.local_method = generate_codeable_concept(rxr_segment[:administration_method].first) if rxr_segment[:administration_method].present?
+        if rxr_segment[:administration_method].present?
+          dosage.local_method ||= generate_codeable_concept(rxr_segment[:administration_method].first)
+        end
       end
         
       # 不均等投与

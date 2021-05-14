@@ -21,6 +21,7 @@ class V2GenerateComposition < V2GenerateAbstract
       # ORC-9.トランザクション日時(交付年月日)
       period.start = Date.parse(orc_segment[:datetime_of_transaction].first[:time]) if orc_segment[:datetime_of_transaction].present?
       event = FHIR::Composition::Event.new
+      event.code << create_codeable_concept_without_coding("処方箋交付")
       event.period = period
       composition.event = event
     end

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
             resources :cda_fhir_prescription_generators, only: %i[create]
             resources :cda_fhir_dispensing_generators, only: %i[create]
             resources :v2_fhir_prescription_generators, only: %i[create]
+            resources :v2_message_parsers, only: %i[create]
         end
         namespace :jahis do
             resources :qr_fhir_prescription_generators, only: %i[create]

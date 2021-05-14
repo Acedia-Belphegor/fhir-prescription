@@ -20,6 +20,12 @@ def create_codeable_concept(code, display, system = 'LC', text = nil)
   codeable_concept
 end
 
+def create_codeable_concept_without_coding(text)
+  codeable_concept = FHIR::CodeableConcept.new
+  codeable_concept.text = text
+  codeable_concept
+end
+
 def create_reference(resource, type = :uuid)
   reference = FHIR::Reference.new
   if type == :literal

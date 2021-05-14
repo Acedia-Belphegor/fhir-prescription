@@ -138,9 +138,10 @@ class V2GenerateAbstract
 
   def convert_coding_system(coding_system)
     case coding_system
-    when 'JAMISDP01' then 'urn:oid:1.2.392.10495.20.2.31' # JAMI標準用法コード
-    when 'JHSP0003' then 'urn:oid:1.2.392.10495.20.2.34' # 投与方法
-    when 'HL70162' then 'urn:oid:1.2.392.10495.20.2.35' # 投与経路
+    when 'JAMISDP01' then 'urn:oid:1.2.392.100495.20.2.31' # JAMI標準用法コード
+    when 'JHSP0003' then 'urn:oid:1.2.392.100495.20.2.34' # 投与方法
+    when 'HL70162' then 'urn:oid:1.2.392.100495.20.2.35' # 投与経路
+    when 'HL70069' then 'urn:oid:1.2.392.100495.20.2.51' # 診療部門
     else coding_system
     end
   end

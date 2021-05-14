@@ -44,9 +44,9 @@ class V2GenerateOrganization < V2GenerateAbstract
       organization.id = SecureRandom.uuid
 
       dept = orc_segment[:entering_organization].first
-      organization.identifier << create_identifier(dept[:identifier], create_url(:name_space, 'DepartmentCode'))
       organization.name = dept[:text]
       organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
+      organization.type << generate_codeable_concept(dept)
 
       # 医療機関
       organization.partOf = create_reference(results.first.resource)
