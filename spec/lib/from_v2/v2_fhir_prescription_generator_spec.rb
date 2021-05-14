@@ -202,7 +202,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
           end
 
           it "method" do
-            expect(dosage.local_method.coding.first.code).to eq "21"
+            expect(dosage.local_method.coding.first.code).to eq "1"
             expect(dosage.local_method.coding.first.display).to eq "内服"
           end
 
@@ -251,7 +251,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
           let(:dosage) { mr.dosageInstruction.first }
 
           it "method" do
-            expect(dosage.local_method.coding.first.code).to eq "23"
+            expect(dosage.local_method.coding.first.code).to eq "2"
             expect(dosage.local_method.coding.first.display).to eq "外用"
           end
         end
@@ -271,7 +271,7 @@ RSpec.describe V2FhirPrescriptionGenerator do
           let(:dosage) { mr.dosageInstruction.first }
 
           it "method" do
-            expect(dosage.local_method.coding.first.code).to eq "23"
+            expect(dosage.local_method.coding.first.code).to eq "2"
             expect(dosage.local_method.coding.first.display).to eq "外用"
           end
 
@@ -319,8 +319,8 @@ RSpec.describe V2FhirPrescriptionGenerator do
           let(:dosage) { mr.dosageInstruction.first }
 
           it "method" do
-            expect(dosage.local_method.coding.first.code).to eq "22"
-            expect(dosage.local_method.coding.first.display).to eq "頓用"
+            expect(dosage.local_method.coding.first.code).to eq "1"
+            expect(dosage.local_method.coding.first.display).to eq "内服"
           end
 
           it "asNeededBoolean" do
@@ -361,16 +361,20 @@ RSpec.describe V2FhirPrescriptionGenerator do
             expect(mr.medicationCodeableConcept.coding.first.display).to eq "ペルマックス錠５０μｇ"
 
             dosage = mr.dosageInstruction.first
+            period_of_use = mr.extension.find{ |e| e.url == 'http://hl7.jp/fhir/ePrescription/StructureDefinition/PeriodOfUse' }
 
             case mr.identifier.select{|id|id.system == 'urn:oid:1.2.392.100495.20.3.82'}.first.value.to_i
             when 1
-              expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 25)
+              # expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 25)
+              expect(period_of_use.valuePeriod.start).to eq Date.new(2016, 8, 25)
               expect(dosage.doseAndRate.first.doseQuantity.value).to eq 1
             when 2
-              expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 27)
+              # expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 27)
+              expect(period_of_use.valuePeriod.start).to eq Date.new(2016, 8, 27)
               expect(dosage.doseAndRate.first.doseQuantity.value).to eq 2
             when 3
-              expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 30)
+              # expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 30)
+              expect(period_of_use.valuePeriod.start).to eq Date.new(2016, 8, 30)
               expect(dosage.doseAndRate.first.doseQuantity.value).to eq 3
             end
           end
@@ -453,15 +457,18 @@ RSpec.describe V2FhirPrescriptionGenerator do
             expect(mr.medicationCodeableConcept.coding.first.display).to eq "プレドニン錠５ｍｇ"
 
             dosage = mr.dosageInstruction.first
+            period_of_use = mr.extension.find{ |e| e.url == 'http://hl7.jp/fhir/ePrescription/StructureDefinition/PeriodOfUse' }
 
             case mr.identifier.select{|id|id.system == 'urn:oid:1.2.392.100495.20.3.82'}.first.value.to_i
             when 1
               expect(dosage.additionalInstruction.first.coding.first.code).to eq "I1100000" # １日おき
-              expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 25)
+              # expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 25)
+              expect(period_of_use.valuePeriod.start).to eq Date.new(2016, 8, 25)
               expect(dosage.doseAndRate.first.doseQuantity.value).to eq 3
             when 2
               expect(dosage.additionalInstruction.first.coding.first.code).to eq "I1100000" # １日おき
-              expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 26)
+              # expect(dosage.timing.repeat.boundsPeriod.start).to eq Date.new(2016, 8, 26)
+              expect(period_of_use.valuePeriod.start).to eq Date.new(2016, 8, 26)
               expect(dosage.doseAndRate.first.doseQuantity.value).to eq 1
             end
           end
@@ -482,8 +489,8 @@ RSpec.describe V2FhirPrescriptionGenerator do
           let(:dosage) { mr.dosageInstruction.first }
 
           it "method" do
-            expect(dosage.local_method.coding.first.code).to eq "24"
-            expect(dosage.local_method.coding.first.display).to eq "自己注射"
+            expect(dosage.local_method.coding.first.code).to eq "3"
+            expect(dosage.local_method.coding.first.display).to eq "注射"
           end
         end
       end
