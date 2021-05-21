@@ -5,8 +5,8 @@ class QrGenerateComposition < QrGenerateAbstract
     composition = FHIR::Composition.new
     composition.id = SecureRandom.uuid
     composition.status = :final
-    composition.type = create_codeable_concept('01', '処方箋', 'urn:oid:1.2.392.100495.20.2.11')
-    composition.category << create_codeable_concept('01', '一般処方箋', create_url(:code_system, 'PrescriptionCategory'))
+    composition.type = build_codeable_concept('01', '処方箋', 'urn:oid:1.2.392.100495.20.2.11')
+    composition.category << build_codeable_concept('01', '一般処方箋', build_url(:code_system, 'PrescriptionCategory'))
     composition.date = Time.current
     composition.title = '処方箋'
     composition.confidentiality = 'N'
@@ -29,20 +29,20 @@ class QrGenerateComposition < QrGenerateAbstract
     # 処方箋番号レコード
     prescription_number_record = get_records(82)&.first
     if prescription_number_record.present?
-      composition.identifier = create_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
+      composition.identifier = build_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
     end
 
     section = FHIR::Composition::Section.new
     section.title = '処方情報'
-    section.code = create_codeable_concept('01', '処方情報', 'urn:oid:1.2.392.100495.20.2.12')
+    section.code = build_codeable_concept('01', '処方情報', 'urn:oid:1.2.392.100495.20.2.12')
     composition.section << section
 
     # 文書のバージョン
     extension = FHIR::Extension.new
-    extension.url = create_url(:structure_definition, 'composition-clinicaldocument-versionNumber')
+    extension.url = build_url(:structure_definition, 'composition-clinicaldocument-versionNumber')
     extension.valueString = "1.0"
     composition.extension << extension
 
-    [create_entry(composition)]
+    [build_entry(composition)]
   end
 end

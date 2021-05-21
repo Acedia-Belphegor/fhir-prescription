@@ -5,11 +5,11 @@ class CdaGenerateEncounter < CdaGenerateAbstract
     encounter = FHIR::Encounter.new
     encounter.id = SecureRandom.uuid
     encounter.status = :finished
-    encounter.local_class = create_coding('AMB', '外来', 'http://terminology.hl7.org/CodeSystem/v3-ActCode')
+    encounter.local_class = build_coding('AMB', '外来', 'http://terminology.hl7.org/CodeSystem/v3-ActCode')
 
     composition = get_composition
-    composition.encounter = create_reference(encounter)
+    composition.encounter = build_reference(encounter)
 
-    [create_entry(encounter)]
+    [build_entry(encounter)]
   end
 end

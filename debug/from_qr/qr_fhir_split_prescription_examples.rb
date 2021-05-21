@@ -1,7 +1,7 @@
 require "base64"
 require './lib/from_qr/qr_fhir_prescription_generator'
 
-def create_codeable_concept(code, display, system = 'LC')
+def build_codeable_concept(code, display, system = 'LC')
   codeable_concept = FHIR::CodeableConcept.new
   coding = FHIR::Coding.new
   coding.code = code
@@ -25,14 +25,14 @@ bundle.type = :document
 composition = FHIR::Composition.new
 composition.id = SecureRandom.uuid
 composition.status = :final
-composition.type = create_codeable_concept('XX', '分割処方箋(仮)', 'TBD')
+composition.type = build_codeable_concept('XX', '分割処方箋(仮)', 'TBD')
 composition.date = Time.current
 composition.title = "分割処方箋(仮)"
 composition.confidentiality = "N"
 
 section = FHIR::Composition::Section.new
 section.title = '分割処方箋(仮)'
-section.code = create_codeable_concept('XX', '分割処方箋(仮)', 'TBD')
+section.code = build_codeable_concept('XX', '分割処方箋(仮)', 'TBD')
 composition.section << section
 
 entry = FHIR::Bundle::Entry.new
@@ -51,7 +51,7 @@ section.entry = prescriptions.map{|prescription|
 
 section = FHIR::Composition::Section.new
 section.title = '別紙(仮)'
-section.code = create_codeable_concept('XX', '別紙(仮)', 'TBD')
+section.code = build_codeable_concept('XX', '別紙(仮)', 'TBD')
 composition.section << section
 
 organization = FHIR::Organization.new

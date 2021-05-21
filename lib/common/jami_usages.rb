@@ -36,12 +36,12 @@ module JamiUsages
   
   def get_method_as_codeable_concept(usage_code)
     code = usage_code.slice(0, 1) # 基本用法区分
-    create_codeable_concept code, USAGE_BASE_CODE[code], "urn:oid:1.2.392.100495.20.2.34"
+    build_codeable_concept code, USAGE_BASE_CODE[code], "urn:oid:1.2.392.100495.20.2.34"
   end
 
   def get_route_as_codeable_concept(usage_code)
     code = usage_code.slice(1, 1) # 用法詳細区分
-    create_codeable_concept code, USAGE_DETAIL_CODE[code], "urn:oid:1.2.392.100495.20.2.35"
+    build_codeable_concept code, USAGE_DETAIL_CODE[code], "urn:oid:1.2.392.100495.20.2.35"
   end
 
   module_function :get_method_as_codeable_concept

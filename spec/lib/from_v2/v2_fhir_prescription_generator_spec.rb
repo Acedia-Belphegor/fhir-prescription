@@ -2,9 +2,9 @@ require './lib/from_v2/v2_fhir_prescription_generator'
 require "base64"
 
 RSpec.describe V2FhirPrescriptionGenerator do
-  let(:generator) { V2FhirPrescriptionGenerator.new create_params }
+  let(:generator) { V2FhirPrescriptionGenerator.new build_params }
 
-  def create_params()
+  def build_params()
     filename = File.join(File.dirname(__FILE__), "example_utf8.txt")
     {
       encoding: "utf-8",

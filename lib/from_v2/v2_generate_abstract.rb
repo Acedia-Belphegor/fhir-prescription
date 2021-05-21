@@ -128,10 +128,10 @@ class V2GenerateAbstract
     return unless code.present?
     codeable_concept = FHIR::CodeableConcept.new        
     if code[:identifier].present?
-      codeable_concept.coding << create_coding(code[:identifier], code[:text], convert_coding_system(code[:name_of_coding_system]))
+      codeable_concept.coding << build_coding(code[:identifier], code[:text], convert_coding_system(code[:name_of_coding_system]))
     end
     if code[:alternate_identifier].present?
-      codeable_concept.coding << create_coding(code[:alternate_identifier], code[:alternate_text], convert_coding_system(code[:name_of_alternate_coding_system]))
+      codeable_concept.coding << build_coding(code[:alternate_identifier], code[:alternate_text], convert_coding_system(code[:name_of_alternate_coding_system]))
     end
     codeable_concept
   end

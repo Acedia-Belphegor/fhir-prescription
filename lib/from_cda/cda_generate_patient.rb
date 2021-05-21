@@ -20,8 +20,8 @@ class CdaGeneratePatient < CdaGenerateAbstract
     patient.address = patient_role.xpath('addr').map{ |addr| generate_address(addr) }
     patient.telecom = patient_role.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
 
-    get_composition.subject = create_reference(patient)
+    get_composition.subject = build_reference(patient)
 
-    [create_entry(patient)]
+    [build_entry(patient)]
   end
 end

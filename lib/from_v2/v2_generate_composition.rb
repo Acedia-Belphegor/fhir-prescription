@@ -9,8 +9,8 @@ class V2GenerateComposition < V2GenerateAbstract
     return unless msh_segment.present?
 
     composition.status = :final
-    composition.type = create_codeable_concept('01', '処方箋', 'urn:oid:1.2.392.100495.20.2.11')
-    composition.category << create_codeable_concept('01', '一般処方箋', create_url(:code_system, 'PrescriptionCategory'))
+    composition.type = build_codeable_concept('01', '処方箋', 'urn:oid:1.2.392.100495.20.2.11')
+    composition.category << build_codeable_concept('01', '一般処方箋', build_url(:code_system, 'PrescriptionCategory'))
     composition.date = Time.zone.parse(msh_segment[:datetime_of_message].first[:time])
     composition.title = '処方箋'
     composition.confidentiality = 'N'
@@ -21,7 +21,7 @@ class V2GenerateComposition < V2GenerateAbstract
       # ORC-9.トランザクション日時(交付年月日)
       period.start = Date.parse(orc_segment[:datetime_of_transaction].first[:time]) if orc_segment[:datetime_of_transaction].present?
       event = FHIR::Composition::Event.new
-      event.code << create_codeable_concept_without_coding("処方箋交付")
+      event.code << build_codeable_concept_without_coding("処方箋交付")
       event.period = period
       composition.event = event
     end
@@ -34,15 +34,15 @@ class V2GenerateComposition < V2GenerateAbstract
 
     section = FHIR::Composition::Section.new
     section.title = '処方情報'
-    section.code = create_codeable_concept('01', '処方情報', 'urn:oid:1.2.392.100495.20.2.12')
+    section.code = build_codeable_concept('01', '処方情報', 'urn:oid:1.2.392.100495.20.2.12')
     composition.section << section
 
     # 文書のバージョン
     extension = FHIR::Extension.new
-    extension.url = create_url(:structure_definition, 'composition-clinicaldocument-versionNumber')
+    extension.url = build_url(:structure_definition, 'composition-clinicaldocument-versionNumber')
     extension.valueString = "1.0"
     composition.extension << extension
 
-    [create_entry(composition)]
+    [build_entry(composition)]
   end
 end

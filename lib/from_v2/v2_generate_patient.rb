@@ -21,8 +21,8 @@ class V2GeneratePatient < V2GenerateAbstract
     patient.telecom.concat pid_segment[:phone_number_business].map{|telecom|generate_contact_point(telecom)} if pid_segment[:phone_number_business].present?
 
     composition = get_composition
-    composition.subject = create_reference(patient)
+    composition.subject = build_reference(patient)
 
-    [create_entry(patient)]
+    [build_entry(patient)]
   end
 end

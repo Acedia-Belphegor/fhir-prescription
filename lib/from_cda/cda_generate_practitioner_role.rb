@@ -7,15 +7,15 @@ class CdaGeneratePractitionerRole < CdaGenerateAbstract
 
     practitioner_role.code << case get_clinical_document.xpath('code/@code').text
                               when '01' # 処方箋
-                                create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
+                                build_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
                               when '02' # 調剤結果
-                                create_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role') # 薬剤師
+                                build_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role') # 薬剤師
                               end
-    practitioner_role.practitioner = create_reference(get_resources_from_type('Practitioner').first)
-    practitioner_role.organization = create_reference(get_resources_from_type('Organization').first)
+    practitioner_role.practitioner = build_reference(get_resources_from_type('Practitioner').first)
+    practitioner_role.organization = build_reference(get_resources_from_type('Organization').first)
 
-    get_composition.author << create_reference(practitioner_role)
+    get_composition.author << build_reference(practitioner_role)
 
-    [create_entry(practitioner_role)]
+    [build_entry(practitioner_role)]
   end
 end

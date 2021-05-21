@@ -5,7 +5,7 @@ class SipsGenerateComposition < SipsGenerateAbstract
         composition = FHIR::Composition.new
         composition.id = SecureRandom.uuid
         composition.status = :final
-        composition.type = create_codeable_concept('02', '調剤結果', 'urn:oid:1.2.392.100495.20.2.11')
+        composition.type = build_codeable_concept('02', '調剤結果', 'urn:oid:1.2.392.100495.20.2.11')
         composition.date = DateTime.now
         composition.title = '調剤結果'
         composition.confidentiality = 'N'
@@ -33,7 +33,7 @@ class SipsGenerateComposition < SipsGenerateAbstract
 
         section = FHIR::Composition::Section.new
         section.title = '処方指示ヘッダ'
-        section.code = create_codeable_concept('01', '処方指示ヘッダ', 'TBD')
+        section.code = build_codeable_concept('01', '処方指示ヘッダ', 'TBD')
         composition.section << section
 
         entry = FHIR::Bundle::Entry.new

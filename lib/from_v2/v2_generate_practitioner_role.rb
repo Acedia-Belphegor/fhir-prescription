@@ -8,10 +8,10 @@ class V2GeneratePractitionerRole < V2GenerateAbstract
     orc_segment = get_segments('ORC')&.first
     return [] unless orc_segment.present?
 
-    practitioner_role.code << create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
-    practitioner_role.practitioner = create_reference(get_resources_from_type('Practitioner').first)
-    practitioner_role.organization = create_reference(get_resources_from_type('Organization').first)
+    practitioner_role.code << build_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
+    practitioner_role.practitioner = build_reference(get_resources_from_type('Practitioner').first)
+    practitioner_role.organization = build_reference(get_resources_from_type('Organization').first)
 
-    [create_entry(practitioner_role)]
+    [build_entry(practitioner_role)]
   end
 end

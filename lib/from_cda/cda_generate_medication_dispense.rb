@@ -103,19 +103,19 @@ class CdaGenerateMedicationDispense < CdaGenerateAbstract
       # 医薬品の変更有無
       substitution = FHIR::MedicationDispense::Substitution.new
       substitution.wasSubstituted = false
-      substitution.type = create_codeable_concept('N','none','http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode')
+      substitution.type = build_codeable_concept('N','none','http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode')
       medication_dispense.substitution = substitution
 
       # Patientリソースの参照
-      medication_dispense.subject = create_reference(get_resources_from_type('Patient').first)
+      medication_dispense.subject = build_reference(get_resources_from_type('Patient').first)
 
       # PractitionerRoleリソースの参照
       performer = FHIR::MedicationDispense::Performer.new
-      performer.function = create_codeable_concept('finalchecker','Final Checker','http://terminology.hl7.org/CodeSystem/medicationdispense-performer-function')
-      performer.actor = create_reference(get_resources_from_type('PractitionerRole').first)
+      performer.function = build_codeable_concept('finalchecker','Final Checker','http://terminology.hl7.org/CodeSystem/medicationdispense-performer-function')
+      performer.actor = build_reference(get_resources_from_type('PractitionerRole').first)
       medication_dispense.performer << performer
 
-      section.entry << create_reference(medication_dispense)
+      section.entry << build_reference(medication_dispense)
 
       entry = FHIR::Bundle::Entry.new
       entry.resource = medication_dispense

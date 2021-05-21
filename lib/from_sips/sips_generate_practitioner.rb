@@ -17,7 +17,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner.id = SecureRandom.uuid
 
         # 医師コード
-        practitioner.identifier << create_identifier(prescription_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41')
+        practitioner.identifier << build_identifier(prescription_record[:doctor_code], 'urn:oid:1.2.392.100495.20.3.41')
 
         # 医師漢字氏名
         if prescription_record[:doctor_kanji_name].present?
@@ -58,7 +58,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         # 麻薬施用者免許番号
         if prescription_record[:narcotic_use_licence_number].present?
             qualification = FHIR::Practitioner::Qualification.new
-            qualification.identifier = create_identifier(prescription_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
+            qualification.identifier = build_identifier(prescription_record[:narcotic_use_licence_number], 'urn:oid:1.2.392.100495.20.3.32')
             practitioner.qualification << qualification
         end
 
@@ -70,14 +70,14 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner_role = FHIR::PractitionerRole.new
         practitioner_role.id = SecureRandom.uuid
 
-        practitioner_role.code << create_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
-        practitioner_role.practitioner = create_reference(practitioner)
+        practitioner_role.code << build_codeable_concept('doctor','Doctor','http://terminology.hl7.org/CodeSystem/practitioner-role') # 医師
+        practitioner_role.practitioner = build_reference(practitioner)
 
         organization = get_resources_from_type('Organization').find{|r|r.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '1'}
-        practitioner_role.organization = create_reference(organization) if organization.present?
+        practitioner_role.organization = build_reference(organization) if organization.present?
 
         # composition = get_composition.resource
-        # composition.author << create_reference(practitioner_role)
+        # composition.author << build_reference(practitioner_role)
 
         entry = FHIR::Bundle::Entry.new
         entry.resource = practitioner_role
@@ -95,7 +95,7 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner.id = SecureRandom.uuid
 
         # 薬剤師コード
-        practitioner.identifier << create_identifier(prescription_record[:pharmacist_code], 'urn:oid:1.2.392.100495.20.3.43')
+        practitioner.identifier << build_identifier(prescription_record[:pharmacist_code], 'urn:oid:1.2.392.100495.20.3.43')
 
         # 薬剤師名
         if prescription_record[:pharmacist_name].present?
@@ -123,14 +123,14 @@ class SipsGeneratePractitioner < SipsGenerateAbstract
         practitioner_role = FHIR::PractitionerRole.new
         practitioner_role.id = SecureRandom.uuid
 
-        practitioner_role.code << create_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role') # 薬剤師
-        practitioner_role.practitioner = create_reference(practitioner)
+        practitioner_role.code << build_codeable_concept('pharmacist','Pharmacist','http://terminology.hl7.org/CodeSystem/practitioner-role') # 薬剤師
+        practitioner_role.practitioner = build_reference(practitioner)
 
         organization = get_resources_from_type('Organization').find{|r|r.identifier.select{|i|i.system == 'urn:oid:1.2.392.100495.20.3.22'}.map{|i|i.value}.include? '4'}
-        practitioner_role.organization = create_reference(organization) if organization.present?
+        practitioner_role.organization = build_reference(organization) if organization.present?
         
         # composition = get_composition
-        # composition.author << create_reference(practitioner_role)
+        # composition.author << build_reference(practitioner_role)
 
         entry = FHIR::Bundle::Entry.new
         entry.resource = practitioner_role

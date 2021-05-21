@@ -10,9 +10,9 @@ class CdaGenerateOrganization < CdaGenerateAbstract
       organization = FHIR::Organization.new
       organization.id = SecureRandom.uuid
 
-      organization.identifier = create_identifier(
+      organization.identifier = build_identifier(
         represented_rganization.xpath('id').map{ |id| id.xpath('@extension').text }.join, 
-        create_url(:name_space, 'InsuranceMedicalInstitutionNo')
+        build_url(:name_space, 'InsuranceMedicalInstitutionNo')
       )
       organization.extension = represented_rganization.xpath('id').map{|id| 
         extension = FHIR::Extension.new
@@ -23,9 +23,9 @@ class CdaGenerateOrganization < CdaGenerateAbstract
       organization.name = represented_rganization.xpath('name').text
       organization.address = represented_rganization.xpath('addr').map{ |addr| generate_address(addr) }
       organization.telecom = represented_rganization.xpath('telecom').map{ |telecom| generate_contact_point(telecom) }
-      organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
+      organization.type << build_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
-      results << create_entry(organization)
+      results << build_entry(organization)
     end
 
     # 診療科情報
@@ -34,15 +34,15 @@ class CdaGenerateOrganization < CdaGenerateAbstract
       organization = FHIR::Organization.new
       organization.id = SecureRandom.uuid
 
-      organization.identifier = create_identifier(code.xpath('@code').text, create_url(:name_space, 'DepartmentCode'))
+      organization.identifier = build_identifier(code.xpath('@code').text, build_url(:name_space, 'DepartmentCode'))
       organization.name = code.xpath('@displayName').text
-      organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
+      organization.type << build_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
       if results.present?
-        results.first.resource.partOf = create_reference(organization)
+        results.first.resource.partOf = build_reference(organization)
       end
 
-      results << create_entry(organization)
+      results << build_entry(organization)
     end
 
     results

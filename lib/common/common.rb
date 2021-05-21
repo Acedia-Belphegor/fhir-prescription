@@ -1,11 +1,11 @@
-def create_identifier(value, system)
+def build_identifier(value, system)
   identifier = FHIR::Identifier.new
   identifier.value = value
   identifier.system = system if value.present?
   identifier
 end
 
-def create_coding(code, display, system = 'LC')
+def build_coding(code, display, system = 'LC')
   coding = FHIR::Coding.new
   coding.code = code
   coding.display = display
@@ -13,20 +13,20 @@ def create_coding(code, display, system = 'LC')
   coding
 end
 
-def create_codeable_concept(code, display, system = 'LC', text = nil)
+def build_codeable_concept(code, display, system = 'LC', text = nil)
   codeable_concept = FHIR::CodeableConcept.new
-  codeable_concept.coding << create_coding(code, display, system) if code.present?
+  codeable_concept.coding << build_coding(code, display, system) if code.present?
   codeable_concept.text = text || (code.blank? ? display : nil)
   codeable_concept
 end
 
-def create_codeable_concept_without_coding(text)
+def build_codeable_concept_without_coding(text)
   codeable_concept = FHIR::CodeableConcept.new
   codeable_concept.text = text
   codeable_concept
 end
 
-def create_reference(resource, type = :uuid)
+def build_reference(resource, type = :uuid)
   reference = FHIR::Reference.new
   if type == :literal
     reference.reference = "#{resource.resourceType}/#{resource.id}"
@@ -37,7 +37,7 @@ def create_reference(resource, type = :uuid)
   reference
 end
 
-def create_quantity(value, unit = nil, system = nil, code = nil)
+def build_quantity(value, unit = nil, system = nil, code = nil)
   quantity = FHIR::Quantity.new
   quantity.value = case true
     when value.instance_of?(String)
@@ -53,7 +53,7 @@ def create_quantity(value, unit = nil, system = nil, code = nil)
   quantity
 end
 
-def create_url(type, str)
+def build_url(type, str)
   case type
   when :code_system
     "http://hl7.jp/fhir/ePrescription/CodeSystem/#{str}"
@@ -66,7 +66,7 @@ def create_url(type, str)
   end
 end
 
-def create_entry(resource)
+def build_entry(resource)
   entry = FHIR::Bundle::Entry.new
   entry.resource = resource
   entry.fullUrl = "urn:uuid:#{resource.id}"

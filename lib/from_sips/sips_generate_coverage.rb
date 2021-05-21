@@ -30,31 +30,31 @@ class SipsGenerateCoverage < SipsGenerateAbstract
             # 保険者番号
             organization = FHIR::Organization.new
             organization.id = SecureRandom.uuid
-            organization.identifier << create_identifier(patient_record[:insurer_number], 'urn:oid:1.2.392.100495.20.3.61')
-            organization.type << create_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
+            organization.identifier << build_identifier(patient_record[:insurer_number], 'urn:oid:1.2.392.100495.20.3.61')
+            organization.type << build_codeable_concept('pay', 'Payer', 'http://hl7.org/fhir/ValueSet/organization-type')
             entry = FHIR::Bundle::Entry.new
             entry.resource = organization
             @bundle.entry.concat << entry
-            coverage.payor << create_reference(organization)
+            coverage.payor << build_reference(organization)
 
             # 被保険者証記号/番号
             coverage.subscriberId = "#{patient_record[:insured_symbol]} #{patient_record[:insured_number]}"
             # 被保険者／被扶養者
-            coverage.relationship = create_codeable_concept(patient_record[:relationship], (patient_record[:relationship] == '1' ? '被保険者' : '被扶養者'), 'urn:oid:1.2.392.100495.20.2.62')
+            coverage.relationship = build_codeable_concept(patient_record[:relationship], (patient_record[:relationship] == '1' ? '被保険者' : '被扶養者'), 'urn:oid:1.2.392.100495.20.2.62')
 
             # cost = FHIR::Coverage::CostToBeneficiary.new
-            # cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
-            # cost.valueQuantity = create_quantity(patient_record[:patient_payment_rate].to_i, '%') if patient_record[:patient_payment_rate].present?
+            # cost.type = build_codeable_concept('copaypct', 'Copay Percentage', 'http://hl7.org/fhir/ValueSet/coverage-copay-type')
+            # cost.valueQuantity = build_quantity(patient_record[:patient_payment_rate].to_i, '%') if patient_record[:patient_payment_rate].present?
 
             if patient_record[:copay_amount_class].to_i.positive?
                 exception = FHIR::Coverage::CostToBeneficiary::Exception.new
                 exception.type = case patient_record[:copay_amount_class]
                                     when '1' # 1:高齢者一般
-                                        create_codeable_concept('1', '高齢者一般', 'LC')
+                                        build_codeable_concept('1', '高齢者一般', 'LC')
                                     when '4' # 4:高齢者７割
-                                        create_codeable_concept('2', '高齢者７割', 'LC')
+                                        build_codeable_concept('2', '高齢者７割', 'LC')
                                     when '3' # 3:６歳未満
-                                        create_codeable_concept('3', '６歳未満', 'LC')
+                                        build_codeable_concept('3', '６歳未満', 'LC')
                                     end
                 cost.exception << exception
             end
@@ -77,7 +77,7 @@ class SipsGenerateCoverage < SipsGenerateAbstract
             coverage = FHIR::Coverage.new
             coverage.id = SecureRandom.uuid
             coverage.status = :draft
-            coverage.type = create_codeable_concept('8', '公費', 'urn:oid:1.2.392.100495.20.2.61')
+            coverage.type = build_codeable_concept('8', '公費', 'urn:oid:1.2.392.100495.20.2.61')
 
             # 公費負担者番号
             extension = FHIR::Extension.new
@@ -95,7 +95,7 @@ class SipsGenerateCoverage < SipsGenerateAbstract
             results << entry
         end
 
-        get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+        get_composition.section.first.entry.concat results.map{|entry|build_reference(entry.resource)}
         results
     end
 end

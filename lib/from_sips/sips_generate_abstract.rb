@@ -50,14 +50,14 @@ class SipsGenerateAbstract
         get_resources_from_type(resource_type).select{|r|r.identifier.include?(identifier)}
     end
 
-    def create_identifier(value, system)
+    def build_identifier(value, system)
         identifier = FHIR::Identifier.new
         identifier.system = system
         identifier.value = value
         identifier
     end
 
-    def create_coding(code, display, system = 'LC')
+    def build_coding(code, display, system = 'LC')
         coding = FHIR::Coding.new
         coding.code = code
         coding.display = display
@@ -65,19 +65,19 @@ class SipsGenerateAbstract
         coding
     end
 
-    def create_codeable_concept(code, display, system = 'LC')
+    def build_codeable_concept(code, display, system = 'LC')
         codeable_concept = FHIR::CodeableConcept.new
-        codeable_concept.coding << create_coding(code, display, system)
+        codeable_concept.coding << build_coding(code, display, system)
         codeable_concept
     end
 
-    def create_reference(resource)
+    def build_reference(resource)
         reference = FHIR::Reference.new
         reference.reference = "#{resource.resourceType}/#{resource.id}"
         reference
     end
 
-    def create_quantity(value, unit = nil)
+    def build_quantity(value, unit = nil)
         quantity = FHIR::Quantity.new
         quantity.value = value
         quantity.unit = unit

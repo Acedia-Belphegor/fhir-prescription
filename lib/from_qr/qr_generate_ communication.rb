@@ -10,14 +10,14 @@ class QrGenerateCommunication < QrGenerateAbstract
       communication = FHIR::Communication.new
       communication.id = SecureRandom.uuid
       communication.status = :unknown
-      communication.category = create_codeable_concept('1', '処方箋備考', create_url(:code_system, 'CommunicationCategory'))
+      communication.category = build_codeable_concept('1', '処方箋備考', build_url(:code_system, 'CommunicationCategory'))
 
       extension = FHIR::Extension.new
-      extension.url = create_url(:structure_definition, 'CommunicationContent')
+      extension.url = build_url(:structure_definition, 'CommunicationContent')
       extension.valueString = record[:remarks]
       communication.extension << extension
 
-      results << create_entry(communication)
+      results << build_entry(communication)
     end
 
     # 残薬確認欄レコード
@@ -26,11 +26,11 @@ class QrGenerateCommunication < QrGenerateAbstract
       communication = FHIR::Communication.new
       communication.id = SecureRandom.uuid
       communication.status = :unknown
-      communication.category = create_codeable_concept('3', '残薬確認指示', create_url(:code_system, 'CommunicationCategory'))
+      communication.category = build_codeable_concept('3', '残薬確認指示', build_url(:code_system, 'CommunicationCategory'))
 
       extension = FHIR::Extension.new
-      extension.url = create_url(:structure_definition, 'CommunicationContent')
-      extension.valueCodeableConcept = create_codeable_concept(
+      extension.url = build_url(:structure_definition, 'CommunicationContent')
+      extension.valueCodeableConcept = build_codeable_concept(
         record[:confirm_remaining_medicine],
         case record[:confirm_remaining_medicine]
         when '1' then '疑義照会の上調剤'
@@ -40,11 +40,11 @@ class QrGenerateCommunication < QrGenerateAbstract
       )
       communication.extension << extension
 
-      results << create_entry(communication)
+      results << build_entry(communication)
     end
 
     # Section
-    get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+    get_composition.section.first.entry.concat results.map{|entry|build_reference(entry.resource)}
     
     results
   end

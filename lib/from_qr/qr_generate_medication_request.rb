@@ -26,14 +26,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       # 処方箋番号レコード
       prescription_number_record = get_records(82)&.first
       if prescription_number_record.present?
-        medication_request.identifier << create_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
+        medication_request.identifier << build_identifier(prescription_number_record[:prescription_number], 'urn:oid:1.2.392.100495.20.3.11')
       end
 
       # RP番号
-      medication_request.identifier << create_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
+      medication_request.identifier << build_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
 
       # RP内連番
-      medication_request.identifier << create_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.82')
+      medication_request.identifier << build_identifier(medication_record[:rp_branch_number].to_i, 'urn:oid:1.2.392.100495.20.3.82')
 
       # 薬品
       codeable_concept = FHIR::CodeableConcept.new
@@ -60,7 +60,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       medication_request.medicationCodeableConcept = codeable_concept
 
       # 剤形
-      dosage.local_method = create_codeable_concept(
+      dosage.local_method = build_codeable_concept(
         form_record[:dosage_form_class], 
         case form_record[:dosage_form_class]
         when '1' then '内服'
@@ -80,21 +80,21 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
         r[:rp_branch_number] == medication_record[:rp_branch_number]
       }
       if one_time_dose_record.present?
-        dose.doseQuantity = create_quantity(one_time_dose_record[:one_time_dose_quantity], medication_record[:unit_name])
+        dose.doseQuantity = build_quantity(one_time_dose_record[:one_time_dose_quantity], medication_record[:unit_name])
       end
 
       # 力価フラグ
       dose.type = case medication_record[:strength_flag]
                   when '1'
-                    create_codeable_concept('1', '製剤量', 'urn:oid:1.2.392.100495.20.2.22')
+                    build_codeable_concept('1', '製剤量', 'urn:oid:1.2.392.100495.20.2.22')
                   when '2'
-                    create_codeable_concept('2', '原薬量', 'urn:oid:1.2.392.100495.20.2.22')
+                    build_codeable_concept('2', '原薬量', 'urn:oid:1.2.392.100495.20.2.22')
                   end
 
       # 用量(1日量)
       ratio = FHIR::Ratio.new
-      ratio.numerator = create_quantity(medication_record[:dose_quantity], medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
-      ratio.denominator = create_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
+      ratio.numerator = build_quantity(medication_record[:dose_quantity], medication_record[:unit_name], 'urn:oid:1.2.392.100495.20.2.101')
+      ratio.denominator = build_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
       dose.rateRatio = ratio
       dosage.doseAndRate << dose
 
@@ -110,7 +110,7 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       else
         # 回数
         extension = FHIR::Extension.new
-        extension.url = create_url(:structure_definition, 'expectedRepeatCount')
+        extension.url = build_url(:structure_definition, 'expectedRepeatCount')
         extension.valueInteger = form_record[:dispensing_quantity].to_i
         dispense_request.extension << extension
         # 頓用
@@ -118,21 +118,21 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       end
 
       # 調剤量
-      dispense_request.quantity = create_quantity(
+      dispense_request.quantity = build_quantity(
         medication_record[:dose_quantity].to_f * form_record[:dispensing_quantity].to_i, 
         medication_record[:unit_name]
       )
 
       # 用法
       if dosage_record[:dosage_code_kind] == '1'
-        dosage.timing.code = create_codeable_concept(
+        dosage.timing.code = build_codeable_concept(
           nil,
           nil,
           nil,
           dosage_record[:dosage_name]
         )
       else
-        dosage.timing.code = create_codeable_concept(
+        dosage.timing.code = build_codeable_concept(
           dosage_record[:dosage_code],
           dosage_record[:dosage_name],
           dosage_record[:dosage_code_kind] == '2' ? 'urn:oid:1.2.392.100495.20.2.31' : nil # 2:JAMI用法コード
@@ -153,14 +153,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       get_records(181).select{|record|record[:rp_number] == medication_record[:rp_number]}.each{|record|
         if supplement_record[:dosage_supplement_class].in? %w[6 9]
           # 部位
-          dosage.site ||= create_codeable_concept(
+          dosage.site ||= build_codeable_concept(
             record[:site_code], 
             record[:medication_supplement_information],
             record[:dosage_supplement_class] == '9' ? 'urn:oid:1.2.392.100495.20.2.33' : nil # 9:JAMI部位コード
           )
         else
           # 補足用法
-          dosage.additionalInstruction << create_codeable_concept(
+          dosage.additionalInstruction << build_codeable_concept(
             record[:dosage_supplement_code], 
             record[:medication_supplement_information],
             record[:dosage_supplement_class] == '8' ? 'urn:oid:1.2.392.100495.20.2.32' : nil # 8:JAMI補足用法コード
@@ -178,11 +178,11 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
           codeable_concept = FHIR::CodeableConcept.new
           if record[:medication_supplement_class] == '6'
             #「6:剤形変更不可及び含量規格変更不可」の場合は「4:剤形変更不可」と「5:含量規格変更不可」の2つに展開する
-            codeable_concept.coding << create_coding('4','剤形変更不可',"urn:oid:1.2.392.100495.20.2.41")
-            codeable_concept.coding << create_coding('5','含量規格変更不可',"urn:oid:1.2.392.100495.20.2.41")
+            codeable_concept.coding << build_coding('4','剤形変更不可',"urn:oid:1.2.392.100495.20.2.41")
+            codeable_concept.coding << build_coding('5','含量規格変更不可',"urn:oid:1.2.392.100495.20.2.41")
             codeable_concept.text = '剤形変更不可及び含量規格変更不可'
           else
-            codeable_concept.coding << create_coding(
+            codeable_concept.coding << build_coding(
               case record[:medication_supplement_class]
               when '3' then '1'
               when '4' then '2'
@@ -201,13 +201,13 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
           medication_request.substitution ||= substitution
         elsif record[:medication_supplement_class] == '7' # 7:JAMI補足用法コード
           # 補足用法
-          dosage.additionalInstruction << create_codeable_concept(
+          dosage.additionalInstruction << build_codeable_concept(
             record[:dosage_supplement_code], 
             record[:medication_supplement_information],
             'urn:oid:1.2.392.100495.20.2.32'
           )
         else
-          dosage.additionalInstruction << create_codeable_concept(
+          dosage.additionalInstruction << build_codeable_concept(
             record[:medication_supplement_class], 
             record[:medication_supplement_information]
           )
@@ -223,14 +223,14 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
         for idx in 1..5 do
           next unless imbalance_record["dose_quantity#{idx}".to_sym].present?
           extension = FHIR::Extension.new
-          extension.url = create_url(:structure_definition, 'SubInstruction')
+          extension.url = build_url(:structure_definition, 'SubInstruction')
           imbalance_dosage = FHIR::Dosage.new
           imbalance_dosage.sequence = idx
           if imbalance_record["dose_quantity_code#{idx}".to_sym].present?
-            imbalance_dosage.additionalInstruction = create_codeable_concept(imbalance_record["dose_quantity_code#{idx}".to_sym], "")
+            imbalance_dosage.additionalInstruction = build_codeable_concept(imbalance_record["dose_quantity_code#{idx}".to_sym], "")
           end
           imbalance_dose = FHIR::Dosage::DoseAndRate.new
-          imbalance_dose.doseQuantity = create_quantity(imbalance_record["dose_quantity#{idx}".to_sym], medication_record[:unit_name])
+          imbalance_dose.doseQuantity = build_quantity(imbalance_record["dose_quantity#{idx}".to_sym], medication_record[:unit_name])
           imbalance_dosage.doseAndRate << imbalance_dose
           extension.valueDosage = imbalance_dosage
           dosage.extension << extension
@@ -238,13 +238,13 @@ class QrGenerateMedicationRequest < QrGenerateAbstract
       end
 
       # Patientリソースの参照
-      medication_request.subject = create_reference(get_resources_from_type('Patient').first)
+      medication_request.subject = build_reference(get_resources_from_type('Patient').first)
       # PractitionerRoleリソースの参照
-      medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
+      medication_request.requester = build_reference(get_resources_from_type('Practitioner').first)
       # Section
-      get_composition.section.first.entry.concat << create_reference(medication_request)
+      get_composition.section.first.entry.concat << build_reference(medication_request)
 
-      results << create_entry(medication_request)
+      results << build_entry(medication_request)
     end
 
     results

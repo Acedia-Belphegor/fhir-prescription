@@ -10,30 +10,30 @@ class QrGenerateOrganization < QrGenerateAbstract
       organization.id = SecureRandom.uuid
       results = []
 
-      organization.identifier << create_identifier(
+      organization.identifier << build_identifier(
         "#{institution_record[:medical_institution_prefecture_code]}#{institution_record[:medical_institution_code_kind]}#{institution_record[:medical_institution_code]}", 
-        create_url(:name_space, 'InsuranceMedicalInstitutionNo')
+        build_url(:name_space, 'InsuranceMedicalInstitutionNo')
       )
       # 都道府県番号
       extension = FHIR::Extension.new
-      extension.valueIdentifier = create_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
-      extension.url = create_url(:structure_definition, 'PrefectureNo')
+      extension.valueIdentifier = build_identifier(institution_record[:medical_institution_prefecture_code], '1.2.392.100495.20.3.21')
+      extension.url = build_url(:structure_definition, 'PrefectureNo')
       organization.extension << extension
 
       # 点数表コード
       extension = FHIR::Extension.new
-      extension.valueIdentifier = create_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
-      extension.url = create_url(:structure_definition, 'OrganizationCategory')
+      extension.valueIdentifier = build_identifier(institution_record[:medical_institution_code_kind], '1.2.392.100495.20.3.22')
+      extension.url = build_url(:structure_definition, 'OrganizationCategory')
       organization.extension << extension
 
       # 保険医療機関番号
       extension = FHIR::Extension.new
-      extension.valueIdentifier = create_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
-      extension.url = create_url(:structure_definition, 'OrganizationNo')
+      extension.valueIdentifier = build_identifier(institution_record[:medical_institution_code], '1.2.392.100495.20.3.23')
+      extension.url = build_url(:structure_definition, 'OrganizationNo')
       organization.extension << extension
 
       organization.name = institution_record[:medical_institution_name]
-      organization.type << create_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
+      organization.type << build_codeable_concept('prov', 'Healthcare Provider', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
       # 医療機関所在地レコード
       address_record = get_records(2)&.first
@@ -60,7 +60,7 @@ class QrGenerateOrganization < QrGenerateAbstract
         organization.telecom << contact_point
       end
 
-      results << create_entry(organization)
+      results << build_entry(organization)
 
       # 診療科レコード
       department_record = get_records(4)&.first
@@ -68,14 +68,14 @@ class QrGenerateOrganization < QrGenerateAbstract
         organization = FHIR::Organization.new
         organization.id = SecureRandom.uuid
 
-        organization.identifier << create_identifier(department_record[:department_code], create_url(:name_space, 'DepartmentCode'))
+        organization.identifier << build_identifier(department_record[:department_code], build_url(:name_space, 'DepartmentCode'))
         organization.name = department_record[:department_name]
-        organization.type << create_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
+        organization.type << build_codeable_concept('dept', 'Hospital Department', 'http://terminology.hl7.org/CodeSystem/organization-type')
 
         # 医療機関
-        organization.partOf = create_reference(results.first.resource)
+        organization.partOf = build_reference(results.first.resource)
 
-        results << create_entry(organization)
+        results << build_entry(organization)
       end
         
       results

@@ -4,7 +4,7 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
     def perform()
         section = FHIR::Composition::Section.new
         section.title = '調剤結果ボディ'
-        section.code = create_codeable_concept('12', '調剤結果ボディ', 'TBD')
+        section.code = build_codeable_concept('12', '調剤結果ボディ', 'TBD')
 
         medication_records = get_records(MEDICATION)
         return unless medication_records.present?
@@ -23,36 +23,36 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             next unless dosage_record.present?
 
             # RP番号
-            medication_dispense.identifier << create_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
+            medication_dispense.identifier << build_identifier(medication_record[:rp_number].to_i, 'urn:oid:1.2.392.100495.20.3.81')
             # 薬品番号
-            medication_dispense.identifier << create_identifier(medication_record[:medication_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
+            medication_dispense.identifier << build_identifier(medication_record[:medication_number].to_i, 'urn:oid:1.2.392.100495.20.3.xx')
 
             codeable_concept = FHIR::CodeableConcept.new
             # YJコード
-            codeable_concept.coding << create_coding(medication_record[:yj_code], nil, 'urn:oid:1.2.392.100495.20.2.73')
+            codeable_concept.coding << build_coding(medication_record[:yj_code], nil, 'urn:oid:1.2.392.100495.20.2.73')
             # レセ電算コード
-            codeable_concept.coding << create_coding(medication_record[:receipt_code], nil, 'urn:oid:1.2.392.100495.20.2.71') if medication_record[:receipt_code].present?
+            codeable_concept.coding << build_coding(medication_record[:receipt_code], nil, 'urn:oid:1.2.392.100495.20.2.71') if medication_record[:receipt_code].present?
             # HOTコード
-            codeable_concept.coding << create_coding(medication_record[:hot_code], nil, 'urn:oid:1.2.392.100495.20.2.74') if medication_record[:hot_code].present?
+            codeable_concept.coding << build_coding(medication_record[:hot_code], nil, 'urn:oid:1.2.392.100495.20.2.74') if medication_record[:hot_code].present?
             # 明細コード（レセコンに登録されている薬品コード）
-            codeable_concept.coding << create_coding(medication_record[:medication_code], nil)
+            codeable_concept.coding << build_coding(medication_record[:medication_code], nil)
             # 薬品名
             codeable_concept.text = medication_record[:medication_name]
             
             dose = FHIR::Dosage::DoseAndRate.new
             # 1回服用量
             if medication_record[:one_time_dose_quantity].present?
-                dose.doseQuantity = create_quantity(medication_record[:one_time_dose_quantity].to_f, medication_record[:units])
+                dose.doseQuantity = build_quantity(medication_record[:one_time_dose_quantity].to_f, medication_record[:units])
             end
 
             # 服用量(1日量)
             ratio = FHIR::Ratio.new
-            ratio.numerator = create_quantity(medication_record[:dose_quantity].to_f, medication_record[:units])
-            ratio.denominator = create_quantity(1, "d")
+            ratio.numerator = build_quantity(medication_record[:dose_quantity].to_f, medication_record[:units])
+            ratio.denominator = build_quantity(1, "d")
             dose.rateRatio = ratio
 
             # 力価フラグ
-            dose.type = create_codeable_concept(
+            dose.type = build_codeable_concept(
                 medication_record[:strength_flag],
                 (medication_record[:strength_flag] == '1' ? '製剤量' : '原薬量'),
                 'urn:oid:1.2.392.100495.20.2.22'
@@ -80,16 +80,16 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             end
 
             # 用法1
-            dosage.timing.code = create_codeable_concept(dosage_record[:dosage_code1], dosage_record[:dosage_name1])
+            dosage.timing.code = build_codeable_concept(dosage_record[:dosage_code1], dosage_record[:dosage_name1])
 
             # 用法2
             if dosage_record[:dosage_code2].present?
-                dosage.additionalInstruction << create_codeable_concept(dosage_record[:dosage_code2], dosage_record[:dosage_name2])
+                dosage.additionalInstruction << build_codeable_concept(dosage_record[:dosage_code2], dosage_record[:dosage_name2])
             end
 
             # 用法3
             if dosage_record[:dosage_code3].present?
-                dosage.additionalInstruction << create_codeable_concept(dosage_record[:dosage_code3], dosage_record[:dosage_name3])
+                dosage.additionalInstruction << build_codeable_concept(dosage_record[:dosage_code3], dosage_record[:dosage_name3])
             end
 
             timing_repeat = FHIR::Timing::Repeat.new
@@ -113,14 +113,14 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
             substitution = FHIR::MedicationDispense::Substitution.new
             # 一般名処方フラグ
             if medication_record[:generic_flag] == '1'
-                substitution.type = create_codeable_concept('E','equivalent','http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode')
+                substitution.type = build_codeable_concept('E','equivalent','http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode')
             end
             if before_change_generics.present?
                 # 後発品変更前薬品
                 extension = FHIR::Extension.new
                 extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-BeforeChangeGenericMedication"
                 codeable_concept = FHIR::CodeableConcept.new
-                codeable_concept.coding = before_change_generics.map{|c|create_coding(c[:code], nil, c[:system])}
+                codeable_concept.coding = before_change_generics.map{|c|build_coding(c[:code], nil, c[:system])}
                 codeable_concept.text = medication_record[:before_change_generic_medication_name]
                 extension.valueCodeableConcept = codeable_concept
                 substitution.extension << extension
@@ -128,7 +128,7 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
                 # 後発品変更前薬品 服用量／単位
                 extension = FHIR::Extension.new
                 extension.url = "http://hl7fhir.jp/fhir/StructureDefinition/Extension-JPCore-BeforeChangeGenericDoseQuantity"
-                extension.valueQuantity = create_quantity(medication_record[:before_change_generic_dose_quantity].to_f, medication_record[:before_change_generic_units])
+                extension.valueQuantity = build_quantity(medication_record[:before_change_generic_dose_quantity].to_f, medication_record[:before_change_generic_units])
                 substitution.extension << extension            
 
                 substitution.wasSubstituted = true                
@@ -152,22 +152,22 @@ class SipsGenerateMedicationDispense < SipsGenerateAbstract
                 imbalance_dosage = FHIR::Dosage.new
                 imbalance_dosage.sequence = idx + 1
                 imbalance_code = "V#{idx+1}#{"%.15g"%imbalance}"
-                imbalance_dosage.additionalInstruction = create_codeable_concept(
+                imbalance_dosage.additionalInstruction = build_codeable_concept(
                     imbalance_code + ("N" * (8 - imbalance_code.length)), # JAMI補足用法コード (V + 服用順 + 服用量 + N) ex:V13NNNNN
                     nil,
                     'urn:oid:1.2.392.100495.20.2.32'
                 )
                 imbalance_dose = FHIR::Dosage::DoseAndRate.new
-                imbalance_dose.doseQuantity = create_quantity(imbalance.to_f, medication_record[:units])
+                imbalance_dose.doseQuantity = build_quantity(imbalance.to_f, medication_record[:units])
                 imbalance_dosage.doseAndRate << imbalance_dose
                 extension.valueDosage = imbalance_dosage
                 dosage.extension << extension
             end
 
             # Patientリソースの参照
-            medication_dispense.subject = create_reference(get_resources_from_type('Patient').first)
+            medication_dispense.subject = build_reference(get_resources_from_type('Patient').first)
 
-            section.entry << create_reference(medication_dispense)
+            section.entry << build_reference(medication_dispense)
 
             entry = FHIR::Bundle::Entry.new
             entry.resource = medication_dispense

@@ -24,7 +24,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
         id = act.xpath('performer/assignedEntity/id').find{ |id| id.xpath('@root').text == '1.2.392.100495.20.3.71' }
         if id.present?
           coverage_class = FHIR::Coverage::Class.new
-          coverage_class.type = create_codeable_concept('1', '公費負担者番号', create_url(:code_system, 'CoverageClass'))
+          coverage_class.type = build_codeable_concept('1', '公費負担者番号', build_url(:code_system, 'CoverageClass'))
           coverage_class.value = id.xpath('@extension').text
           coverage_class.name = "公費負担者番号"
           coverage.local_class << coverage_class
@@ -47,11 +47,11 @@ class CdaGenerateCoverage < CdaGenerateAbstract
           organization = FHIR::Organization.new
           organization.id = SecureRandom.uuid
           organization.identifier << generate_identifier(id)
-          organization.type << create_codeable_concept('pay', 'Payer', 'http://terminology.hl7.org/CodeSystem/organization-type')
+          organization.type << build_codeable_concept('pay', 'Payer', 'http://terminology.hl7.org/CodeSystem/organization-type')
           entry = FHIR::Bundle::Entry.new
           entry.resource = organization
           @bundle.entry.concat << entry
-          coverage.payor << create_reference(organization)
+          coverage.payor << build_reference(organization)
         end
 
         # # 被保険者証記号/番号
@@ -60,7 +60,7 @@ class CdaGenerateCoverage < CdaGenerateAbstract
         # 被保険者証記号/番号
         act.xpath('participant/participantRole/id').select{ |id| id.xpath('@root').text.in? ['1.2.392.100495.20.3.62','1.2.392.100495.20.3.63'] }.each do |id|
           extension = FHIR::Extension.new
-          extension.url = create_url(:structure_definition, id.xpath('@root').text == '1.2.392.100495.20.3.62' ? 'InsuredPersonSymbol' : 'InsuredPersonNumber')
+          extension.url = build_url(:structure_definition, id.xpath('@root').text == '1.2.392.100495.20.3.62' ? 'InsuredPersonSymbol' : 'InsuredPersonNumber')
           extension.valueString = id.xpath('@extension').text
           coverage.extension << extension
         end
@@ -70,8 +70,8 @@ class CdaGenerateCoverage < CdaGenerateAbstract
         coverage.relationship = generate_codeable_concept(act.xpath('participant/participantRole/code'))
         # 患者負担割
         cost = FHIR::Coverage::CostToBeneficiary.new
-        cost.type = create_codeable_concept('copaypct', 'Copay Percentage', 'http://terminology.hl7.org/CodeSystem/coverage-copay-type')
-        cost.valueQuantity = create_quantity(30, '%', 'http://unitsofmeasure.org') # MEMO:とりあえず仮設定で30%
+        cost.type = build_codeable_concept('copaypct', 'Copay Percentage', 'http://terminology.hl7.org/CodeSystem/coverage-copay-type')
+        cost.valueQuantity = build_quantity(30, '%', 'http://unitsofmeasure.org') # MEMO:とりあえず仮設定で30%
 
         # 患者一部負担区分
         if act.xpath("entryRelationship").present?
@@ -83,13 +83,13 @@ class CdaGenerateCoverage < CdaGenerateAbstract
       end
 
       # Patientリソースの参照
-      coverage.beneficiary = create_reference(get_resources_from_type('Patient').first)
+      coverage.beneficiary = build_reference(get_resources_from_type('Patient').first)
 
-      results << create_entry(coverage)
+      results << build_entry(coverage)
     end
 
     # Section
-    get_composition.section.first.entry.concat results.map{|entry|create_reference(entry.resource)}
+    get_composition.section.first.entry.concat results.map{|entry|build_reference(entry.resource)}
     
     results
   end

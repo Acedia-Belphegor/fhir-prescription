@@ -61,7 +61,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
       # RXE-3.与薬量－最小 / RXE-5.与薬単位
       if rxe_segment[:give_amount_minimum].to_f.positive?
-        dose.doseQuantity = create_quantity(
+        dose.doseQuantity = build_quantity(
           rxe_segment[:give_amount_minimum].to_f,
           rxe_segment[:give_units].first[:text],
           'urn:oid:1.2.392.100495.20.2.101',
@@ -74,7 +74,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
         rxe_segment[:providers_administration_instructions].each do |element|
           if element[:name_of_coding_system].in? %w[JHSP0001 JHSP0002] # JHSP0001:依頼者の処方指示 / JHSP0002:調剤特別指示
             extension = FHIR::Extension.new
-            extension.url = create_url(:structure_definition, 'InstructionForDispense')
+            extension.url = build_url(:structure_definition, 'InstructionForDispense')
             extension.valueCodeableConcept = generate_codeable_concept(element)
             dispense_request.extension << extension
           else
@@ -85,7 +85,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
       # RXE-10.調剤量 / RXE-11.調剤単位
       if rxe_segment[:dispense_amount].to_f.positive?
-        dispense_request.quantity = create_quantity(
+        dispense_request.quantity = build_quantity(
           rxe_segment[:dispense_amount].to_f, 
           rxe_segment[:dispense_units].first[:text],
           'urn:oid:1.2.392.100495.20.2.101',
@@ -97,7 +97,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
       if rxe_segment[:total_daily_dose].present?
         ratio = FHIR::Ratio.new
         ratio.numerator = generate_quantity(rxe_segment[:total_daily_dose].first, 'urn:oid:1.2.392.100495.20.2.101')
-        ratio.denominator = create_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
+        ratio.denominator = build_quantity(1, '日', 'http://unitsofmeasure.org', 'd')
         dose.rateRatio = ratio
       end
 
@@ -144,7 +144,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
         # 実投与⽇数
         extension = FHIR::Extension.new
-        extension.url = create_url(:structure_definition, 'UsageDuration')
+        extension.url = build_url(:structure_definition, 'UsageDuration')
         extension.valueDuration = duration
         medication_request.extension << extension
       end
@@ -163,7 +163,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
 
         # 投与開始日
         extension = FHIR::Extension.new
-        extension.url = create_url(:structure_definition, 'PeriodOfUse')
+        extension.url = build_url(:structure_definition, 'PeriodOfUse')
         extension.valuePeriod = period
         medication_request.extension << extension
       end
@@ -174,7 +174,7 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
       # TQ1-14.事象総数(頓用指示の回数)
       if tq1_segment[:total_occurrences].present?
         extension = FHIR::Extension.new
-        extension.url = create_url(:structure_definition, 'expectedRepeatCount')
+        extension.url = build_url(:structure_definition, 'expectedRepeatCount')
         extension.valueInteger = tq1_segment[:total_occurrences].to_i
         dispense_request.extension << extension
       end
@@ -210,12 +210,12 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
       if imbalances.count.positive?
         imbalances.each_with_index{|imbalance, idx|
           extension = FHIR::Extension.new
-          extension.url = create_url(:structure_definition, 'SubInstruction')
+          extension.url = build_url(:structure_definition, 'SubInstruction')
           imbalance_dosage = FHIR::Dosage.new
           imbalance_dosage.sequence = idx + 1
           imbalance_dosage.additionalInstruction = imbalance
           imbalance_dose = FHIR::Dosage::DoseAndRate.new
-          imbalance_dose.doseQuantity = create_quantity(imbalance.first.code.slice(2..-1).delete('N').to_f, rxe_segment[:give_units].first[:identifier], rxe_segment[:give_units].first[:text])
+          imbalance_dose.doseQuantity = build_quantity(imbalance.first.code.slice(2..-1).delete('N').to_f, rxe_segment[:give_units].first[:identifier], rxe_segment[:give_units].first[:text])
           imbalance_dosage.doseAndRate << imbalance_dose
           extension.valueDosage = imbalance_dosage
           dosage.extension << extension
@@ -225,13 +225,13 @@ class V2GenerateMedicationRequest < V2GenerateAbstract
       end
 
       # Patientリソースの参照
-      medication_request.subject = create_reference(get_resources_from_type('Patient').first)
+      medication_request.subject = build_reference(get_resources_from_type('Patient').first)
       # Practitionerリソースの参照
-      medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
+      medication_request.requester = build_reference(get_resources_from_type('Practitioner').first)
       # Section
-      get_composition.section.first.entry.concat << create_reference(medication_request)
+      get_composition.section.first.entry.concat << build_reference(medication_request)
         
-      results << create_entry(medication_request)
+      results << build_entry(medication_request)
     end
 
     results

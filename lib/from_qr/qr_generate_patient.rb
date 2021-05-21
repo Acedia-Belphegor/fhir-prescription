@@ -12,7 +12,7 @@ class QrGeneratePatient < QrGenerateAbstract
 
       # 患者コード
       if patient_record[:patient_code].present?
-        patient.identifier = create_identifier(patient_record[:patient_code], "urn:oid:1.2.392.100495.20.3.51.1")
+        patient.identifier = build_identifier(patient_record[:patient_code], "urn:oid:1.2.392.100495.20.3.51.1")
       end
 
       # 患者漢字氏名
@@ -81,8 +81,8 @@ class QrGeneratePatient < QrGenerateAbstract
         patient.telecom << contact_point
       end
 
-      get_composition.subject = create_reference(patient)
+      get_composition.subject = build_reference(patient)
 
-      [create_entry(patient)]
+      [build_entry(patient)]
     end
 end

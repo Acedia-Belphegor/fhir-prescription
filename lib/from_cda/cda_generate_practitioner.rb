@@ -20,7 +20,7 @@ class CdaGeneratePractitioner < CdaGenerateAbstract
         qualification.code = 
           case identifier.value
           when 'urn:oid:1.2.392.100495.20.3.32'
-            create_codeable_concept('NarcoticsPractitioner', nil, create_url(:code_system, 'Certificate'))
+            build_codeable_concept('NarcoticsPractitioner', nil, build_url(:code_system, 'Certificate'))
           end
         practitioner.qualification << qualification
       else
@@ -30,8 +30,8 @@ class CdaGeneratePractitioner < CdaGenerateAbstract
 
     practitioner.name = assigned_author.xpath('assignedPerson/name').map{ |name| generate_human_name(name) }
 
-    get_composition.author << create_reference(practitioner)
+    get_composition.author << build_reference(practitioner)
 
-    [create_entry(practitioner)]
+    [build_entry(practitioner)]
   end
 end

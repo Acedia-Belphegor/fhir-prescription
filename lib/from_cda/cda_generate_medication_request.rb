@@ -36,7 +36,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
         rp = id.xpath('@extension').text.to_i
         sequence[rp] ||= 0
         sequence[rp] += 1
-        medication_request.identifier << create_identifier(sequence[rp].to_s, '1.2.392.100495.20.3.82')
+        medication_request.identifier << build_identifier(sequence[rp].to_s, '1.2.392.100495.20.3.82')
       end
 
       # 医薬品名
@@ -77,7 +77,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
         else
           # 回数
           extension = FHIR::Extension.new
-          extension.url = create_url(:structure_definition, 'expectedRepeatCount')
+          extension.url = build_url(:structure_definition, 'expectedRepeatCount')
           extension.valueInteger = effective_time.xpath('width/@value').text.to_i
           dispense_request.extension << extension
         end
@@ -135,7 +135,7 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
         # 調剤補足情報
         if sbadm.xpath('entryRelationship/supply/text').present?
           extension = FHIR::Extension.new
-          extension.url = create_url(:structure_definition, 'InstructionForDispense')
+          extension.url = build_url(:structure_definition, 'InstructionForDispense')
           codeable_concept = FHIR::CodeableConcept.new
           codeable_concept.text = sbadm.xpath('entryRelationship/supply/text').text
           extension.valueCodeableConcept = codeable_concept
@@ -144,13 +144,13 @@ class CdaGenerateMedicationRequest < CdaGenerateAbstract
       end
 
       # Patientリソースの参照
-      medication_request.subject = create_reference(get_resources_from_type('Patient').first)
+      medication_request.subject = build_reference(get_resources_from_type('Patient').first)
       # PractitionerRoleリソースの参照
-      medication_request.requester = create_reference(get_resources_from_type('Practitioner').first)
+      medication_request.requester = build_reference(get_resources_from_type('Practitioner').first)
       # Section
-      get_composition.section.first.entry.concat << create_reference(medication_request)
+      get_composition.section.first.entry.concat << build_reference(medication_request)
         
-      results << create_entry(medication_request)
+      results << build_entry(medication_request)
     end
 
     results

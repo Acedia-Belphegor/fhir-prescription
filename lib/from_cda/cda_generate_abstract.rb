@@ -110,14 +110,14 @@ class CdaGenerateAbstract
 
   def generate_codeable_concept(code)
     return unless code.present?
-    create_codeable_concept(code.xpath('@code').text, code.xpath('@displayName').text, "urn:oid:#{code.xpath('@codeSystem').text}")
+    build_codeable_concept(code.xpath('@code').text, code.xpath('@displayName').text, "urn:oid:#{code.xpath('@codeSystem').text}")
   end
 
   def convert_oid_to_url(oid)
     case oid
-    when 'urn:oid:1.2.392.100495.20.3.21' then create_url(:structure_definition, 'PrefectureNo') # 都道府県番号
-    when 'urn:oid:1.2.392.100495.20.3.22' then create_url(:structure_definition, 'OrganizationCategory') # 点数表コード
-    when 'urn:oid:1.2.392.100495.20.3.23' then create_url(:structure_definition, 'OrganizationNo') # 保険医療機関番号
+    when 'urn:oid:1.2.392.100495.20.3.21' then build_url(:structure_definition, 'PrefectureNo') # 都道府県番号
+    when 'urn:oid:1.2.392.100495.20.3.22' then build_url(:structure_definition, 'OrganizationCategory') # 点数表コード
+    when 'urn:oid:1.2.392.100495.20.3.23' then build_url(:structure_definition, 'OrganizationNo') # 保険医療機関番号
     end
   end
 end
